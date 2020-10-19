@@ -1,0 +1,13 @@
+.Initial {
+    background-image: url("../images/voldemort.jpg"); /* The image used */    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: auto;
+    text-align: center;
+}
+
+.Initial h1 {
+  color: white;
+  margin-top: 200px;
+  font-size: 50px;
+}
