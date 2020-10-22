@@ -1,0 +1,14 @@
+html {
+  background-image: url("../images/background.png"); /* The image used */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: auto;
+  text-align: center;
+  vertical-align: baseline;
+  color: white;
+  margin-top: 10;
+  padding: 0;
+  font-family: 'Special Elite', cursive;
+  font-size: 30px;
+}
