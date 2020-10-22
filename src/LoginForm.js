@@ -16,13 +16,13 @@ const LoginForm = ({ handleSubmit, pristine, submitting }) => {
         </div>
       </div>
       <div>
-        <label>E-mail</label>
+        <label>Contraseña</label>
         <div>
           <Field
-            name="email"
+            name="contraseña"
             component="input"
-            type="email"
-            placeholder="Email"
+            type="password"
+            placeholder="contraseña"
           />
         </div>
       </div>
