@@ -20,41 +20,79 @@ html {
 	background-position: center;
 }
 
- h1 {
-  color: white;
-  border-color: black;
-  text-shadow: 0 0 3px black, 0 0 5px black;
-  font-size: 80px;
-  font-family: 'Harp';
-  letter-spacing: 10px;
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
+/***              HOME           ***/
+
+h1 {
+	color: white;
+  	border-color: black;
+  	text-shadow: 0 0 3px black, 0 0 5px black;
+	font-size: 80px;
+	opacity: 0.85;  
+  	font-family: 'Harp';
+  	letter-spacing: 10px;
+  	text-align: center;
+  	margin-top: 100px;
+	margin-bottom: 100px;
 }
 
 .btn-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .app-btn {
 	background: none;
-  font-family: 'Harp';
-  text-shadow: 0 0 5px white, 0 0 15px white;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #FFFFFF; 
-  border-radius :0.12em;
-  text-decoration: none;
-  transition: all 0.2s;
-  letter-spacing: 6px;
-  font-size: 30px;
-  margin-bottom: 80px;
-  cursor: pointer;
+	font-family: 'Harp';
+	text-shadow: 0 0 5px white, 0 0 15px white;
+	padding: 0.35em 1.2em;
+	border: 0.1em solid #FFFFFF; 
+	border-radius :0.12em;
+	text-decoration: none;
+	transition: all 0.2s;
+	letter-spacing: 6px;
+	font-size: 30px;
+	margin-bottom: 80px;
+	cursor: pointer;
+}
+
+.small-btn {
+	text-shadow: 0 0 5px white, 0 0 8px white;
+	padding: 0.3em 0.8em; 
+	border-radius :0.12em;
+	font-size: 20px;
+	margin-bottom: 0px;
+
 }
 
 .app-btn:hover{
 	color:#000000;
 	background-color:#FFFFFF;
+	opacity:0.85;
 }
+
+
+/***              MODAL           ***/
+
+.overlay {
+	position: fixed;
+	top: 0;
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 1000;
+}
+
+.modal {
+	position: fixed;
+  	background-color: black;
+	padding: 240px;
+	top: 50%;
+	left: 50%;  
+  	z-index: 1000;
+	transform: translate(-50%, -50%);
+  	display: flex;
+  	flex-direction: column;
+  	opacity: 0.9;
+  	color: #FFFFFF;
+}
+

@@ -1,11 +1,8 @@
 import React from 'react'
 
-
 function Title() {
     return (
-
-           <h1> Secret Voldemort  </h1>
- 
+        <h1> Secret Voldemort  </h1>
     )
 }
 

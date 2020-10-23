@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Modal from '../Modal'
 
-
-function LogIn(props) {
+function LogIn() {
+    const [isOpen, setIsOpen] = useState(false)
     return (
-        <button className= "app-btn"> LogIn </button>
+      <>
+        <div >
+          <button className= "app-btn" onClick={() => setIsOpen(true)}> Log In </button>
+  
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            LOGIN FORM
+          </Modal>
+        </div>
+      </>
     )
 }
 
