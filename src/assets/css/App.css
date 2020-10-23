@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Harp';
+    src: 
+     url("../HARRP___.TTF") format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+  }  
+
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +12,49 @@
     box-sizing: border-box;
 }
 
+html {
+	background-image: url("../images/background.png"); /* The image used */   
+	background-attachment: fixed;  
+    background-repeat: no-repeat; /* Do not repeat the image */
+	background-size: cover;
+	background-position: center;
+}
 
+ h1 {
+  color: white;
+  border-color: black;
+  text-shadow: 0 0 3px black, 0 0 5px black;
+  font-size: 80px;
+  font-family: 'Harp';
+  letter-spacing: 10px;
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
 
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+.app-btn {
+	background: none;
+  font-family: 'Harp';
+  text-shadow: 0 0 5px white, 0 0 15px white;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #FFFFFF; 
+  border-radius :0.12em;
+  text-decoration: none;
+  transition: all 0.2s;
+  letter-spacing: 6px;
+  font-size: 30px;
+  margin-bottom: 80px;
+  cursor: pointer;
+}
+
+.app-btn:hover{
+	color:#000000;
+	background-color:#FFFFFF;
+}
