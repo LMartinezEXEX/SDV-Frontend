@@ -6,6 +6,7 @@ import {
     useHistory
 } from 'react-router-dom'
 import Home from './components/home/Home'
+import Lobby from './components/lobby/Lobby'
 import PageNotFound from './components/PageNotFound'
 
 const Routes = () => {
@@ -15,6 +16,7 @@ const Routes = () => {
         <Router history={history}>
             <Switch>
                 <Route exact path = '/' component={Home} />
+                <Route exact path = '/lobby' component={Lobby} />
                 <Route component={PageNotFound}/>
                     
             </Switch>
