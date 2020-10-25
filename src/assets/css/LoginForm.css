@@ -6,10 +6,15 @@ html {
   background-size: auto;
   text-align: center;
   vertical-align: baseline;
+
+}
+
+
+form {
   color: white;
-  margin-top: 10;
+  margin-top: 150px;
   padding: 0;
   font-family: 'Special Elite', cursive;
   font-size: 30px;
+	line-height: 3.5;
 }
-
