@@ -2,12 +2,12 @@
 import React, { useState } from 'react'
 import Modal from '../Modal'
 
-function SignUp() {
+const SignUp= () => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
       <div>
-        <button className= "app-btn" onClick={() => setIsOpen(true)}>Sign up</button>
+        <button className= "app-btn" onClick={() => setIsOpen(true)}> Sign Up </button>
 
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           REGISTER FORM

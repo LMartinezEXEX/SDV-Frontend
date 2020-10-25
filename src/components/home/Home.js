@@ -3,7 +3,7 @@ import Title from "../Title";
 import SignUp from "./SignUp";
 import LogIn from "./LogIn";
 
-function Home () {
+const Home = () => {
     return (
         <div>
            < Title />
