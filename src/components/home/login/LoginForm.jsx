@@ -1,5 +1,4 @@
-import ReactDOM from 'react-dom';
-import React,{ Component , useState} from 'react'
+import React,{useState} from 'react'
 
 
 const LoginForm = () => {
@@ -25,18 +24,16 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit}>
       <div>
         <label>
-          Nombre de Usuario:
-          <input type="text" value={username} required="true" onChange={handleNameChange} />
+          <input type="email" className='login-email' value={username} required={true} placeholder="Email" onChange={handleNameChange} />
         </label>
       </div>
       <div>
         <label>
-          Contraseña:
-          <input type="password" value={pass} maxlength="8" required="true" onChange={handlePassChange} />
+          <input type="password" className='login-password' value={pass} maxlength={8} required={true} placeholder="Password" onChange={handlePassChange} />
         </label>
       </div>
 
-      <input type="submit" value="¡Ingresa!" />
+      <input type="submit" name="Login"  className="app-btn small-btn" value="Ingresar" />
     </form>
   );
 }

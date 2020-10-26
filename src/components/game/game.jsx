@@ -1,4 +1,4 @@
-import React,{ Component , useState} from 'react'
+import React from 'react'
 import '../../assets/css/game.css'
 import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';

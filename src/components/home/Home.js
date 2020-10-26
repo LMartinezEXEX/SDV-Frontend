@@ -3,6 +3,7 @@ import Title from "../Title"
 import SignUp from "./SignUp"
 import LogIn from "./LogIn"
 import "../../assets/css/buttons.css"
+import "../../assets/css/LoginForm.css"
 
 const Home = () => {
     return (

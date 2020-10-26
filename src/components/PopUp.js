@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
-import ChargeTable from '../components/game/chargesTable'
+//import ChargeTable from '../components/game/chargesTable'
 
 const PopUp= ({type}) => {
     const [isOpen, setIsOpen] = useState(false)

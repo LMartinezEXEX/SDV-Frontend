@@ -18,8 +18,9 @@ const Modal = ({ open, children, onClose }) => { //children is what you write in
     <>
         <div className="overlay" />
             <div className="modal">
+            <button className= "close-btn" onClick={onClose}> </button>
                 {windowData(children)}
-                <button className= "app-btn small-btn" onClick={onClose}> Cerrar </button>
+                
         </div>
     </>,
     document.getElementById('portal')

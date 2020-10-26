@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/css/mortifagoBoard.css';
 import proclamation from '../../assets/images/boards/m-proclamation.jpg'
-import snake from '../../assets/images/boards/snake.png'
+//import snake from '../../assets/images/boards/snake.png'
 import mortifLogo from '../../assets/images/boards/mortifLogo.png'
 
 const MortifagoBoard = () => {
