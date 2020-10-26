@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import Home from './components/home/Home'
 import PageNotFound from './components/PageNotFound'
-
+import Game from './components/game/game'
 const Routes = () => {
     const history = useHistory()
 
@@ -15,6 +15,7 @@ const Routes = () => {
         <Router history={history}>
             <Switch>
                 <Route exact path = '/' component={Home} />
+                <Route exact path = '/game' component={Game} />
                 <Route component={PageNotFound}/>
                     
             </Switch>
