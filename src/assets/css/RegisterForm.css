@@ -1,0 +1,107 @@
+html {
+  background-image: url("../images/background.png"); /* The image used */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: auto;
+  text-align: center;
+  vertical-align: baseline;
+
+}
+
+form {
+  color: white;
+  margin-top: 80px;
+  padding: 0;
+  font-family: 'Special Elite', cursive;
+  font-size: 30px;
+  line-height: 2.5;
+}
+
+.harry{
+  background:url(../images/harry.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.ron{
+  background:url(../images/ron.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.hermione{
+  background:url(../images/hermione.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.snape{
+  background:url(../images/snape.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.draco{
+  background:url(../images/draco.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.lucius{
+  background:url(../images/lucius.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.umbridge{
+  background:url(../images/umbridge.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+.voldemort{
+  background:url(../images/voldemort.jpg) no-repeat;
+  background-size:cover;
+  cursor:pointer;
+  border:none;
+  width:100px;
+  height:100px;
+}
+
+
+button:hover{
+	color:#000000;
+	background-color:#FFFFFF;
+	opacity:0.7;
+}
+
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+

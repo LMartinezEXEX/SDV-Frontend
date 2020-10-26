@@ -1,18 +1,11 @@
 import React from 'react';
-import './assets/css/App.css';
+import './assets/css/RegisterForm.css';
+import RegisterForm from './components/home/register/RegisterForm';
 
 function App() {
   return (
     <div className="App">
-      <nav>
-          <li> <a href="#">Login</a>  </li>
-          <li> <a href="#">Lobby</a> </li>
-          <li> <a href="#">Pre-game</a> </li>
-          <li> <a href="#">games</a> </li>
-      </nav>
-      <div className="Initial">
-        <h1>Secret Voldemort</h1>
-      </div>
+    	<RegisterForm/>
     </div>
   );
 }
