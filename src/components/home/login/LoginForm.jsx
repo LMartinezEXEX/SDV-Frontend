@@ -26,17 +26,17 @@ const LoginForm = () => {
       <div>
         <label>
           Nombre de Usuario:
-          <input type="text" value={username} onChange={handleNameChange} />
+          <input type="text" value={username} required="true" onChange={handleNameChange} />
         </label>
       </div>
       <div>
         <label>
           Contraseña:
-          <input type="password" value={pass} onChange={handlePassChange} />
+          <input type="password" value={pass} maxlength="8" required="true" onChange={handlePassChange} />
         </label>
       </div>
 
-      <input type="submit" value="Ingresar" />
+      <input type="submit" value="¡Ingresa!" />
     </form>
   );
 }
