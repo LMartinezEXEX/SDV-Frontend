@@ -1,4 +1,5 @@
 @font-face {
+<<<<<<< Updated upstream
 	font-family: 'Harp';
 	src:
 		url("../HARRP___.TTF") format('truetype');
@@ -36,3 +37,41 @@ h1 {
 	margin-bottom: 100px;
 }
 
+=======
+  font-family: 'Harp';
+  src: 
+   url(../HARRP___.TTF) format('truetype'); 
+}  
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+
+body {
+  
+    background-image: url("../images/background.png"); 
+    background-repeat: no-repeat; 
+    background-size: cover;
+  
+
+}
+
+
+h1 {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  color: white;
+  border-color: black;
+  text-shadow: 0 0 3px black, 0 0 5px black;
+  font-size: 80px;
+  font-family: 'Harp';
+  letter-spacing: 8px;
+}
+>>>>>>> Stashed changes
