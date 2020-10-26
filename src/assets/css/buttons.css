@@ -1,0 +1,36 @@
+.btn-group {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.app-btn {
+	background: none;
+	font-family: 'Harp';
+	text-shadow: 0 0 5px white, 0 0 15px white;
+	padding: 0.35em 1.2em;
+	border: 0.1em solid #FFFFFF;
+	border-radius: 0.12em;
+	text-decoration: none;
+	transition: all 0.2s;
+	letter-spacing: 6px;
+	font-size: 30px;
+	margin-bottom: 80px;
+	cursor: pointer;
+}
+
+.app-btn:hover{
+	color:#000000;
+	background-color:#FFFFFF;
+	opacity:0.85;
+}
+
+
+.small-btn {
+	text-shadow: 0 0 5px white, 0 0 8px white;
+	padding: 0.3em 0.8em; 
+	border-radius :0.12em;
+	font-size: 20px;
+	margin-bottom: 0px;
+}
