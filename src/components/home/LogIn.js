@@ -7,7 +7,7 @@ const LogIn= () => {
     return (
   
         <div >
-          <button className= "app-btn" onClick={() => setIsOpen(true)}> Log In </button>
+          <button className= "app-btn" onClick={() => setIsOpen(true)}> Ingresar </button>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             LOGIN FORM
           </Modal>

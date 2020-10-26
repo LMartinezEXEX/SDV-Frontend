@@ -7,7 +7,7 @@ const SignUp= () => {
   return (
     <>
       <div>
-        <button className= "app-btn" onClick={() => setIsOpen(true)}> Sign Up </button>
+        <button className= "app-btn" onClick={() => setIsOpen(true)}> Registrarse </button>
 
         <Modal open={isOpen} onClose={() => setIsOpen(false)}>
           REGISTER FORM
