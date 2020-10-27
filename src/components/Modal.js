@@ -2,11 +2,15 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import '../assets/css/modal.css'
 import ChargeTable from '../components/game/chargesTable'
+import Votation from '../components/game/votation'
+import GameInfomation from './game/gameInfomation'
 
 // a switch to know the information that will be displayed in the open window
 const windowData = (children) => { 
     switch(children){
         case "Cargos": return(<ChargeTable/>)
+        case "Votar": return(<Votation/>)
+        case "Info": return(<GameInfomation/>)
         default: return children
     }
 }
