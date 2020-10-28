@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Input from './Input'
-
+import Input from '../../Input'
+import "../../../assets/css/form.css"
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -59,14 +59,13 @@ const LoginForm = () => {
                         o no existen en nuestra plataforma
                     </label>
                 }*/}
-                <label>
-                    Email:
+                <label >
                     <Input attribute={{
                         id: 'email',
                         name: 'email',
                         type: 'email',
                         required: 'true',
-                        placeholder: 'Ingrese su email'
+                        placeholder: 'Email'
                     }}
                         handleChange={handleChange}
                         param={passwordError}
@@ -74,22 +73,20 @@ const LoginForm = () => {
                 </label>
             </div>
             <div>
-                <label>
-                    Contraseña:
+                <label >
                     <Input attribute={{
                         id: 'password',
                         name: 'password',
                         type: 'password',
                         required: 'true',
-                        placeholder: 'Ingrese su contraseña'
+                        placeholder: 'Contraseña'
                     }}
                         handleChange={handleChange}
                     />
-
                 </label>
             </div>
 
-            <input type="submit" value="Ingresar" />
+            <input type="submit" name="Login"  className="app-btn small-btn" value="Ingresar" />
        
         </form>
     )

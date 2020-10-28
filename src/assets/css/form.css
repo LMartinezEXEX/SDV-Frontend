@@ -10,8 +10,8 @@ form {
     align-items: center;
     color: white;
     font-family: 'Syne Mono', monospace;
-    margin-bottom: 50px;
-    font-size: 30px;
+    margin-bottom: 20px;
+    font-size: 20px;
 }
 
 ::-webkit-input-placeholder {
@@ -33,8 +33,8 @@ input:focus {
 
 }
 
-.login-email,
-.login-password {
+.input-style,
+.input-error {
     font-family: 'Syne Mono', monospace;
     font-size: 20px;
     letter-spacing: 3px;
@@ -49,28 +49,10 @@ input:focus {
 
 }
 
-.login-email:focus,
-.login-password:focus {
+.input-style:focus,
+.input-error:focus {
     background-color: white;
     color: black;
     transition: background-color 250ms ease-in;
 }
 
-.login-submit {
-    border: 1px solid white;
-    background: transparent;
-    color: white;
-    display: block;
-    margin: 1rem auto;
-    min-width: 1px;
-    padding: .25rem;
-    transition: background-color 250ms ease-in;
-}
-
-.login-submit:hover,
-.login-submit:focus {
-    background: white;
-    color: black;
-    transition: background-color 250ms ease-in;
-
-}

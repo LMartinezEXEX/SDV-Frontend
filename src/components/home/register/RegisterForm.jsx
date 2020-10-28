@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Input from './Input'
-
+import Input from '../../Input'
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
@@ -66,13 +65,12 @@ const RegisterForm = () => {
                         </label>
                     }*/}
                     <label>
-                        Email:
                         <Input attribute={{
                             id: 'email',
                             name: 'email',
                             type: 'email',
                             required: 'true',
-                            placeholder: 'Ingrese su email'
+                            placeholder: 'Email'
                         }}
                             handleChange={handleChange}
                             param={passwordError}
@@ -81,13 +79,12 @@ const RegisterForm = () => {
                 </div>
                 <div>
                     <label>
-                        Nombre de Usuario:
                         <Input attribute={{
                             id: 'username',
                             name: 'username',
                             type: 'text',
                             required: 'true',
-                            placeholder: 'Ingrese su nombre de usuario'
+                            placeholder: 'Username'
                         }}
                             handleChange={handleChange}
                         />
@@ -96,13 +93,12 @@ const RegisterForm = () => {
                 </div>
                 <div>
                     <label>
-                        Contraseña:
                         <Input attribute={{
                             id: 'password',
                             name: 'password',
                             type: 'password',
                             required: 'true',
-                            placeholder: 'Ingrese su contraseña'
+                            placeholder: 'Contraseña'
                         }}
                             handleChange={handleChange}
                         />
@@ -113,7 +109,7 @@ const RegisterForm = () => {
                     Avatar: {avatars[avatar]}
                 </div>
 
-                <input type="submit" value="¡Regístrate!" />
+                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!" />
            
             </form>
 
