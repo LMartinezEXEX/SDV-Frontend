@@ -1,11 +1,11 @@
 import React from 'react';
-import './assets/css/RegisterForm.css';
-import RegisterForm from './components/home/register/RegisterForm';
+import './assets/css/App.css';
+import Routes from './Routes.jsx';
 
 function App() {
   return (
-    <div className="App">
-    	<RegisterForm/>
+    <div className="app">
+      <Routes />
     </div>
   );
 }
