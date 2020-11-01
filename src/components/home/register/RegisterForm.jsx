@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Input from './Input'
-
+import axios from 'axios';
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
@@ -45,13 +45,32 @@ const RegisterForm = () => {
         }
     }
     */
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         let account = { email, username, password, avatar }
         if (account) {
             //isMatch(account);
             console.log('account',account);
         }
         event.preventDefault(); // esto VER 
+
+        const result = await axios("http://127.0.0.1:8000/user/register/", {
+            method: 'POST',
+            data: JSON.stringify({
+                email: email,
+                username: username,
+                password: password
+            }),
+            headers: {
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            return response
+        }).catch(error => {
+            return error
+        });
+        alert(JSON.stringify(result))  
     }
 
     
