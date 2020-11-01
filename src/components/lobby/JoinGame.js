@@ -6,14 +6,12 @@ const JoinGame= () => {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-  
         <div >
             <button className= "app-btn" onClick={() => setIsOpen(true)}> Join Game </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <JoinForm />
             </Modal>
         </div>
-    
     )
 }
 
