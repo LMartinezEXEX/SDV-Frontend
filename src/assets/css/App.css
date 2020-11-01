@@ -1,13 +1,38 @@
-.Initial {
-    background-image: url("../images/voldemort.jpg"); /* The image used */    height: 500px; /* You must set a specified height */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: auto;
-    text-align: center;
+@font-face {
+
+	font-family: 'Harp';
+	src:
+		url("../HARRP___.TTF") format('truetype');
+	/* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
 
-.Initial h1 {
-  color: white;
-  margin-top: 200px;
-  font-size: 50px;
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	background-image: url("../images/background.png");
+	/* The image used */
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	/* Do not repeat the image */
+	background-size: cover;
+	background-position: center;
+}
+
+h1 {
+	color: white;
+	border-color: black;
+	text-shadow: 0 0 3px black, 0 0 5px black;
+	font-size: 80px;
+	opacity: 0.85;
+	font-family: 'Harp';
+	letter-spacing: 10px;
+	text-align: center;
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
