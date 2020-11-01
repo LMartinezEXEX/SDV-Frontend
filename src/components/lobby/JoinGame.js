@@ -2,15 +2,11 @@ import React from 'react'
 
 
 const JoinGame= () => {
-   
-    
-    return (
-  
-        <div >
-          <button className= "app-btn" onClick={() => alert}> Join Game </button>
        
+    return (
+        <div >
+          <button className= "app-btn" onClick=""> Join Game </button>       
         </div>
-    
     )
 }
 
