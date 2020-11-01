@@ -19,7 +19,6 @@ const Routes = () => {
                 <Route exact path = '/game/:id' component={Game} />
                 <Route exact path = '/lobby' component={Lobby} />
                 <Route component={PageNotFound}/>
-                    
             </Switch>
         </Router>
     )
