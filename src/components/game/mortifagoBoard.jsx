@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../assets/css/mortifagoBoard.css';
 import proclamation from '../../assets/images/boards/m-proclamation.jpg'
 //import snake from '../../assets/images/boards/snake.png'
@@ -8,9 +8,9 @@ const MortifagoBoard = ({gameState}) => {
 
     const drawSlot = (slotId, spell) => {
         if(gameState.death_eater_promulgations >= slotId){
-            return (<img className="proclamation" src={proclamation}/>);
+            return (<img className="proclamation" src={proclamation} alt="proclamacion"/>);
         }else{
-            if(spell == "WIN SLOT") {return <img className="logo" src={mortifLogo}/>}
+            if(spell === "WIN SLOT") {return <img className="logo" src={mortifLogo} alt="Logo mortifagos"/>}
             else return spell;
         }   
     }

@@ -8,20 +8,19 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
     const [cards, setCards] = useState([])
 
     const putProclamation = async (promulgationId) => {
-        // gameUpdater()
-        await axios.put("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/promulgate", {
-        
+        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/promulgate", {
             "candidate_id": gameState.current_minister_id,
             "to_promulgate": promulgationId
-        
         }).then(res=>{
             gameUpdater()
             setIsOpen(false)
         })
+        if(gameState.death_eater_promulgations === 6) {alert("GANARON LOS MORTIFAGOS")}
+        else if( gameState.fenix_promulgations === 5) {alert("GANO LA ORDEN DEL FENIX")}
     }
 
     const TakeCards = async() => {
-        await axios.put("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/get_cards", {
+        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/get_cards", {
         method:'PUT',
         headers: {
             'accept': 'application/json',
@@ -32,8 +31,8 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
     
     const showCard = (card) => {
         switch(card){
-            case 1: return (<button onClick={() => {putProclamation(1)}}><img src={proclamationM}></img></button>)
-            case 0: return (<button onClick={() => {putProclamation(0)}}><img src={proclamationO}></img></button>)
+            case 1: return (<button onClick={() => {putProclamation(1)}}><img src={proclamationM} alt="Opcion de proclamacion"></img></button>)
+            case 0: return (<button onClick={() => {putProclamation(0)}}><img src={proclamationO} alt="Opcion de proclamacion"></img></button>)
             default: return <div></div>
         }
     }

@@ -2,24 +2,34 @@ import React, {useState} from 'react'
 import '../../assets/css/votation.css'
 import axios from 'axios'
 
-const Votation = () => {
+const Votation = ({gameState}) => {
     const [vote, setVote] = useState(false) 
-    const [PlayerVoting, nextPlayer] = useState(1)
+    /*this equation down here give me the first id to vote*/ 
+    const [PlayerVoting, nextPlayer] = useState(5*(gameState.gameId-1)+1) 
     const [votationOpen, enableVotation] = useState(true)
     
+    const voteResult = () => {
+        axios.put('http://127.0.0.1:8000/game/'+gameState.gameId+'/result')
+        .then(res =>{
+            alert(res)
+            if(res.result){alert("Ministro aceptado")}
+            else {alert("Ministro rechazado")}
+        })
+    }
+
     const uploadVote = async (decition) => {
         setVote(decition)
-        axios.put('http://127.0.0.1:8000/game/'+1+/*Replace with gameId*/'/vote', {
+        axios.put('http://127.0.0.1:8000/game/'+gameState.gameId+'/vote', {
             id: PlayerVoting,
             vote: vote
         })
         .then(res => {
-            nextPlayer(PlayerVoting+1)
-            if (PlayerVoting >= 5) {
+            if (PlayerVoting >= gameState.gameId*5) {
                 enableVotation(false) 
-            }
-            /* This is because the candidate to minister cant vote */ 
-            // else if (PlayerVoting == Minister) {nextPlayer(PlayerVoting+1)} 
+                voteResult()
+            }else{
+                nextPlayer(PlayerVoting+1)
+            } 
         });
     } 
 
@@ -27,7 +37,7 @@ const Votation = () => {
         <div>
             <h3>Candidatos</h3>
             <ul>
-                <li>Ministro: -</li>
+                <li>Ministro: {gameState.current_minister_id}</li>
                 <li>Presidente: -</li>
                 <li>Jugador Votando: {PlayerVoting}</li>
             </ul>

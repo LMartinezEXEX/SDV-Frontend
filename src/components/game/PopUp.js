@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Modal from '../Modal'
-import ChargeTable from './chargesTable'
 
 const PopUp= (props) => {
     const {gameState, gameUpdater, type} = props
