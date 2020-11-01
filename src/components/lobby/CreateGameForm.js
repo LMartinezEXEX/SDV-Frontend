@@ -6,8 +6,6 @@ import Input from '../Input'
 import dropdown from './Dropdown'
 import axios from 'axios'
 
-
-
 const CreateGameForm = () => {
     const [gamename, setGamename] = useState('');
     const [email, setEmail] = useState('');

@@ -3,7 +3,8 @@
     width: 1000px;
     text-align: center;
     border-radius: 10px;
-    border: 1px white solid;
+    border: 2px black solid;
+    box-shadow: 2px 2px ;
 }
 
 .order-cards-slot {
@@ -15,7 +16,7 @@
     background-color: #ce9080;
     border: 1px solid black;
     margin: 10px;
-    height: 230px;
+    height: 200px;
     width: 20%;
     border-radius: 10px;
 }

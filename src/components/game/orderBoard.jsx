@@ -1,47 +1,37 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../../assets/css/orderBoard.css';
 import proclamation from '../../assets/images/boards/o-proclamation.jpg'
 import orderLogo from '../../assets/images/boards/orderLogo.png'
 
-const OrderBoard = () =>{
-    const [slots, setSlot] = useState([])
-    const [proclamations, addProclamation] = useState(0)
+const OrderBoard = ({gameState}) =>{
 
-    const changeSlot = () => {
-        if(proclamations>=4) alert("La Orden gano")
-        else
-        setSlot([...slots, true])
-        addProclamation(proclamations +1)
+    const drawSlot = (slotId, spell) => {
+        if(gameState.fenix_promulgations >= slotId){
+            return (<img className="proclamation" src={proclamation} alt="proclamacion"/>);
+        }else{
+            if(spell === "WIN SLOT") {return <img className="logo" src={orderLogo} alt="Logo orden"/>}
+            else return spell;
+        }
     }
 
     return (
         <div className="orderBoard">
             <div className="title">
-                <div><image></image></div>
-                <div><h2>Order of Fenix</h2></div>
-                <div><image></image></div>
+                <div></div>
+                <div><h2>Orden de Fenix</h2></div>
+                <div></div>
             </div>
-            <button onClick= {() => {changeSlot()}}> Proclamation</button>
             <div className="order-cards-slot">
-                <div className= "o-card-slot">{drawSlot(slots[0],"")}</div>
-                <div className= "o-card-slot">{drawSlot(slots[1],"")}</div>
-                <div className= "o-card-slot">{drawSlot(slots[2],"")}</div>
-                <div className= "o-card-slot">{drawSlot(slots[3],"")}</div>
-                <div className= "o-card-slot">{drawSlot(slots[4],"WIN")}</div>
+                <div className= "o-card-slot">{drawSlot(1,"")}</div>
+                <div className= "o-card-slot">{drawSlot(2,"")}</div>
+                <div className= "o-card-slot">{drawSlot(3,"")}</div>
+                <div className= "o-card-slot">{drawSlot(4,"")}</div>
+                <div className= "o-card-slot">{drawSlot(5,"WIN SLOT")}</div>
             </div>
         </div>
     );
-    
 }
 
-function drawSlot (slotState, gameState) {
-    switch (slotState) {
-    case true:   
-        return (<img className="proclamation" src={proclamation}/>);
-    default:     
-        if (gameState == "WIN") {return <img src={orderLogo}/>}
-        else return "";
-    }
-}
+
 
 export default OrderBoard ;
