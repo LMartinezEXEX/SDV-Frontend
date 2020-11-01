@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+
+body {
+    overflow: hidden;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-family: 'Syne Mono', monospace;
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+
+::-webkit-input-placeholder {
+    font-family: 'Syne Mono', monospace;
+    font-size: 20px;
+    color: rgba(255,255,255);
+    opacity: .6;
+}
+
+:-ms-input-placeholder {
+    color: rgba(255,255,255);
+    opacity: .6;
+}
+
+input:focus {
+    outline: 0 solid;
+    outline-style: transparent;
+    color:rgba(0,0,0);
+    
+}
+
+.login-email, .login-password {
+    font-family: 'Syne Mono', monospace;
+    font-size: 20px;
+    letter-spacing: 3px;
+    background: transparent;
+    border: 0 solid;
+    border-bottom: 2px solid rgb(255, 255, 255, .9);
+    color: white;
+    display: block;
+    margin: 1rem;
+    padding: .5rem;
+    transition: background-color 250ms  ease-in;
+   
+}
+
+.login-email:focus, .login-password:focus {
+      background-color: white;
+      color: black;
+      transition: background-color 250ms  ease-in;
+  }
+
+.login-submit {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    display: block;
+    margin: 1rem auto;
+    min-width: 1px;
+    padding: .25rem;
+    transition:  background-color 250ms ease-in;
+}
+
+.login-submit:hover, .login-submit:focus {
+      background: white;
+      color: black;
+      transition: background-color 250ms ease-in;
+  
+  }
+  

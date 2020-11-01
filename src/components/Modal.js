@@ -23,8 +23,13 @@ const Modal = ({ open, children, onClose }) => { //children is what you write in
         <div className="overlay" />
             <div className="modal">
             <button className= "close-btn" onClick={onClose}> </button>
+<<<<<<< Updated upstream
                 {windowData(children)}
                 
+=======
+                {children}
+               
+>>>>>>> Stashed changes
         </div>
     </>,
     document.getElementById('portal')
