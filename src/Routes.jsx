@@ -17,7 +17,7 @@ const Routes = () => {
         <Router history={history}>
             <Switch>
                 <Route exact path = '/' component={Home} />
-                <Route exact path = '/game' component={Game} />
+                <Route exact path = '/game/:id' component={Game} />
                 <Route exact path = '/lobby' component={Lobby} />
                 <Route exact path = '/pregame' component={PreGame} />
                 <Route component={PageNotFound}/>

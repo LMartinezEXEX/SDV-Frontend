@@ -1,0 +1,15 @@
+.cardsDisplayer {
+    display: flex;
+}
+
+.buttonTaker {
+    width: 100px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+#gameButton {
+    border-radius: 10px;
+    border: 2px black solid;
+    box-shadow: 2px 2px ;
+}
