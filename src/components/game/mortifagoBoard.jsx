@@ -4,16 +4,15 @@ import proclamation from '../../assets/images/boards/m-proclamation.jpg'
 import snake from '../../assets/images/boards/snake.png'
 import mortifLogo from '../../assets/images/boards/mortifLogo.png'
 
-const MortifagoBoard = () => {
-    const [slots, setSlot] = useState([])
-    const [proclamations, addProclamation] = useState(0)
+const MortifagoBoard = ({gameState}) => {
 
-    const changeSlot = () => {
-        if(proclamations>=5) alert("Mortifagos ganaron")
-        else
-        setSlot([...slots, true])
-        addProclamation(proclamations +1)
-        
+    const drawSlot = (slotId, spell) => {
+        if(gameState.death_eater_promulgations >= slotId){
+            return (<img className="proclamation" src={proclamation}/>);
+        }else{
+            if(spell == "WIN SLOT") {return <img className="logo" src={mortifLogo}/>}
+            else return spell;
+        }   
     }
 
     return (
@@ -23,27 +22,17 @@ const MortifagoBoard = () => {
                 <div><h2>Mortifagos</h2></div>
                 <div></div>
             </div>
-            <button onClick= {() => {changeSlot()}}> Proclamation</button>
             <div className="mortifago-cards-slot">
-                <div className= "m-card-slot">{drawSlot(slots[0],"")}</div>
-                <div className= "m-card-slot">{drawSlot(slots[1],"")}</div>
-                <div className= "m-card-slot">{drawSlot(slots[2],"ADIVINACION")}</div>
-                <div className= "m-card-slot">{drawSlot(slots[3],"AVADA KEDAVRA")} </div>
-                <div className= "m-card-slot">{drawSlot(slots[4],"AVADA KEDAVRA")} </div>
-                <div className= "m-card-slot">{drawSlot(slots[5],"WIN")}</div>
+                <div className= "m-card-slot">{drawSlot(1,"")}</div>
+                <div className= "m-card-slot">{drawSlot(2,"")}</div>
+                <div className= "m-card-slot">{drawSlot(3,"ADIVINACION")}</div>
+                <div className= "m-card-slot">{drawSlot(4,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(5,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(6,"WIN SLOT")}</div>
             </div>
         </div>
     );
 }
 
-function drawSlot (slotState, spell) {
-    switch (slotState) {
-        case true:   
-            return (<img className="proclamation" src={proclamation}/>);
-        default:   
-            if(spell == "WIN") {return <img className="logo" src={mortifLogo}/>}
-            else return spell;
-    }
-}
 
 export default MortifagoBoard ;

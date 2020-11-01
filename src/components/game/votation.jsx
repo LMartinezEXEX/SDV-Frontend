@@ -6,6 +6,7 @@ const Votation = () => {
     const [vote, setVote] = useState(false) 
     const [PlayerVoting, nextPlayer] = useState(2)
     const [votationOpen, enableVotation] = useState(true)
+    
     const uploadVote = async (decition) => {
         setVote(decition)
         axios.put('http://127.0.0.1:8000/game/1/vote', {
@@ -14,7 +15,12 @@ const Votation = () => {
         })
         .then(res => {
             nextPlayer(PlayerVoting+1)
-            if (PlayerVoting >= 5) {enableVotation(false)}
+            if (PlayerVoting >= 5) {
+                enableVotation(false)
+                
+            }
+            /* This is because the candidate to minister cant vote */ 
+            // else if (PlayerVoting == Minister) {nextPlayer(PlayerVoting+1)} 
         });
     } 
 
