@@ -19,11 +19,11 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
             "candidate_id": gameState.current_minister_id,
             "to_promulgate": promulgationId
         }).then(res=>{
+            if(gameState.death_eater_promulgations === 5 && promulgationId) {alert("GANARON LOS MORTIFAGOS")}
+            else if( gameState.fenix_promulgations === 4 && !promulgationId) {alert("GANO LA ORDEN DEL FENIX")}
             gameUpdater()
             changeMinister()
             setIsOpen(false)
-            if(gameState.death_eater_promulgations === 6) {alert("GANARON LOS MORTIFAGOS")}
-            else if( gameState.fenix_promulgations === 5) {alert("GANO LA ORDEN DEL FENIX")}
         })
     }
 
