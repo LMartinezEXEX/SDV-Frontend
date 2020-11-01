@@ -9,7 +9,7 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
 
     const putProclamation = async (promulgationId) => {
         // gameUpdater()
-        await axios.put("http://127.0.0.1:8000/game/"+3+/*Replace with gameId*/"/promulgate", {
+        await axios.put("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/promulgate", {
         
             "candidate_id": gameState.current_minister_id,
             "to_promulgate": promulgationId
@@ -21,7 +21,7 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
     }
 
     const TakeCards = async() => {
-        await axios.put("http://127.0.0.1:8000/game/"+3+/*Replace with gameId*/"/get_cards", {
+        await axios.put("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/get_cards", {
         method:'PUT',
         headers: {
             'accept': 'application/json',

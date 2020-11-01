@@ -6,7 +6,7 @@ import axios from 'axios';
 const ChargesTable = ({gameState, gameUpdater}) => {
 
     const changeMinister = async () => {
-        await axios.put("http://127.0.0.1:8000/game/"+3+/*Replace with gameId*/"/select_MM")
+        await axios.put("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/select_MM")
         .then(res => {
             gameUpdater()
         })

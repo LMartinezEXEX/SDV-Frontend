@@ -13,7 +13,7 @@ const Modal = ({ open, setIsOpen, children, onClose, gameState, gameUpdater}) =>
     const windowData = (children) => { 
         switch(children){
             case "Cargos": return(<ChargeTable gameState={gameState} gameUpdater={gameUpdater}/>)
-            // case "Votar": return(<Votation minister={minister} setMinister={setMinister}/>)
+            case "Votar": return(<Votation gameState={gameState} gameUpdater={gameUpdater}/>)
             case "Cards": return(<Cards open= {open} setIsOpen={setIsOpen} gameState={gameState}
                                     gameUpdater={gameUpdater}/>)
             default: return children

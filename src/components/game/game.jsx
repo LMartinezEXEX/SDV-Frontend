@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, useEffect} from 'react'
 import axios from 'axios'
-=======
-import React from 'react'
->>>>>>> 3b73e232f4520d5b6d1e6204e244c8bba3ea57c2
 import '../../assets/css/game.css'
 import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
@@ -22,7 +18,7 @@ const Game= () => {
     })
 
     const getGameState = async() => {
-        await axios.get("http://127.0.0.1:8000/game/"+3+/*Replace with gameId*/"/check_game", { 
+        await axios.get("http://127.0.0.1:8000/game/"+1+/*Replace with gameId*/"/check_game", { 
         method:'GET',
         headers: {
             'accept': 'application/json',
@@ -53,8 +49,8 @@ const Game= () => {
                 <div className="buttonSection">
                     <div><PopUp gameState={gameState} gameUpdater={getGameState} 
                         type="Cargos"/></div>
-                    <div><PopUp minister={actualMinister} 
-                        setMinister={setNextMinister}type="Votar"/></div>
+                    <div><PopUp gameState={gameState} gameUpdater={getGameState} 
+                        type="Votar"/></div>
                     <div><PopUp gameState={gameState} gameUpdater={getGameState}
                         type="Cards"/></div>
                 </div>
