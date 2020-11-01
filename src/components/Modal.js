@@ -14,7 +14,7 @@ const Modal = ({ open, setIsOpen, children, onClose, gameState, gameUpdater}) =>
         switch(children){
             case "Cargos": return(<ChargeTable gameState={gameState} gameUpdater={gameUpdater}/>)
             case "Votar": return(<Votation gameState={gameState} gameUpdater={gameUpdater}/>)
-            case "Cards": return(<Cards open= {open} setIsOpen={setIsOpen} gameState={gameState}
+            case "Cartas": return(<Cards open= {open} setIsOpen={setIsOpen} gameState={gameState}
                                     gameUpdater={gameUpdater}/>)
             default: return children
         }
@@ -26,7 +26,6 @@ const Modal = ({ open, setIsOpen, children, onClose, gameState, gameUpdater}) =>
             <div className="modal">
             <button className= "close-btn" onClick={onClose}> </button>
                 {windowData(children)}
-                
         </div>
     </>,
     document.getElementById('portal')

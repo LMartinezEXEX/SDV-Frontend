@@ -46,7 +46,7 @@ const Game= () => {
                     <div><PopUp gameState={gameState} gameUpdater={getGameState} 
                         type="Votar"/></div>
                     <div><PopUp gameState={gameState} gameUpdater={getGameState}
-                        type="Cards"/></div>
+                        type="Cartas"/></div>
                 </div>
             </div>
             <div className="gameSection">

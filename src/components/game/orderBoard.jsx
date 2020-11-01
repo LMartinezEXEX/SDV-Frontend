@@ -17,11 +17,10 @@ const OrderBoard = ({gameState}) =>{
     return (
         <div className="orderBoard">
             <div className="title">
-                <div><img alt="serpiente"/></div>
+                <div></div>
                 <div><h2>Order of Fenix</h2></div>
-                <div><img alt="serpiente"/></div>
+                <div></div>
             </div>
-            {/* <button onClick= {() => {changeSlot()}}> Proclamation</button> */}
             <div className="order-cards-slot">
                 <div className= "o-card-slot">{drawSlot(1,"")}</div>
                 <div className= "o-card-slot">{drawSlot(2,"")}</div>

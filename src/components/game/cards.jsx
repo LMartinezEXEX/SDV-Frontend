@@ -7,16 +7,24 @@ import '../../assets/css/cards.css';
 function Cards({gameState, gameUpdater, setIsOpen}) {
     const [cards, setCards] = useState([])
 
+    const changeMinister = async () => {
+        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/select_MM")
+        .then(res => {
+            gameUpdater()
+        })
+    }
+
     const putProclamation = async (promulgationId) => {
         await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/promulgate", {
             "candidate_id": gameState.current_minister_id,
             "to_promulgate": promulgationId
         }).then(res=>{
             gameUpdater()
+            changeMinister()
             setIsOpen(false)
+            if(gameState.death_eater_promulgations === 6) {alert("GANARON LOS MORTIFAGOS")}
+            else if( gameState.fenix_promulgations === 5) {alert("GANO LA ORDEN DEL FENIX")}
         })
-        if(gameState.death_eater_promulgations === 6) {alert("GANARON LOS MORTIFAGOS")}
-        else if( gameState.fenix_promulgations === 5) {alert("GANO LA ORDEN DEL FENIX")}
     }
 
     const TakeCards = async() => {

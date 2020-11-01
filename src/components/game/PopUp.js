@@ -6,15 +6,13 @@ const PopUp= (props) => {
     const [isOpen, setIsOpen] = useState(false)
     
     return (
-  
         <div >
-          <button className= "app-btn" onClick={() => { setIsOpen(true) 
-                                                        gameUpdater()}}> {type} </button>
-          <Modal gameState={gameState} gameUpdater={gameUpdater}
+            <button className= "app-btn" 
+                onClick={() => { setIsOpen(true); gameUpdater()}}> {type} </button>
+            <Modal gameState={gameState} gameUpdater={gameUpdater}
                 open={isOpen} setIsOpen={setIsOpen} children={type}
                 onClose={() => setIsOpen(false)}/>
         </div>
-    
     )
 }
 
