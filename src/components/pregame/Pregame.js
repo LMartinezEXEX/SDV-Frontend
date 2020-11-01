@@ -1,18 +1,18 @@
 import React from 'react'
 import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
-import "../../assets/css/Pregame.css"
+import "../../assets/css/pregame.css"
 
 const Pregame = () => {
     return (
         <div className='pre-game'>
             <div className = 'window-style'>
                 <ul className="players-list">
-                    <li>Player 1 </li>
-                    <li>Player 2 </li>
-                    <li>Player 3 </li>
-                    <li>Player 4 </li>
-                    <li>Player 5 </li>
+                    <li> Harry54 </li>
+                    <li> Hermione21 </li>
+                    <li> Hagrid666 </li>
+                    <li> Draco55 </li>
+                    <li> Ron12 </li>
                 </ul>
             </div>
             <StartGame />
