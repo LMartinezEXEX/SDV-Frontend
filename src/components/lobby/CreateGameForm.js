@@ -5,8 +5,6 @@ import Input from '../Input'
 import { useHistory } from "react-router-dom";
 import dropdown from './Dropdown'
 
-
-
 const CreateGameForm = () => {
     const [gamenamme, setGamename] = useState('');
     const min_players_list= [5, 6, 7, 8, 9, 10]

@@ -8,11 +8,7 @@
 .modal {
 	position: fixed;
 	background-color: black;
-<<<<<<< Updated upstream
 	padding: 60px;
-=======
-	padding: 100px;
->>>>>>> Stashed changes
 	top: 50%;
 	left: 50%;
 	z-index: 1000;

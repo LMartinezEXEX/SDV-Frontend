@@ -1,8 +1,6 @@
-<<<<<<< Updated upstream
 import React, { useState } from 'react'
 import Input from '../../Input'
 import "../../../assets/css/form.css"
-import { useHistory } from "react-router-dom";
 import axios from 'axios'
 
 
@@ -10,7 +8,7 @@ const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
-    const history = useHistory;
+    
    // const [isLogin, setIsLogin] = useState(false);
    // const [hasError, setHasError] = useState(false);
 
@@ -104,52 +102,11 @@ const LoginForm = () => {
                 </label>
             </div>
 
-            <input type="submit" name="Login"  className="app-btn small-btn" onClick={() => history.push("/lobby", { from: "Home" })} value="Ingresar" />
+            <input type="submit" name="Login"  className="app-btn small-btn"  value="Ingresar" />
        
         </form>
     )
 
-=======
-import React,{useState} from 'react'
-import "../../../assets/css/LoginForm.css"
-
-
-const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [pass, setPass] = useState('');
-
-  const handleNameChange = (event) => {
-    setUsername(event.target.value);
-  }
-
-  const handlePassChange = (event) => {
-    setPass(event.target.value);
-  }
-
-  const handleSubmit = (event) => {
-    alert('Datos Ingresados:' +
-          '\nNombre de Usuario: ' + username +
-          '\nContraseña: ' + pass);
-    event.preventDefault();
-  }
-  
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          <input type="email" className='login-email' value={username} required={true} placeholder="Email" onChange={handleNameChange} />
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="password" className='login-password' value={pass} maxlength={8} required={true} placeholder="Password" onChange={handlePassChange} />
-        </label>
-      </div>
-
-      <input type="submit" name="Login"  className="app-btn small-btn" value="Ingresar" />
-    </form>
-  );
->>>>>>> Stashed changes
 }
 
 export default LoginForm;
