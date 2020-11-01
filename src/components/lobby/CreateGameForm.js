@@ -2,19 +2,21 @@ import React, {
     useState 
 } from 'react'
 import Input from '../Input'
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 import dropdown from './Dropdown'
+import axios from 'axios'
 
 
 
 const CreateGameForm = () => {
-    const [gamenamme, setGamename] = useState('');
+    const [gamename, setGamename] = useState('');
+    const [email, setEmail] = useState('');
     const min_players_list= [5, 6, 7, 8, 9, 10]
     const max_players_list= [5, 6, 7, 8, 9, 10]
     const [minplayers, PlayersDropdownMin] = dropdown("Mínimo de Jugadores ", "", min_players_list);
     const [maxplayers, PlayersDropdownMax] = dropdown("Máximo de Jugadores ", "", max_players_list);
-    const history = useHistory();
-    
+    //const history = useHistory();
+    //history.push("/pregame", { from: "Lobby" })
 
     function handleChange(name, value) {
         if (name === 'gamename') {
@@ -23,11 +25,27 @@ const CreateGameForm = () => {
     }
 
     const handleSubmit = async(event) => {
-      
-        event.preventDefault(); 
-        
-        
+        const result = await axios("http://127.0.0.1:8000/game/create/", {
+        method: 'POST',
+        data: JSON.stringify({
+            email: 'user@example.com',
+            name: gamename,
+            min_players: 5,
+            max_players: 5
+        }),
+        headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+        }).then(response => {
+            return response
+        }).catch(error => {
+        return error
+        });
+       
+        alert(JSON.stringify(result))
     }
+       
 
     return (
         <div>
@@ -49,8 +67,7 @@ const CreateGameForm = () => {
                     <PlayersDropdownMin/>
                     <PlayersDropdownMax/>
               
-                <input type="submit" onClick={() => history.push("/pregame", 
-                    { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="Aceptar" />
+                <input type="submit" name="createGame"  className="app-btn small-btn" value="Aceptar" />
            
             </form>
 

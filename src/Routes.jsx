@@ -10,6 +10,7 @@ import Lobby from './components/lobby/Lobby'
 import PreGame from './components/pregame/Pregame'
 import PageNotFound from './components/PageNotFound'
 import Game from './components/game/game'
+
 const Routes = () => {
     const history = useHistory()
 
