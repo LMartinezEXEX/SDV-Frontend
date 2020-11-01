@@ -56,7 +56,7 @@ const Game= () => {
                 </div>
             </div>
             <div className="gameSection">
-                <OrderBoard/>
+                <OrderBoard gameState={gameState}/>
             </div>
         </div>
     </div>);

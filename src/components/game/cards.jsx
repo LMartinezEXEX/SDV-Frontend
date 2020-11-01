@@ -33,7 +33,7 @@ function Cards({gameState, gameUpdater, setIsOpen}) {
     const showCard = (card) => {
         switch(card){
             case 1: return (<button onClick={() => {putProclamation(1)}}><img src={proclamationM}></img></button>)
-            case 0: return (<button onClick={() => {putProclamation(1)}}><img src={proclamationO}></img></button>)
+            case 0: return (<button onClick={() => {putProclamation(0)}}><img src={proclamationO}></img></button>)
             default: return <div></div>
         }
     }
