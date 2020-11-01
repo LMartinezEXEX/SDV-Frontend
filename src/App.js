@@ -1,11 +1,12 @@
 import React from 'react';
 import './assets/css/App.css';
-import Routes from './Routes.jsx';
 
 function App() {
   return (
-    <div className="app">
-      <Routes />
+    <div className="App">
+      <div className="Initial">
+        <h1>Secret Voldemort</h1>
+      </div>
     </div>
   );
 }
