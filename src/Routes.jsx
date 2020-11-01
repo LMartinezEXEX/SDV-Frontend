@@ -6,6 +6,7 @@ import {
     Route,
     useHistory
 } from 'react-router-dom'
+import { connect } from "react-redux";
 import Home from './components/home/Home'
 import Lobby from './components/lobby/Lobby'
 import PreGame from './components/pregame/Pregame'
@@ -29,9 +30,9 @@ const Routes = (props) => {
       return (
         <Router history={history}>
             <Redirect from="/" to="/lobby" />
-            <Route path="/lobby" component={Lobby} />
-            <Route path="/pregame" component={PreGame} />
-            <Route path ='/game/:id' component={Game} />
+            <Route exact path="/lobby" component={Lobby} />
+            <Route exact path="/pregame" component={PreGame} />
+            <Route exact path ='/game/:id' component={Game} />
             <Route component={PageNotFound}/>
         
         </Router>
