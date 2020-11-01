@@ -111,5 +111,3 @@ const LoginForm = () => {
 }
 
 export default LoginForm;
-
-//useEffect evitamos que se renderice muchas veces! FIJARSE

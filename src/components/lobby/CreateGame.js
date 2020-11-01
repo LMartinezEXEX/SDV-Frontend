@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Modal from '../Modal'
+import CreateGameForm from './CreateGameForm'
 
 const CreateGame= () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -9,7 +10,7 @@ const CreateGame= () => {
         <div >
           <button className= "app-btn" onClick={() => setIsOpen(true)}> Create Game </button>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            GAME FORM
+            <CreateGameForm />
           </Modal>
         </div>
     

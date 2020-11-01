@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import Home from './components/home/Home'
 import Lobby from './components/lobby/Lobby'
+import PreGame from './components/pregame/Pregame'
 import PageNotFound from './components/PageNotFound'
 import Game from './components/game/game'
 const Routes = () => {
@@ -18,8 +19,8 @@ const Routes = () => {
                 <Route exact path = '/' component={Home} />
                 <Route exact path = '/game' component={Game} />
                 <Route exact path = '/lobby' component={Lobby} />
+                <Route exact path = '/pregame' component={PreGame} />
                 <Route component={PageNotFound}/>
-                    
             </Switch>
         </Router>
     )
