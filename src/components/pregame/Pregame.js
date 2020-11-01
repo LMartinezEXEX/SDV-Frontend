@@ -1,7 +1,7 @@
 import React from 'react'
 import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
-import "../../assets/css/pregame.css"
+import "../../assets/css/Pregame.css"
 
 const Pregame = () => {
     return (
