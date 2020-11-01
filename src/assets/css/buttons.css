@@ -20,17 +20,70 @@
 	cursor: pointer;
 }
 
-.app-btn:hover{
-	color:#000000;
-	background-color:#FFFFFF;
-	opacity:0.85;
+.app-btn:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+	opacity: 0.85;
 }
 
 
 .small-btn {
-	text-shadow: 0 0 5px white, 0 0 8px white;
-	padding: 0.3em 0.8em; 
-	border-radius :0.12em;
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
+	text-shadow: 0 0 5px white, 0 0 5px white;
+	color: white;
+	padding: 0.3em 0.8em;
+	border-radius: 0.12em;
 	font-size: 20px;
 	margin-bottom: 0px;
+}
+
+
+/* Modal Close button */
+
+.close-btn {
+	position: relative;
+	margin-right: 0px;
+	width: 40px;
+	height: 35px;
+	border-radius: 5px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.close-btn:before {
+	content: '+';
+	color: black;
+	position: absolute;
+	z-index: 2;
+	transform: rotate(45deg);
+	font-size: 40px;
+	line-height: 1;
+	top: -5px;
+	left: 6px;
+	transition: all 0.3s cubic-bezier(0.770, 0.000, 0.20, 0.85);
+}
+
+.close-btn:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 20%;
+	background:black;
+	z-index: 1;
+	transition: all 0.3s cubic-bezier(0.770, 0.000, 0.20, 0.85);
+	transform: scale(0.02);
+}
+
+.close-btn:hover:after {
+	transform: scale(1);
+}
+
+.close-btn:hover:before {
+	transform: scale(0.8) rotate(45deg);
+	color: #fff;
 }

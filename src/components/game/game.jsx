@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import React, { useState, useEffect} from 'react'
 import axios from 'axios'
+=======
+import React from 'react'
+>>>>>>> 3b73e232f4520d5b6d1e6204e244c8bba3ea57c2
 import '../../assets/css/game.css'
 import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';

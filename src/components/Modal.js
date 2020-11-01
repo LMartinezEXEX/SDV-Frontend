@@ -24,8 +24,9 @@ const Modal = ({ open, setIsOpen, children, onClose, gameState, gameUpdater}) =>
     <>
         <div className="overlay" />
             <div className="modal">
+            <button className= "close-btn" onClick={onClose}> </button>
                 {windowData(children)}
-                <button className= "app-btn small-btn" onClick={onClose}> Cerrar </button>
+                
         </div>
     </>,
     document.getElementById('portal')

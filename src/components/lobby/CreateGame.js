@@ -1,21 +1,19 @@
 import React, { useState } from 'react'
 import Modal from '../Modal'
-import RegisterForm from './register/RegisterForm'
-import '../../assets/css/RegisterForm.css'
 
-const LogIn= () => {
+const CreateGame= () => {
     const [isOpen, setIsOpen] = useState(false)
     
     return (
   
         <div >
-          <button className= "app-btn" onClick={() => setIsOpen(true)}> Ingresar </button>
+          <button className= "app-btn" onClick={() => setIsOpen(true)}> Create Game </button>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <RegisterForm />
+            GAME FORM
           </Modal>
         </div>
     
     )
 }
 
-export default LogIn;
+export default CreateGame;
