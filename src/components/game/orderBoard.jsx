@@ -18,7 +18,7 @@ const OrderBoard = ({gameState}) =>{
         <div className="orderBoard">
             <div className="title">
                 <div></div>
-                <div><h2>Order of Fenix</h2></div>
+                <div><h2>Orden de Fenix</h2></div>
                 <div></div>
             </div>
             <div className="order-cards-slot">

@@ -2,13 +2,11 @@
     background-color: rgba(63, 91, 119, 0.788);
     display: flex;
     justify-content: center;
-    border: 2px white solid;
+    border: 2px black solid;
     border-radius: 10px;
     margin: 40px 80px;
 }
-.gameSection{
-    margin: 5px;
-}
+
 .gameBox {
     display: flex;
     flex-direction: column;

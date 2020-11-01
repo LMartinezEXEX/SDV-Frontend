@@ -11,7 +11,7 @@ const MortifagoBoard = ({gameState}) => {
             return (<img className="proclamation" src={proclamation} alt="proclamacion"/>);
         }else{
             if(spell === "WIN SLOT") {return <img className="logo" src={mortifLogo} alt="Logo mortifagos"/>}
-            else return spell;
+            else return <h5>{spell}</h5>;
         }   
     }
 
