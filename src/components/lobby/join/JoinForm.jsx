@@ -66,7 +66,7 @@ const JoinForm = () => {
                     </label>
                 </div>
 
-                <input type="submit" onClick={() => history.push("/pregame/"+1, 
+                <input type="submit" onClick={() => history.push("/game/"+1, 
                     { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="¡Únete!" />
             </form>
         </div>
