@@ -39,13 +39,12 @@ const JoinForm = () => {
             <form className='join-container' onSubmit={handleSubmit}>
                 <div> 
                     <label>
-                        Email:
                         <Input attribute={{
                             id: 'email',
                             name: 'email',
                             type: 'email',
                             required: 'true',
-                            placeholder: 'Ingrese su email'
+                            placeholder: 'Email'
                         }}
                             handleChange={handleChange}
                         />
@@ -53,13 +52,12 @@ const JoinForm = () => {
                 </div>
                 <div>
                     <label>
-                        ID Partida:
                         <Input attribute={{
                             id: 'gameId',
                             name: 'gameId',
                             type: 'number',
                             required: 'true',
-                            placeholder: 'Ingrese el ID de la partida'
+                            placeholder: 'ID de la partida'
                         }}
                             handleChange={handleChange}
                         />
@@ -67,7 +65,7 @@ const JoinForm = () => {
                 </div>
 
                 <input type="submit" onClick={() => history.push("/game/"+1, 
-                    { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="¡Únete!" />
+                    { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="Unirse" />
             </form>
         </div>
     )
