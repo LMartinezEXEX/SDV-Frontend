@@ -7,8 +7,8 @@ import dropdown from './Dropdown'
 
 const CreateGameForm = () => {
     const [gamenamme, setGamename] = useState('');
-    const min_players_list= [5, 6, 7, 8, 9, 10]
-    const max_players_list= [5, 6, 7, 8, 9, 10]
+    const min_players_list= [6, 7, 8, 9, 10]
+    const max_players_list= [6, 7, 8, 9, 10]
     const [minplayers, PlayersDropdownMin] = dropdown("Mínimo de Jugadores ", "", min_players_list);
     const [maxplayers, PlayersDropdownMax] = dropdown("Máximo de Jugadores ", "", max_players_list);
     const history = useHistory();

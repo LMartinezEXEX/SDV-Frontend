@@ -9,7 +9,7 @@ const CreateGame= () => {
     return (
   
         <div >
-          <button className= "app-btn" onClick={() => setIsOpen(true)}> Create Game </button>
+          <button className= "app-btn" onClick={() => setIsOpen(true)}> Crear una partida </button>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             <CreateGameForm />
           </Modal>
