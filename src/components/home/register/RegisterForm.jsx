@@ -101,7 +101,7 @@ const RegisterForm = () => {
                             id: 'email',
                             name: 'email',
                             type: 'email',
-                            required: 'true',
+                            required: 'required',
                             placeholder: 'Email'
                         }}
                             handleChange={handleChange}
@@ -115,7 +115,7 @@ const RegisterForm = () => {
                             id: 'username',
                             name: 'username',
                             type: 'text',
-                            required: 'true',
+                            required: 'required',
                             placeholder: 'Username'
                         }}
                             handleChange={handleChange}
@@ -129,7 +129,7 @@ const RegisterForm = () => {
                             id: 'password',
                             name: 'password',
                             type: 'password',
-                            required: 'true',
+                            required: 'required',
                             placeholder: 'Contraseña'
                         }}
                             handleChange={handleChange}

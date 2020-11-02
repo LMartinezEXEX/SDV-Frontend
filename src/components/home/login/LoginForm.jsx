@@ -13,7 +13,7 @@ const LoginForm = (props) => {
    // const [hasError, setHasError] = useState(false);
 
     function handleChange(name, value) {
-        if (name === 'email' && value.length > 10) {
+        if (name === 'email' && value.length > 8) {
             setEmail(value)
         } else {
             if (value.length < 8) {
@@ -78,7 +78,7 @@ const LoginForm = (props) => {
                         id: 'email',
                         name: 'email',
                         type: 'email',
-                        required: 'true',
+                        required: 'required',
                         placeholder: 'Email'
                     }}
                         handleChange={handleChange}
@@ -92,7 +92,7 @@ const LoginForm = (props) => {
                         id: 'password',
                         name: 'password',
                         type: 'password',
-                        required: 'true',
+                        required: 'required',
                         placeholder: 'Contraseña'
                     }}
                         handleChange={handleChange}

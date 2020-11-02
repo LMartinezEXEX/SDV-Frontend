@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     BrowserRouter as Router,
-    Switch,
+    //Switch,
     Redirect,
     Route,
     useHistory
@@ -10,8 +10,8 @@ import { connect } from "react-redux";
 import Home from './components/home/Home'
 import Lobby from './components/lobby/Lobby'
 import PreGame from './components/pregame/Pregame'
-import PageNotFound from './components/PageNotFound'
 import Game from './components/game/game'
+import PageNotFound from './components/PageNotFound'
 
 const Routes = (props) => {
     const { isAuth, type } = props;
@@ -33,12 +33,14 @@ const Routes = (props) => {
             <Route exact path="/lobby" component={Lobby} />
             <Route exact path="/pregame/:id" component={PreGame} />
             <Route exact path ='/game/:id' component={Game} />
-            {/* <Route component={PageNotFound}/> */}
-        
         </Router>
       );
     }
-   
+    return (
+        <Router history={history}>
+            <Route component={PageNotFound}/>
+        </Router>
+    );
 }
    
 const mapStateToProps = (state) => {

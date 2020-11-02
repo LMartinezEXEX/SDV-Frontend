@@ -21,7 +21,6 @@ ul li{
     text-shadow: 0 0 5px white, 0 0 15px white;
 }
 
-
 li:before {
     content: "\f0d0"; /* FontAwesome Unicode */
     margin-right: 1.2rem;
