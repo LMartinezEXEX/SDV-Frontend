@@ -2,6 +2,7 @@ import React from 'react'
 import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
 import "../../assets/css/pregame.css"
+import { useParams } from 'react-router-dom';
 
 const Pregame = () => {
     return (
@@ -15,7 +16,7 @@ const Pregame = () => {
                     <li> Ron12 </li>
                 </ul>
             </div>
-            <StartGame />
+            <StartGame gameId={useParams().id}/>
         </div>
     );
 }

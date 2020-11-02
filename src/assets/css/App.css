@@ -21,6 +21,7 @@ html {
 	/* Do not repeat the image */
 	background-size: cover;
 	background-position: center;
+	zoom: 75%
 }
 
 h1 {

@@ -5,11 +5,11 @@ const AuthRoute = (props) => {
   const { isAuth, type } = props;
 
   if (type === "guest" || !isAuth) {
-    alert("As guest!")
+    // alert("As guest!")
     return <Redirect to="/" component={Home} />
   }
   if (type === "private" && isAuth) {
-    alert("Private dashboard!")
+    // alert("Private dashboard!")
     return <Redirect from="/" to="/lobby" />
   }
   return <Route {...props} />;

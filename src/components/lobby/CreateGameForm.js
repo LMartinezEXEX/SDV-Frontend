@@ -47,7 +47,7 @@ const CreateGameForm = () => {
                     <PlayersDropdownMin/>
                     <PlayersDropdownMax/>
               
-                <input type="submit" onClick={() => history.push("/pregame", 
+                <input type="submit" onClick={() => history.push("/pregame/"+1, 
                     { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="Aceptar" />
            
             </form>

@@ -18,7 +18,7 @@ const Routes = (props) => {
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
-      alert("As guest!")
+      // alert("As guest!")
       return (
         <Router history={history}>
           <Redirect to="/" />
@@ -26,14 +26,14 @@ const Routes = (props) => {
         </Router>
       );
     } else if (type === "private" && isAuth) {
-      alert("Private dashboard!")
+      // alert("Private dashboard!")
       return (
         <Router history={history}>
             <Redirect from="/" to="/lobby" />
             <Route exact path="/lobby" component={Lobby} />
-            <Route exact path="/pregame" component={PreGame} />
+            <Route exact path="/pregame/:id" component={PreGame} />
             <Route exact path ='/game/:id' component={Game} />
-            <Route component={PageNotFound}/>
+            {/* <Route component={PageNotFound}/> */}
         
         </Router>
       );
