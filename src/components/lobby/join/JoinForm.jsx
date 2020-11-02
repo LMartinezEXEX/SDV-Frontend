@@ -31,6 +31,8 @@ const JoinForm = () => {
         }).catch(error => {
             return error
         });
+        
+    	history.push("/game/"+1, { from: "Lobby" })
     }
 
     
@@ -64,8 +66,7 @@ const JoinForm = () => {
                     </label>
                 </div>
 
-                <input type="submit" onClick={() => history.push("/game/"+1, 
-                    { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="Unirse" />
+                <input type="submit"  name="createGame"  className="app-btn small-btn" value="Unirse" />
             </form>
         </div>
     )
