@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Input from '../../Input'
-import axios from 'axios'
+import axios from 'axios';
 
 
 const RegisterForm = () => {
@@ -9,10 +9,9 @@ const RegisterForm = () => {
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState(0);
     const [passwordError, setPasswordError] = useState(false);
-    // const [isLogin, setIsLogin] = useState(false);
-    // const [hasError, setHasError] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-    const avatars = ["Harry", "Ron", "Hermione", "Snape", "Draco", "Lucius", "Umbridge", "Voldemort"]
+    const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
 
     function handleChange(name, value) {
         if (name === 'email') {
@@ -46,29 +45,47 @@ const RegisterForm = () => {
         }
     }
     */
-    const handleSubmit = async(event) => {
-    
-        event.preventDefault(); // esto VER 
-        const result = await axios("http://127.0.0.1:8000/user/register/", {
+    const handleSubmit = async (event) => {
+        let account = { email, username, password, avatar }
+        if (account) {
+            //isMatch(account);
+            console.log('account',account);
+        }
+        event.preventDefault();
+
+        await axios("http://127.0.0.1:8000/user/register/", {
             method: 'POST',
-            data: JSON.stringify({
+            headers: {
+                'accept': 'application/json'
+            },
+            data: {
                 email: email,
                 username: username,
                 password: password
-            }),
-            headers: {
-                'accept': 'application/json',
-                'Content-Type': 'application/json'
             }
         }).then(response => {
-            return response
+            if (response.status === 201) {
+                alert("Registered user, you can login now")
+            } else {
+                alert("Could not register user, please make sure about data")
+            }
         }).catch(error => {
-            return error
+            if (error.response) {
+                alert(error.response.data);
+                console.log("Error (response)", error.response.status);
+                console.log("Error (response)", error.response.headers);
+                console.log("Error (response)", error.response.data);
+            } else if (error.request) {
+                alert(error.request);
+                console.log(error.request);
+            } else {
+                console.log("Error", error.message);
+            }
+            setHasError(true)
         });
-        alert(JSON.stringify(result))
     }
 
-
+    
     return (
         <div>
             <form className='register-container' onSubmit={handleSubmit}>
@@ -124,8 +141,8 @@ const RegisterForm = () => {
                     Avatar: {avatars[avatar]}
                 </div>
 
-                <input type="submit" name="Register" className="app-btn small-btn" value="¡Registrate!" />
-
+                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!" />
+           
             </form>
 
             <div>
@@ -133,8 +150,8 @@ const RegisterForm = () => {
                 <button className="ron" onClick={() => setAvatar(1)} />
                 <button className="hermione" onClick={() => setAvatar(2)} />
                 <button className="snape" onClick={() => setAvatar(3)} />
-                <div>
-                </div>
+            <div>
+            </div>
                 <button className="draco" onClick={() => setAvatar(4)} />
                 <button className="lucius" onClick={() => setAvatar(5)} />
                 <button className="umbridge" onClick={() => setAvatar(6)} />

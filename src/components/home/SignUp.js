@@ -3,9 +3,14 @@ import Modal from '../Modal'
 import RegisterForm from './register/RegisterForm'
 import '../../assets/css/RegisterForm.css'
 
-const LogIn= () => {
+const SignUp= () => {
     const [isOpen, setIsOpen] = useState(false)
+    //const [hasRegistered, setHasRegistered] = useState(false);
     
+    /*
+    const callbackRegister = (registerData) => {
+        setHasRegistered(registerData)
+    }*/
     return (
   
         <div >
@@ -18,4 +23,5 @@ const LogIn= () => {
     )
 }
 
-export default LogIn;
+export default SignUp;
+

@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import Input from '../../Input'
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 const JoinForm = () => {
     const [gameId, setGameId] = useState(0);
     const [email, setEmail] = useState('');
+    const history = useHistory();
 
     function handleChange(name, value) {
         if (name === 'email') {
@@ -64,7 +66,8 @@ const JoinForm = () => {
                     </label>
                 </div>
 
-                <input type="submit" value="¡Únete!" />
+                <input type="submit" onClick={() => history.push("/pregame/"+1, 
+                    { from: "Lobby" })} name="createGame"  className="app-btn small-btn" value="¡Únete!" />
             </form>
         </div>
     )
