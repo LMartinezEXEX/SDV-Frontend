@@ -7,7 +7,7 @@ const JoinGame= () => {
 
     return (
         <div >
-            <button className= "app-btn" onClick={() => setIsOpen(true)}> Join Game </button>
+            <button className= "app-btn" onClick={() => setIsOpen(true)}> Unirse a Partida </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <JoinForm />
             </Modal>

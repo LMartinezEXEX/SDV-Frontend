@@ -45,7 +45,7 @@ const LoginForm = (props) => {
         }).then(response => {
             console.log("Response", response.status);
             console.log("Response", response.data);
-            alert(response.headers["authorization"])
+            // alert(response.headers["authorization"])
             callbackSumbit(true, response.headers["authorization"])
         }).catch(error => {
             if (error.response) {

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import dropdown from './Dropdown'
 
 const CreateGameForm = () => {
-    const [gamenamme, setGamename] = useState('');
+    // const [gamenamme, setGamename] = useState('');
     const min_players_list= [6, 7, 8, 9, 10]
     const max_players_list= [6, 7, 8, 9, 10]
     const [minplayers, PlayersDropdownMin] = dropdown("Mínimo de Jugadores ", "", min_players_list);
@@ -16,7 +16,7 @@ const CreateGameForm = () => {
 
     function handleChange(name, value) {
         if (name === 'gamename') {
-            setGamename(value)
+            // setGamename(value)
         } 
     }
 

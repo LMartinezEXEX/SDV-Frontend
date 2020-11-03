@@ -3,9 +3,21 @@
 }
 
 .buttonTaker {
-    width: 100px;
-    height: 50px;
+    background: none;
+    justify-content: center;
+    color: white;
+	font-family: 'Syne Mono', monospace;
+	text-shadow: 0 0 5px white, 0 0 15px white;
+    padding: 0.5em 0.8em;
+	border: 0.1em solid #FFFFFF;
+	border-radius: 0.12em;
+	text-decoration: none;
+	transition: all 0.2s;
+	letter-spacing: 1px;
+	font-size: 20px;
+    margin-top: 20px;
     margin-bottom: 20px;
+	cursor: pointer;
 }
 
 #gameButton {

@@ -25,7 +25,7 @@ const JoinForm = () => {
         event.preventDefault();
 
         await axios.put('http://127.0.0.1:8000/game/join/'+gameId, {
-            email: email
+            email: "aguschapuis@gmail.com"
         }).then(response => {
             return response
         }).catch(error => {
@@ -41,7 +41,7 @@ const JoinForm = () => {
             <form className='join-container' onSubmit={handleSubmit}>
                 <div> 
                     <label>
-                        <Input attribute={{
+                        {/* <Input attribute={{
                             id: 'email',
                             name: 'email',
                             type: 'email',
@@ -49,7 +49,7 @@ const JoinForm = () => {
                             placeholder: 'Email'
                         }}
                             handleChange={handleChange}
-                        />
+                        /> */}
                     </label>
                 </div>
                 <div>

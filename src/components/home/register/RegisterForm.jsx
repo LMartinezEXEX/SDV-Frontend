@@ -9,7 +9,7 @@ const RegisterForm = () => {
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState(0);
     const [passwordError, setPasswordError] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    // const [hasError, setHasError] = useState(false);
 
     const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
 
@@ -65,9 +65,9 @@ const RegisterForm = () => {
             }
         }).then(response => {
             if (response.status === 201) {
-                alert("Registered user, you can login now")
+                alert("Registro echo con exito")
             } else {
-                alert("Could not register user, please make sure about data")
+                alert("No se pudo realizar el registro, corroborar la informacion ingresada")
             }
         }).catch(error => {
             if (error.response) {
@@ -81,7 +81,7 @@ const RegisterForm = () => {
             } else {
                 console.log("Error", error.message);
             }
-            setHasError(true)
+            // setHasError(true)
         });
     }
 
