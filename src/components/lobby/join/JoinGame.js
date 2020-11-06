@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Modal from '../Modal'
-import JoinForm from './join/JoinForm'
+import Modal from '../../Modal'
+import JoinForm from './JoinForm'
 
 const JoinGame= () => {
     const [isOpen, setIsOpen] = useState(false)

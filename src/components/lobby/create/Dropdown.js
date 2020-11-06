@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import '../../assets/css/dropdown.css'
+import '../../../assets/css/dropdown.css'
 
 const Dropdown = (label, defaultState, options) => {
     const [state, setState] = useState(defaultState);

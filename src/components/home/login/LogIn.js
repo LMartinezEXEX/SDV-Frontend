@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Modal from '../Modal';
-import LoginForm from './login/LoginForm';
-import { login } from '../../assets/redux/actions';
+import Modal from '../../Modal';
+import LoginForm from './LoginForm';
+import { login } from '../../../redux/actions';
 
 const LogIn = (props) => {
     const { login } = props;

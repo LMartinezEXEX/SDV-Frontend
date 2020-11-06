@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Modal from '../Modal'
+import Modal from '../../Modal'
 import CreateGameForm from './CreateGameForm'
-import '../../assets/css/pregame.css'
+import '../../../assets/css/pregame.css'
 
 const CreateGame= () => {
     const [isOpen, setIsOpen] = useState(false)

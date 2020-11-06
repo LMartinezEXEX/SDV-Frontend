@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Modal from '../Modal'
-import RegisterForm from './register/RegisterForm'
-import '../../assets/css/RegisterForm.css'
+import Modal from '../../Modal'
+import RegisterForm from './RegisterForm'
+import '../../../assets/css/RegisterForm.css'
 
 const SignUp= () => {
     const [isOpen, setIsOpen] = useState(false)

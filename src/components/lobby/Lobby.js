@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from "../Title";
-import CreateGame from './CreateGame'
-import JoinGame from './JoinGame'
+import CreateGame from './create/CreateGame'
+import JoinGame from './join/JoinGame'
 
 
 

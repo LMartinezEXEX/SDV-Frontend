@@ -1,7 +1,7 @@
 import React from 'react'
 import Title from "../Title"
-import SignUp from "./SignUp"
-import LogIn from "./LogIn"
+import SignUp from "./register/SignUp"
+import LogIn from "./login/LogIn"
 import "../../assets/css/buttons.css"
 import "../../assets/css/form.css"
 
