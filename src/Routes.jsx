@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     BrowserRouter as Router,
-    //Switch,
     Redirect,
     Route,
     useHistory
@@ -18,7 +17,6 @@ const Routes = (props) => {
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
-      // alert("As guest!")
       return (
         <Router history={history}>
           <Redirect to="/" />
@@ -26,7 +24,6 @@ const Routes = (props) => {
         </Router>
       );
     } else if (type === "private" && isAuth) {
-      // alert("Private dashboard!")
       return (
         <Router history={history}>
             <Redirect from="/" to="/lobby" />
@@ -44,10 +41,9 @@ const Routes = (props) => {
 }
    
 const mapStateToProps = (state) => {
-  console.log("[AuthRoute.js] state: " + JSON.stringify(state.authorization))
   return {
-    isAuth: state.authorization.isAuth,
-    type: state.authorization.type
+    isAuth: state.user.isAuth,
+    type: state.user.type
   };
 }
 

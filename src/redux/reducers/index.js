@@ -1,4 +1,4 @@
 import { combineReducers } from "redux";
-import authorization from "./authorization";
+import user from "./user";
 
-export default combineReducers({ authorization });
+export default combineReducers({ user });

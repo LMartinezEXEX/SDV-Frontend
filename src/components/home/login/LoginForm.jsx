@@ -9,9 +9,6 @@ const LoginForm = (props) => {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     
-   // const [isLogin, setIsLogin] = useState(false);
-   // const [hasError, setHasError] = useState(false);
-
     function handleChange(name, value) {
         if (name === 'email' && value.length > 8) {
             setEmail(value)
@@ -26,16 +23,15 @@ const LoginForm = (props) => {
     }
 
     const handleSubmit = async (event) => {
-        let account = { email, password }
-        if (account) {
-            console.log('account', account);
-        }
         event.preventDefault();
         
+        const login_url = "http://127.0.0.1:8000/user/login/"
+
         const formLogin = new FormData()
         formLogin.append("email", email)
         formLogin.append("password", password)
-        await axios("http://127.0.0.1:8000/user/login/", {
+
+        await axios(login_url, {
             method: "POST",
             data: formLogin,
             headers: {
@@ -44,7 +40,7 @@ const LoginForm = (props) => {
             }
         }).then(response => {
             console.log("Response", response.status);
-            console.log("Response", response.data);
+            console.log("Response", JSON.stringify(response.data));
             // alert(response.headers["authorization"])
             callbackSumbit(true, response.headers["authorization"])
         }).catch(error => {
@@ -66,13 +62,7 @@ const LoginForm = (props) => {
     return (
         
         <form className='login-container' onSubmit={handleSubmit}>
-            <div> {/* COMMENT 
-                { hasError &&
-                    <label>
-                        Su contraseña o usuario son incorrectos,
-                        o no existen en nuestra plataforma
-                    </label>
-                }*/}
+            <div> 
                 <label >
                     <Input attribute={{
                         id: 'email',

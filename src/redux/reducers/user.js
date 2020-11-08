@@ -1,12 +1,14 @@
-import { REGISTER, LOGIN, /*LOGOUT*/ } from "../actionsTypes";
+import { REGISTER, LOGIN, LOGOUT } from "../actionsTypes";
 
-const initialState = {
+export const USER = "user"
+
+export const userInitialState = {
     isAuth: false,
     type: "guest",
     authorization: ""
 }
 
-export default function(state = initialState, action) {
+export default function(state = userInitialState, action) {
     switch (action.type) {
         case REGISTER: {
           return {
@@ -21,14 +23,15 @@ export default function(state = initialState, action) {
             authorization: action.payload.authorization
           };
         }
-        /*case LOGOUT: {
+        case LOGOUT: {
+          localStorage.removeItem(USER)
           return {
             ...state,
-            isAuth: action.payload.isAuth,
-            type: action.payload.type,
-            authorization: action.payload.authorization
+            isAuth: false,
+            type: "guest",
+            authorization: ""
           }
-        }*/
+        }
         default:
           return state;
     }

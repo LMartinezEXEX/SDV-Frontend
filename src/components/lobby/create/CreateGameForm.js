@@ -36,7 +36,7 @@ const CreateGameForm = () => {
                             id: 'gamename',
                             name: 'gamename',
                             type: 'text',
-                            required: 'true',
+                            required: 'required',
                             placeholder: 'Nombre del juego'
                         }}
                             handleChange={handleChange}

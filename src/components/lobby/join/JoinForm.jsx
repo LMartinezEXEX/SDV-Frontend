@@ -58,7 +58,7 @@ const JoinForm = () => {
                             id: 'gameId',
                             name: 'gameId',
                             type: 'number',
-                            required: 'true',
+                            required: 'required',
                             placeholder: 'ID de la partida'
                         }}
                             handleChange={handleChange}

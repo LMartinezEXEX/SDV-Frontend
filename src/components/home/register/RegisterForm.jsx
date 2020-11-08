@@ -28,23 +28,7 @@ const RegisterForm = () => {
         }
     }
 
-    /*function isMatch(param) {
-        if (param.email.length > 0 && param.password > 0) {
-            if (param.email === 'sopa@verduras' && param.password === '1234') {
-                const { email, password } = param;
-                let ac = { email, password }
-                let account = JSON.stringify(ac);
-                localStorage.setItem('account', account);
-              //  setIsLogin(true);
-            } else {
-                //setIsLogin(false);
-                setHasError(true);
-            }
-            //setIsLogin(false);
-            setHasError(true);
-        }
-    }
-    */
+    
     const handleSubmit = async (event) => {
         let account = { email, username, password, avatar }
         if (account) {
@@ -65,7 +49,7 @@ const RegisterForm = () => {
             }
         }).then(response => {
             if (response.status === 201) {
-                alert("Registro echo con exito")
+                alert("Registro hecho con éxito")
             } else {
                 alert("No se pudo realizar el registro, corroborar la informacion ingresada")
             }
@@ -89,13 +73,7 @@ const RegisterForm = () => {
     return (
         <div>
             <form className='register-container' onSubmit={handleSubmit}>
-                <div> {/* COMMENT 
-                    { hasError &&
-                        <label>
-                            Su contraseña o usuario son incorrectos,
-                            o no existen en nuestra plataforma
-                        </label>
-                    }*/}
+                <div> 
                     <label>
                         <Input attribute={{
                             id: 'email',
@@ -163,6 +141,3 @@ const RegisterForm = () => {
 }
 
 export default RegisterForm;
-
-//useEffect evitamos que se renderice muchas veces! FIJARSE
-
