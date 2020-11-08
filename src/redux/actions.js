@@ -12,7 +12,9 @@ export const login = (content) => ({
     payload: {
         isAuth: content.isAuth,
         type: content.type,
-        authorization: content.authorization
+        authorization: content.authorization,
+        email: content.email,
+        username: content.username
     }
 })
 

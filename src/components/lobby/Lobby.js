@@ -1,15 +1,20 @@
 import React from 'react'
-import Title from "../Title";
+//import Title from "../Title";
 import CreateGame from './create/CreateGame'
 import JoinGame from './join/JoinGame'
+import UpdateProfile from './profile/UpdateProfile'
 
-
-
-const Home = () => {
+const Lobby = (props) => {
+    const {username, email} = props
+    
     return (
         <div>
-           < Title />
+           <div className= "user-profile">
+               <h3> {username} </h3>
+               <h3> {email}  </h3>
+           </div>
            <div className="btn-group">
+                < UpdateProfile />
                 < CreateGame />
                 < JoinGame />
            </div>
@@ -17,5 +22,5 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Lobby;
 

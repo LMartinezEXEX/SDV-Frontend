@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Title = () => {
+const Title = (props) => {
     return (
-        <h1> Secret Voldemort  </h1>
+        <h1> {props.name} </h1>
     )
 }
 

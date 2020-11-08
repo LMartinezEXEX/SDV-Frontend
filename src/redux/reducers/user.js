@@ -5,7 +5,9 @@ export const USER = "user"
 export const userInitialState = {
     isAuth: false,
     type: "guest",
-    authorization: ""
+    authorization: "",
+    email: "",
+    username: ""
 }
 
 export default function(state = userInitialState, action) {
@@ -20,7 +22,9 @@ export default function(state = userInitialState, action) {
             ...state,
             isAuth: action.payload.isAuth,
             type: action.payload.type,
-            authorization: action.payload.authorization
+            authorization: action.payload.authorization,
+            email: action.payload.email,
+            username: action.payload.username
           };
         }
         case LOGOUT: {
@@ -29,7 +33,9 @@ export default function(state = userInitialState, action) {
             ...state,
             isAuth: false,
             type: "guest",
-            authorization: ""
+            authorization: "",
+            email: "",
+            username: ""
           }
         }
         default:
