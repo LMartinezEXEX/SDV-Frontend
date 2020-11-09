@@ -83,7 +83,7 @@ const CreateGameForm = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    email: state.authorization.email,
+    email: state.user.email,
   };
 }
 
