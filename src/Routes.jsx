@@ -39,7 +39,6 @@ const Routes = (props) => {
                 </Router>
             )
         } else {
-            alert("Private dashboard!")
             return (
             <Router history={history}>
                 <Redirect from="/" to="/lobby" />

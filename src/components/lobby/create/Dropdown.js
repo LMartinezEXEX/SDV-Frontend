@@ -13,7 +13,7 @@ const Dropdown = (label, defaultState, options) => {
                 onBlur={e=>setState(e.target.value)}
                 disabled={!options.length}
             >
-            <option>5</option>
+            <option> </option>
                 {options.map(item=>
                 <option key={item} value={item}>{item}</option>)}
           </select>
