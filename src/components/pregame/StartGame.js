@@ -1,15 +1,11 @@
 import React from 'react'
-import { useHistory } from "react-router-dom";
 
-const StartGame= ({gameId}) => {
-    const history = useHistory();
-    
+const StartGame= (props) => {
+    const { callbackSubmit } = props
     return (
         <div >
-            <button className= "app-btn" onClick={() => 
-                history.push("/game/"+1, { from: "PreGame" })}> Iniciar Partida </button>
+            <button className= "app-btn" onClick={callbackSubmit}> Start </button>
         </div>
-        
     )
 }
 

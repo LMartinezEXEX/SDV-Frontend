@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     BrowserRouter as Router,
-    //Switch,
     Redirect,
     Route,
     useHistory
@@ -14,27 +13,40 @@ import Game from './components/game/game'
 import PageNotFound from './components/PageNotFound'
 
 const Routes = (props) => {
-    const { isAuth, type } = props;
+    const { isAuth, type, gameId, init} = props;
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
-      // alert("As guest!")
-      return (
-        <Router history={history}>
-          <Redirect to="/" />
-          <Route exact path="/" component={Home} />
-        </Router>
-      );
+        // alert("As guest!")
+        return (
+            <Router history={history}>
+            <Redirect to="/" />
+            <Route exact path="/" component={Home} />
+            </Router>
+        );
     } else if (type === "private" && isAuth) {
-      // alert("Private dashboard!")
-      return (
-        <Router history={history}>
-            <Redirect from="/" to="/lobby" />
-            <Route exact path="/lobby" component={Lobby} />
-            <Route exact path="/pregame/:id" component={PreGame} />
-            <Route exact path ='/game/:id' component={Game} />
-        </Router>
-      );
+        if (gameId && !init) {
+            return (
+            <Router history={history}>
+                <Redirect from="/lobby" to="/pregame" />
+                <Route path="/pregame" component={PreGame} />
+            </Router>)
+        } else if (gameId && init) {
+            return (
+                <Router history={history}>
+                <Redirect from="/pregame" to={"/game/" + gameId} />
+                <Route path={"/game/" + gameId} component={Game} />
+                </Router>
+            )
+        } else {
+            alert("Private dashboard!")
+            return (
+            <Router history={history}>
+                <Redirect from="/" to="/lobby" />
+                <Route path="/lobby" component={Lobby} />
+            </Router>
+            );
+        }
     }
     return (
         <Router history={history}>
@@ -44,10 +56,11 @@ const Routes = (props) => {
 }
    
 const mapStateToProps = (state) => {
-  console.log("[AuthRoute.js] state: " + JSON.stringify(state.authorization))
   return {
     isAuth: state.authorization.isAuth,
-    type: state.authorization.type
+    type: state.authorization.type,
+    gameId: state.game.gameId,
+    init: state.game.init
   };
 }
 

@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN /*LOGOUT*/ } from './actionsTypes';
+import { REGISTER, LOGIN, /*LOGOUT*/ CREATE_GAME, JOIN_GAME, INIT_GAME} from './actionsTypes';
 
 export const register = (content) => ({
   type: REGISTER,
@@ -25,4 +25,28 @@ export const logout = (content) => ({
   }
 })
 */
-export default { register, login};
+export const createGame = (content) => ({
+  type: CREATE_GAME,
+  payload: {
+    gameId: content.gameId,
+    playerId: content.playerId,
+    minPlayers: content.minPlayers,
+    maxPlayers: content.maxPlayers
+  }
+})
+
+export const joinGame = (content) => ({
+  type: JOIN_GAME,
+  payload: {
+    gameId: content.gameId,
+    playerId: content.playerId
+  }
+})
+
+export const initGame = (content) => ({
+  type: INIT_GAME,
+  payload: {
+    init: content.init
+  }
+})
+
