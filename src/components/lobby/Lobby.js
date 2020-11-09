@@ -3,6 +3,7 @@ import React from 'react'
 import CreateGame from './create/CreateGame'
 import JoinGame from './join/JoinGame'
 import UpdateProfile from './profile/UpdateProfile'
+import LogOut from './LogOut'
 
 const Lobby = (props) => {
     const {username, email} = props
@@ -17,6 +18,7 @@ const Lobby = (props) => {
                 < UpdateProfile />
                 < CreateGame />
                 < JoinGame />
+                < LogOut />
            </div>
         </div>
     );

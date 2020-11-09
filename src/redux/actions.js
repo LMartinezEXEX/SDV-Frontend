@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT } from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME } from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -22,5 +22,12 @@ export const logout = (content) => ({
     type: LOGOUT,
     payload: {
         content
+    }
+})
+
+export const updateUsername = (content) => ({
+    type: UPDATE_USERNAME,
+    payload: {
+      username: content.newUsername
     }
 })

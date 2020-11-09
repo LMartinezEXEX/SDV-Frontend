@@ -8,7 +8,7 @@
 .app-btn {
 	background: none;
 	font-family: 'Harp';
-	text-shadow: 0 0 5px white, 0 0 15px white;
+	text-shadow: 0 0 5px white, 0 0 5px white;
 	padding: 0.35em 1.2em;
 	border: 0.1em solid #FFFFFF;
 	border-radius: 0.12em;
@@ -37,6 +37,11 @@
 	border-radius: 0.12em;
 	font-size: 20px;
 	margin-bottom: 0px;
+}
+
+.small-btn-group {
+	font-size: 28px;
+	margin-bottom: 45px;
 }
 
 

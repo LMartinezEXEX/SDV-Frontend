@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT } from "../actionsTypes";
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME } from "../actionsTypes";
 
 export const USER = "user"
 
@@ -37,6 +37,12 @@ export default function(state = userInitialState, action) {
             email: "",
             username: ""
           }
+        }
+        case UPDATE_USERNAME: {
+          return {
+            ...state,
+            username: action.payload.username
+          };
         }
         default:
           return state;
