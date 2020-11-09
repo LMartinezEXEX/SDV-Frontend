@@ -8,20 +8,24 @@ const LogIn = (props) => {
     const { login } = props;
     const [isOpen, setIsOpen] = useState(false);
     
-    const callbackLoggedInStatus = (hasLoggedIn, authorization_header) => {
+    const callbackLoggedInStatus = (hasLoggedIn, authorization_header, email, username) => {
         if (hasLoggedIn) {
             console.log("Authorization: success")
             login({
                 isAuth: hasLoggedIn,
                 type: "private",
-                authorization: authorization_header
+                authorization: authorization_header,
+                email: email,
+                username: username
             });
         } else {
             console.log("Authorization: failed")
             login({ 
                 isAuth: hasLoggedIn, 
                 type: "guest", 
-                authorization: "" 
+                authorization: "",
+                email: "",
+                username: ""
             });   
         }
     }
@@ -30,7 +34,7 @@ const LogIn = (props) => {
         <div >
             <button className= "app-btn" onClick={() => setIsOpen(true)}> Ingresar </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <LoginForm callbackSumbit={callbackLoggedInStatus} />
+                <LoginForm callbackSubmit={callbackLoggedInStatus} />
             </Modal>
         </div>
     )

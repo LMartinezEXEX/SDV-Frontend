@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, CREATE_GAME, JOIN_GAME, INIT_GAME} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -12,7 +12,9 @@ export const login = (content) => ({
     payload: {
         isAuth: content.isAuth,
         type: content.type,
-        authorization: content.authorization
+        authorization: content.authorization,
+        email: content.email,
+        username: content.username
     }
 })
 
@@ -48,3 +50,9 @@ export const initGame = (content) => ({
     }
 })
 
+export const updateUsername = (content) => ({
+    type: UPDATE_USERNAME,
+    payload: {
+      username: content.newUsername
+    }
+})

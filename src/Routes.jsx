@@ -13,11 +13,10 @@ import Game from './components/game/game'
 import PageNotFound from './components/PageNotFound'
 
 const Routes = (props) => {
-    const { isAuth, type, gameId, init} = props;
+    const { isAuth, type, email, username, gameId, init} = props;
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
-        // alert("As guest!")
         return (
             <Router history={history}>
             <Redirect to="/" />
@@ -27,10 +26,10 @@ const Routes = (props) => {
     } else if (type === "private" && isAuth) {
         if (gameId && !init) {
             return (
-            <Router history={history}>
-                <Redirect from="/lobby" to="/pregame" />
-                <Route path="/pregame" component={PreGame} />
-            </Router>)
+                <Router history={history}>
+                    <Redirect from="/lobby" to="/pregame" />
+                    <Route path="/pregame" component={PreGame} />
+                </Router>)
         } else if (gameId && init) {
             return (
                 <Router history={history}>
@@ -40,13 +39,15 @@ const Routes = (props) => {
             )
         } else {
             return (
-            <Router history={history}>
-                <Redirect from="/" to="/lobby" />
-                <Route path="/lobby" component={Lobby} />
-            </Router>
+                <Router history={history}>
+                    <Redirect from="/" to="/lobby" />
+                    <Route path="/lobby" >
+                    <Lobby email={email} username={username} />
+                    </Route>
+                </Router>
             );
         }
-    }
+     }
     return (
         <Router history={history}>
             <Route component={PageNotFound}/>
@@ -58,6 +59,8 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.user.isAuth,
         type: state.user.type,
+        email: state.user.email,
+        username: state.user.username,
         gameId: state.game.gameId,
         init: state.game.init
     };

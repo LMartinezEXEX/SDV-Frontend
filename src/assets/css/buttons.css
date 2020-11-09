@@ -8,7 +8,7 @@
 .app-btn {
 	background: none;
 	font-family: 'Harp';
-	text-shadow: 0 0 5px white, 0 0 15px white;
+	text-shadow: 0 0 5px white, 0 0 5px white;
 	padding: 0.35em 1.2em;
 	border: 0.1em solid #FFFFFF;
 	border-radius: 0.12em;
@@ -16,7 +16,7 @@
 	transition: all 0.2s;
 	letter-spacing: 6px;
 	font-size: 30px;
-	margin-bottom: 80px;
+	margin-bottom: 60px;
 	cursor: pointer;
 }
 
@@ -39,13 +39,18 @@
 	margin-bottom: 0px;
 }
 
+.small-btn-group {
+	font-size: 28px;
+	margin-bottom: 45px;
+}
+
 
 /* Modal Close button */
 
 .close-btn {
 	position: relative;
-	width: 40px;
-	height: 35px;
+	width: 35px;
+	height: 30px;
 	border-radius: 5px;
 	z-index: 1;
 	cursor: pointer;
@@ -59,7 +64,7 @@
 	position: absolute;
 	z-index: 2;
 	transform: rotate(45deg);
-	font-size: 40px;
+	font-size: 35px;
 	line-height: 1;
 	top: -5px;
 	left: 6px;

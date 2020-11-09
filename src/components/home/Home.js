@@ -8,7 +8,7 @@ import "../../assets/css/form.css"
 const Home = () => {
     return (
         <div>
-           < Title />
+           < Title name="Secret Voldemort" />
            <div className="btn-group">
                 < SignUp />
                 < LogIn />
