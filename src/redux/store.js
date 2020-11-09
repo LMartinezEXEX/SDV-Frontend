@@ -5,20 +5,20 @@ import rootReducer from "./reducers";
 
 /* Save states values */
 const saveUser = (userState) => {
-    localStorage.setItem(USER, (JSON.stringify(userState)?JSON.stringify(userState):{}))
+    sessionStorage.setItem(USER, (JSON.stringify(userState)?JSON.stringify(userState):{}))
 }
 
 const saveGame = (gameState) => {
-    localStorage.setItem(GAME, (JSON.stringify(gameState)?JSON.stringify(gameState):{}))
+    sessionStorage.setItem(GAME, (JSON.stringify(gameState)?JSON.stringify(gameState):{}))
 }
 
 /* Load states values */
 const loadUser = () => {
-    return (localStorage.getItem(USER) ? JSON.parse(localStorage.getItem(USER)) : {})
+    return (sessionStorage.getItem(USER) ? JSON.parse(sessionStorage.getItem(USER)) : {})
 }
 
 const loadGame = () => {
-    return (localStorage.getItem(GAME) ? JSON.parse(localStorage.getItem(GAME)) : {})
+    return (sessionStorage.getItem(GAME) ? JSON.parse(sessionStorage.getItem(GAME)) : {})
 }
 
 /* Default store */

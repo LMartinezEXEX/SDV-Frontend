@@ -5,6 +5,7 @@ export const GAME = "game"
 export const gameInitialState = {
     isCreator: false,
     gameId: null,
+    gameName: "",
     playerId: null,
     minPlayers: null,
     maxPlayers: null,
@@ -26,7 +27,7 @@ export default function(state = gameInitialState, action) {
         case INIT_GAME: {
           return {
             ...state,
-            init: action.payload.init
+            init: true
           };
         }
         case JOIN_GAME: {
@@ -34,7 +35,8 @@ export default function(state = gameInitialState, action) {
             ...state,
             isCreator: false,
             gameId: action.payload.gameId,
-            playerId: action.payload.playerId            
+            playerId: action.payload.playerId,
+            init: false            
           };
         }
         default:

@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
 import Input from '../../Input'
-import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import { joinGame } from "../../../redux/actions";
+import { connect } from "react-redux";
 
-const JoinForm = () => {
+const JoinForm = (props) => {
+    const { email, joinGame }= props
     const [gameId, setGameId] = useState(0);
-    const [email, setEmail] = useState('');
-    const history = useHistory();
 
     function handleChange(name, value) {
-        if (name === 'email') {
-            setEmail(value)
-        } else if (name === 'gameId') {
+        if (name === 'gameId') {
             setGameId(value)
         }
     }
-
 
     const handleSubmit = async (event) => {
         let game = { gameId, email }
@@ -24,34 +21,22 @@ const JoinForm = () => {
         }
         event.preventDefault();
 
-        await axios.put('http://127.0.0.1:8000/game/join/'+gameId, {
-            email: "aguschapuis@gmail.com"
+        const result = await axios.put('http://127.0.0.1:8000/game/join/' + gameId, {
+            email: email
         }).then(response => {
-            return response
+            return response.data
         }).catch(error => {
             return error
         });
-        
-    	history.push("/game/"+1, { from: "Lobby" })
+        if (result.Player_Id) {
+            joinGame({ gameId: gameId, playerId: result.Player_Id })
+        }
     }
 
     
     return (
         <div>
             <form className='join-container' onSubmit={handleSubmit}>
-                <div> 
-                    <label>
-                        {/* <Input attribute={{
-                            id: 'email',
-                            name: 'email',
-                            type: 'email',
-                            required: 'true',
-                            placeholder: 'Email'
-                        }}
-                            handleChange={handleChange}
-                        /> */}
-                    </label>
-                </div>
                 <div>
                     <label>
                         <Input attribute={{
@@ -72,4 +57,11 @@ const JoinForm = () => {
     )
 }
 
-export default JoinForm;
+const mapDispatchToProps = {
+    joinGame
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(JoinForm);
