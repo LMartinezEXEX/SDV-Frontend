@@ -56,12 +56,12 @@ const Routes = (props) => {
 }
    
 const mapStateToProps = (state) => {
-  return {
-    isAuth: state.authorization.isAuth,
-    type: state.authorization.type,
-    gameId: state.game.gameId,
-    init: state.game.init
-  };
+    return {
+        isAuth: state.user.isAuth,
+        type: state.user.type,
+        gameId: state.game.gameId,
+        init: state.game.init
+    };
 }
 
 export default connect(mapStateToProps)(Routes);

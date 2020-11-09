@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import authorization from "./authorization";
+import user from "./user";
 import game from "./game";
 
-export default combineReducers({ authorization, game });
+export default combineReducers({ user , game });
