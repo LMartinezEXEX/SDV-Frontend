@@ -20,7 +20,7 @@ const JoinForm = (props) => {
             console.log('game', game);
         }
         event.preventDefault();
-
+        
         const result = await axios.put('http://127.0.0.1:8000/game/join/' + gameId, {
             email: email
         }).then(response => {
@@ -57,11 +57,16 @@ const JoinForm = (props) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        email: state.user.email
+    };
+}
 const mapDispatchToProps = {
     joinGame
 }
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(JoinForm);

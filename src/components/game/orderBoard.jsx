@@ -3,10 +3,10 @@ import '../../assets/css/orderBoard.css';
 import proclamation from '../../assets/images/boards/o-proclamation.jpg'
 import orderLogo from '../../assets/images/boards/orderLogo.png'
 
-const OrderBoard = ({gameState}) =>{
+const OrderBoard = ({fenix_promulgations}) =>{
 
     const drawSlot = (slotId, spell) => {
-        if(gameState.fenix_promulgations >= slotId){
+        if(fenix_promulgations >= slotId){
             return (<img className="proclamation" src={proclamation} alt="proclamacion"/>);
         }else{
             if(spell === "WIN SLOT") {return <img className="logo" src={orderLogo} alt="Logo orden"/>}

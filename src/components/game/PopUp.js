@@ -8,9 +8,8 @@ const PopUp= (props) => {
     return (
         <div >
             <button className= "app-btn" id="gameButton"
-                onClick={() => { setIsOpen(true); gameUpdater()}}> {type} </button>
-            <Modal gameState={gameState} gameUpdater={gameUpdater}
-                open={isOpen} setIsOpen={setIsOpen} children={type}
+                onClick={() => {setIsOpen(true)}}> {type} </button>
+            <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
                 onClose={() => setIsOpen(false)}/>
         </div>
     )

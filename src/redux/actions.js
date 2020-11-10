@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER, UPDATE_GAME} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -46,7 +46,8 @@ export const joinGame = (content) => ({
 export const initGame = (content) => ({
     type: INIT_GAME,
     payload: {
-        init: content.init
+        init: content.init,
+        actualMinister: content.actualMinister
     }
 })
 
@@ -54,5 +55,23 @@ export const updateUsername = (content) => ({
     type: UPDATE_USERNAME,
     payload: {
       username: content.newUsername
+    }
+})
+
+export const updateMinister = (content) => ({
+    type: UPDATE_MINISTER,
+    payload: {
+        newMinister: content.newMinister
+    }
+})
+
+export const updateGameState = (content) => ({
+    type: UPDATE_GAME, 
+    payload: {
+        actualMinister: content.actualMinister,
+        actualDirector: content.actualDirector,
+        finished: content.finished,
+        fenix_promulgations: content.fenix_promulgations,
+        death_eater_promulgations: content.death_eater_promulgations,
     }
 })

@@ -1,4 +1,4 @@
-import { CREATE_GAME, INIT_GAME, JOIN_GAME } from "../actionsTypes";
+import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, MAKE_DEATH_PROCLAMATION} from "../actionsTypes";
 
 export const GAME = "game"
 
@@ -10,6 +10,11 @@ export const gameInitialState = {
     minPlayers: null,
     maxPlayers: null,
     init: false,
+    actualMinister: 0,
+    actualDirector: 0,
+    finished: false,
+    fenix_promulgations: null,
+    death_eater_promulgations: null,
 }
 
 export default function(state = gameInitialState, action) {
@@ -39,6 +44,22 @@ export default function(state = gameInitialState, action) {
             init: false            
           };
         }
+        case UPDATE_MINISTER: {
+            return {
+              ...state,
+              actualMinister: action.payload.newMinister
+            }
+          };
+        case UPDATE_GAME: {
+          return {
+            ...state, 
+            actualMinister: action.payload.actualMinister,
+            actualDirector: action.payload.actualDirector,
+            finished: action.payload.finished,
+            fenix_promulgations: action.payload.fenix_promulgations,
+            death_eater_promulgations: action.payload.death_eater_promulgations,
+          };
+        } 
         default:
           return state;
     }

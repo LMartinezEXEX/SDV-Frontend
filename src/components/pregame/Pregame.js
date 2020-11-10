@@ -28,7 +28,7 @@ const Pregame = (props) => {
                 alert("Not enough players: " + result.data.players)
             }
             */
-            initGame({ init: true })
+            initGame({ init: true})
         }  
         return (
             <div className='pre-game'>

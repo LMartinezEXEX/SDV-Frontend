@@ -5,56 +5,73 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import PopUp from './PopUp'
 import { useParams } from 'react-router-dom';
+import { updateMinister, updateGameState } from "../../redux/actions";
+import { connect } from 'react-redux';
+import useInterval from '../../useInterval'
 
-const Game= () => {
-    const [gameState, setgameState] = useState({
-        gameId: useParams().id,
-        finished: false,
-        fenix_promulgations: 0,
-        death_eater_promulgations: 0,
-        current_minister_id: 0,
-        current_director_id: 0
-    })
+const Game= (props) => {
+    const {actualMinister, gameId, actualDirector, finished,
+            fenix_promulgations, death_eater_promulgations, updateGameState} = props
 
     const getGameState = async() => {
-        await axios.get("http://127.0.0.1:8000/game/"+gameState.gameId+"/check_game", { 
+        await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
         method:'GET',
         headers: {
             'accept': 'application/json',
         }}).then(res => {
             var data = res.data
-            setgameState({
-                gameId: data["game id"],
+            // alert(JSON.stringify(data))
+            updateGameState({
+                actualMinister: data["current minister id"],
+                actualDirector: data["current director id"],
                 finished: data["finished"],
                 fenix_promulgations: data["fenix promulgations"],
-                death_eater_promulgations: data["death eater promulgations"],
-                current_minister_id: data["current minister id"],
-                current_director_id: data["current director id"]})
-        })
+                death_eater_promulgations: data["death eater promulgations"]})
+            })
     }
+
+    useInterval(async () => {
+        console.log("Checking...")
+        await getGameState()
+    }, 2000)
+
 
     return(
     <div className="gameView">
         <div className="gameBox">
             <div className="gameSection">
-                <MortifagoBoard gameState={gameState}/>
+                <MortifagoBoard 
+                    death_eater_promulgations= {death_eater_promulgations}/>
             </div>
             <div className="gameSection">
                 <div className="buttonSection">
-                    <div><PopUp gameState={gameState} gameUpdater={getGameState} 
-                        type="Cargos"/></div>
-                    <div><PopUp gameState={gameState} gameUpdater={getGameState} 
-                        type="Votar"/></div>
-                    <div><PopUp gameState={gameState} gameUpdater={getGameState}
-                        type="Cartas"/></div>
+                    <div><PopUp type="Cargos"/></div>
+                    <div><PopUp type="Votar"/></div>
+                    <div><PopUp type="Cartas"/></div>
                 </div>
             </div>
             <div className="gameSection">
-                <OrderBoard gameState={gameState}/>
+                <OrderBoard
+                    fenix_promulgations= {fenix_promulgations}/>
             </div>
         </div>
     </div>);
 }
 
-export default Game;
+const mapStateToProps = (state) => {
+    return {
+        actualMinister: state.game.actualMinister,
+        gameId: state.game.gameId,
+        actualDirector: state.game.actualDirector,
+        finished: state.game.finished,
+        fenix_promulgations: state.game.fenix_promulgations,
+        death_eater_promulgations: state.game.death_eater_promulgations,
+    };
+}
+
+const mapDispatchToProps = {
+    updateGameState
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
 
