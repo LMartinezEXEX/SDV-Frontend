@@ -9,22 +9,18 @@ const Cards = (props) => {
     const [cards, setCards] = useState([])
     const {gameId, playerId, actualMinister, setIsOpen} = props;
 
-    // const changeMinister = async () => {
-    //     await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/select_MM")
-    //     .then(res => {
-    //         gameUpdater()
-    //     })
-    // }
+    const changeMinister = async () => {
+        await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
+        .then(res => {
+        })
+    }
 
     const putProclamation = async (promulgationId) => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/promulgate", {
             "candidate_id": playerId,
             "to_promulgate": promulgationId
         }).then(res=>{
-            // if(gameState.death_eater_promulgations === 5 && promulgationId) {alert("GANARON LOS MORTIFAGOS")}
-            // else if( gameState.fenix_promulgations === 4 && !promulgationId) {alert("GANO LA ORDEN DEL FENIX")}
-            // gameUpdater()
-            // changeMinister()
+            changeMinister()
             setIsOpen(false)
         })
     }

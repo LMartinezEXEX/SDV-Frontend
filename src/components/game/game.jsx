@@ -8,10 +8,13 @@ import { useParams } from 'react-router-dom';
 import { updateMinister, updateGameState } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
+import Drawer from '@material-ui/core/Drawer';
+import SpellsList from './SpellsList'
 
 const Game= (props) => {
     const {actualMinister, gameId, actualDirector, finished,
             fenix_promulgations, death_eater_promulgations, updateGameState} = props
+    const [drawerState, setdrawerState] = useState(true)
 
     const getGameState = async() => {
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
@@ -20,7 +23,10 @@ const Game= (props) => {
             'accept': 'application/json',
         }}).then(res => {
             var data = res.data
-            // alert(JSON.stringify(data))
+            if(death_eater_promulgations === 6) 
+                {alert("GANARON LOS MORTIFAGOS")}
+            else if( fenix_promulgations === 5)
+                {alert("GANO LA ORDEN DEL FENIX")}
             updateGameState({
                 actualMinister: data["current minister id"],
                 actualDirector: data["current director id"],
@@ -28,6 +34,9 @@ const Game= (props) => {
                 fenix_promulgations: data["fenix promulgations"],
                 death_eater_promulgations: data["death eater promulgations"]})
             })
+        .catch(error =>{
+            alert(JSON.stringify(error.data))
+        } )
     }
 
     useInterval(async () => {
@@ -55,6 +64,10 @@ const Game= (props) => {
                     fenix_promulgations= {fenix_promulgations}/>
             </div>
         </div>
+        <Drawer className="Drawer" anchor='bottom' 
+            open={drawerState} onClose={()=>{setdrawerState(false)}}>
+                <SpellsList/>
+        </Drawer>
     </div>);
 }
 
