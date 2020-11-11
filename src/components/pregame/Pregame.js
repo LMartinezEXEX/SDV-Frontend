@@ -4,32 +4,52 @@ import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
 import "../../assets/css/pregame.css"
 import { initGame } from "../../redux/actions";
+import axios from 'axios';
+import useInterval from '../../useInterval'
 
 const Pregame = (props) => {
-    const { initGame, isCreator } = props
+    const { isCreator, gameId, playerId, initGame, joinGame } = props
+
+    const checkAndJoinGame = async () => {
+        const check_game_url_part_1 = "http://127.0.0.1:8000/game/"
+        const check_game_url_part_2 = "/initiated"
+        await axios(
+            check_game_url_part_1 + gameId + check_game_url_part_2
+        ).then(response => {
+            if (response.status === 200 && response.data.ok) {
+                initGame({init:true})
+            }
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
+    useInterval(async () => {
+        console.log("Checking...")
+        await checkAndJoinGame()
+    }, 2000)
 
     if (isCreator) {
-        const callbackInitGame = () => {
+        const callbackInitGame = async () => {
             /* Debería haber un chequeo al server para ver el número de jugadores
-            Entonces debería traer el mínimo y máximo de jugadores de la partida
-            Algo como lo que sigue
+               Entonces debería traer el mínimo y máximo de jugadores de la partida
+               Algo como lo que sigue
             */
-            /*
-            checkplayers_url_part_1 = "http://127.0.0.1:8000/game/"
-            checkplayers_url_part_2 = "/players"
-            const result = axios(
-                checkplayers_url_part_1 + gameId + checkplayers_url_part_2, {
-                    method: "GET"
-                }
-            )
-            if (minPlayers <= result.data.players) {
-                initGame(true)
+            const init_game_url = "http://127.0.0.1:8000/game/init/"
+            const result = await axios.put(
+                init_game_url + gameId + "?" + playerId
+            ).then(response => {
+                return response.data
+            }).catch(error => {
+                return error.response.data
+            });
+
+            if (result.detail !== undefined) {
+                initGame({init:true})
             } else {
-                alert("Not enough players: " + result.data.players)
+                alert(result.detail)
             }
-            */
-            initGame({ init: true})
-        }  
+        }
         return (
             <div className='pre-game'>
                 <div className = 'window-style'>
@@ -63,7 +83,9 @@ const Pregame = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isCreator: state.game.isCreator
+        isCreator: state.game.isCreator,
+        gameId: state.game.gameId,
+        playerId: state.game.playerId
     };
 }
 
