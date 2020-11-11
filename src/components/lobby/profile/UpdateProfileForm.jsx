@@ -120,13 +120,17 @@ const UpdateProfileForm = (props) => {
                 setNewPasswordError(true)
             })
         }
-        if (newUsernameError || newPasswordError) {
+        if (newUsernameError) {
             const messageNewUsernameError = (newUsernameError ? "Username" : "")
-            const messageNewPasswordError = (newPasswordError ? "Password" : "")
             alert(
                 messageNewUsernameError + (newUsernameError ? ", " : "")
-                + messageNewPasswordError + (newPasswordError ? ", " : "")
                 + " couldn't be updated"
+            )
+        } else if (newPasswordError) {
+            const messageNewPasswordError = (newPasswordError ? "Password" : "")
+            alert
+            ( messageNewPasswordError + (newPasswordError ? ", " : "") 
+            + " couldn't be updated"
             )
         }
     }

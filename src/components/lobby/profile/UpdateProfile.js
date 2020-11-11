@@ -12,15 +12,18 @@ const UpdateProfile = (props) => {
     const callbackUpdateUsername = (success = false, newUsername) => {
       if (success) {
         console.log("Update username: success")
+        alert('Username actualizado con éxito')
         updateUsername({ newUsername: newUsername })
       } else {
         console.log("Update username: failed")
+        alert('Error al actualizar el username')
       }
     }
 
     const callbackUpdatePassword = (success = false) => {
       if (success) {
         console.log("Update password: success")
+        alert('Contraseña actualizada con éxito')
       } else {
         console.log("Update password: failed")
       }
