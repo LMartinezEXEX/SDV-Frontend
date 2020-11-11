@@ -12,11 +12,11 @@ const Pregame = (props) => {
 
     const checkAndJoinGame = async () => {
         const check_game_url_part_1 = "http://127.0.0.1:8000/game/initialized/"
-        // const check_game_url_part_2 = "/initialized"
         await axios(
             check_game_url_part_1 + gameId + '?player_id=' +playerId
         ).then(response => {
-            if (response.status === 200 && response.data.ok) {
+            if (response.status === 200 
+                && response.data.game_state === 1) {
                 initGame({init:true})
             }
         }).catch(error => {
