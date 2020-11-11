@@ -11,10 +11,10 @@ const Pregame = (props) => {
     const { isCreator, gameId, playerId, initGame, joinGame } = props
 
     const checkAndJoinGame = async () => {
-        const check_game_url_part_1 = "http://127.0.0.1:8000/game/"
-        const check_game_url_part_2 = "/initiated"
+        const check_game_url_part_1 = "http://127.0.0.1:8000/game/initialized/"
+        // const check_game_url_part_2 = "/initialized"
         await axios(
-            check_game_url_part_1 + gameId + check_game_url_part_2
+            check_game_url_part_1 + gameId + '?player_id=' +playerId
         ).then(response => {
             if (response.status === 200 && response.data.ok) {
                 initGame({init:true})
@@ -37,18 +37,14 @@ const Pregame = (props) => {
             */
             const init_game_url = "http://127.0.0.1:8000/game/init/"
             const result = await axios.put(
-                init_game_url + gameId + "?" + playerId
+                init_game_url + gameId + "?player_id=" + playerId
             ).then(response => {
+                initGame({init:true})
                 return response.data
             }).catch(error => {
-                return error.response.data
+                console.log(error)
+                return error
             });
-
-            if (result.detail !== undefined) {
-                initGame({init:true})
-            } else {
-                alert(result.detail)
-            }
         }
         return (
             <div className='pre-game'>
