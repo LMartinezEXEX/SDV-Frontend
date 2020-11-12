@@ -13,8 +13,9 @@ import SpellsList from './SpellsList'
 
 const Game= (props) => {
     const {actualMinister, gameId, actualDirector, finished,
-            fenix_promulgations, death_eater_promulgations, updateGameState} = props
-    const [drawerState, setdrawerState] = useState(true)
+            fenix_promulgations, death_eater_promulgations, updateGameState,
+            playerId} = props
+    const [drawerState, setdrawerState] = useState(false)
 
     const getGameState = async() => {
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
@@ -39,9 +40,20 @@ const Game= (props) => {
         } )
     }
 
+    const spellsAvaliable = async() => {
+        const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
+        await axios.get(spellsAvaliable_url + gameId + '/spell'
+        ).then(res => {
+            if(res.data.Spell != "" && playerId === actualMinister){
+                setdrawerState(true)
+            }
+        })
+    }
+ 
     useInterval(async () => {
         console.log("Checking...")
         await getGameState()
+        await spellsAvaliable()
     }, 2000)
 
 
@@ -74,6 +86,7 @@ const Game= (props) => {
 const mapStateToProps = (state) => {
     return {
         actualMinister: state.game.actualMinister,
+        playerId:state.game.playerId,
         gameId: state.game.gameId,
         actualDirector: state.game.actualDirector,
         finished: state.game.finished,

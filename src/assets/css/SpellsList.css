@@ -19,3 +19,19 @@
     border: none;
     inline-size: min-content;
 }
+
+.cardsList {
+    display: flex;
+    height: 435px;
+    background-color: rgb(46, 43, 43);
+}
+
+.cardsList li {
+    margin: 10px;
+    width:175px;
+    height:65px;
+    margin:20px auto;
+    border-radius:10px;
+    text-align: center;
+    line-height: 65px; 
+}
