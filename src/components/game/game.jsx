@@ -4,8 +4,7 @@ import '../../assets/css/game.css'
 import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import PopUp from './PopUp'
-import { useParams } from 'react-router-dom';
-import { updateMinister, updateGameState, enableSpell} from "../../redux/actions";
+import { updateGameState, enableSpell} from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
@@ -54,8 +53,8 @@ const Game= (props) => {
  
     useInterval(async () => {
         console.log("Checking...")
-        await getGameState()
         await spellsAvaliable()
+        await getGameState()
     }, 2000)
 
 
@@ -80,7 +79,7 @@ const Game= (props) => {
         </div>
         <Drawer className="Drawer" anchor='bottom' 
             open={enabledSpell} onClose={()=>{enableSpell({enabledSpell:false}); changeMinister()}}>
-                <SpellsList/>
+                <SpellsList spell={spell}/>
         </Drawer>
     </div>);
 }

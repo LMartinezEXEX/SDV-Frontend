@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import {connect} from 'react-redux'
+import useInterval from '../../../useInterval';
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -33,7 +34,7 @@ const Guessing = (props) => {
     const classes = useStyles();
 
     return (
-        <button disabled={(spell != "Guessing")} 
+        <button 
                 className="SpellButton" onClick={useGuessing}>
             <Avatar className={classes.large}>A</Avatar>
             <h4>Adivinacion</h4>          
