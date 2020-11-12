@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER, UPDATE_GAME} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -73,5 +73,13 @@ export const updateGameState = (content) => ({
         finished: content.finished,
         fenix_promulgations: content.fenix_promulgations,
         death_eater_promulgations: content.death_eater_promulgations,
+    }
+})
+
+export const enableSpell = (content) => ({
+    type: ENABLE_SPELL,
+    payload: {
+        enabledSpell: content.enabledSpell,
+        spell: content.spell
     }
 })

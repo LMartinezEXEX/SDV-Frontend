@@ -1,4 +1,4 @@
-import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, MAKE_DEATH_PROCLAMATION} from "../actionsTypes";
+import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, ENABLE_SPELL} from "../actionsTypes";
 
 export const GAME = "game"
 
@@ -15,6 +15,8 @@ export const gameInitialState = {
     finished: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
+    enabledSpell: false,   
+    spellToUse: ""
 }
 
 export default function(state = gameInitialState, action) {
@@ -59,6 +61,13 @@ export default function(state = gameInitialState, action) {
             fenix_promulgations: action.payload.fenix_promulgations,
             death_eater_promulgations: action.payload.death_eater_promulgations,
           };
+        }
+        case ENABLE_SPELL: {
+          return {
+            ...state,
+            enabledSpell: action.payload.enabledSpell,
+            spell: action.payload.spell
+          }
         } 
         default:
           return state;

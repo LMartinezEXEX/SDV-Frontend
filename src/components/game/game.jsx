@@ -5,7 +5,7 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import PopUp from './PopUp'
 import { useParams } from 'react-router-dom';
-import { updateMinister, updateGameState } from "../../redux/actions";
+import { updateMinister, updateGameState, enableSpell} from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
@@ -14,9 +14,14 @@ import SpellsList from './SpellsList'
 const Game= (props) => {
     const {actualMinister, gameId, actualDirector, finished,
             fenix_promulgations, death_eater_promulgations, updateGameState,
-            playerId} = props
-    const [drawerState, setdrawerState] = useState(false)
-
+            playerId, enabledSpell, enableSpell,spell} = props
+    
+    const changeMinister = async () => {
+        await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
+        .then(res => {
+        })
+    }
+    
     const getGameState = async() => {
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
         method:'GET',
@@ -35,9 +40,6 @@ const Game= (props) => {
                 fenix_promulgations: data["fenix promulgations"],
                 death_eater_promulgations: data["death eater promulgations"]})
             })
-        .catch(error =>{
-            alert(JSON.stringify(error.data))
-        } )
     }
 
     const spellsAvaliable = async() => {
@@ -45,7 +47,7 @@ const Game= (props) => {
         await axios.get(spellsAvaliable_url + gameId + '/spell'
         ).then(res => {
             if(res.data.Spell != "" && playerId === actualMinister){
-                setdrawerState(true)
+                enableSpell({enabledSpell:true, spell:res.data.Spell})
             }
         })
     }
@@ -77,7 +79,7 @@ const Game= (props) => {
             </div>
         </div>
         <Drawer className="Drawer" anchor='bottom' 
-            open={drawerState} onClose={()=>{setdrawerState(false)}}>
+            open={enabledSpell} onClose={()=>{enableSpell({enabledSpell:false}); changeMinister()}}>
                 <SpellsList/>
         </Drawer>
     </div>);
@@ -92,11 +94,14 @@ const mapStateToProps = (state) => {
         finished: state.game.finished,
         fenix_promulgations: state.game.fenix_promulgations,
         death_eater_promulgations: state.game.death_eater_promulgations,
+        enabledSpell: state.game.enabledSpell,
+        spell: state.game.spell
     };
 }
 
 const mapDispatchToProps = {
-    updateGameState
+    updateGameState,
+    enableSpell
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

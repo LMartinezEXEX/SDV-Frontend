@@ -4,13 +4,10 @@ import Crucio from './spells/Crucio'
 import AvadaKedavra from './spells/AvadaK'
 import '../../assets/css/SpellsList.css'
 import CardsDisplayer from './CardsDisplayer'
-import cards from './cards'
 
 const SpellsList = () => {
-    const [showCards, setshowCards] = useState(true)
-    const [Cards, setCards] = useState([1,1,0])
-
-
+    const [showCards, setshowCards] = useState(false)
+    const [Cards, setCards] = useState([])
 
     return (
         <div>
