@@ -13,7 +13,7 @@ import SpellsList from './SpellsList'
 const Game= (props) => {
     const {actualMinister, gameId, actualDirector, finished,
             fenix_promulgations, death_eater_promulgations, updateGameState,
-            playerId, enabledSpell, enableSpell,spell} = props
+            playerId, enabledSpell, enableSpell,spell, amountPlayers} = props
     
     const changeMinister = async () => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
@@ -63,6 +63,7 @@ const Game= (props) => {
         <div className="gameBox">
             <div className="gameSection">
                 <MortifagoBoard 
+                    amountPlayers={amountPlayers}
                     death_eater_promulgations= {death_eater_promulgations}/>
             </div>
             <div className="gameSection">
@@ -94,7 +95,8 @@ const mapStateToProps = (state) => {
         fenix_promulgations: state.game.fenix_promulgations,
         death_eater_promulgations: state.game.death_eater_promulgations,
         enabledSpell: state.game.enabledSpell,
-        spell: state.game.spell
+        spell: state.game.spell,
+        amountPlayers: state.game.amountPlayers
     };
 }
 

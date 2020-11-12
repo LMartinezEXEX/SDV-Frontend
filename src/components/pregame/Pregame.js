@@ -8,7 +8,7 @@ import axios from 'axios';
 import useInterval from '../../useInterval'
 
 const Pregame = (props) => {
-    const { isCreator, gameId, playerId, initGame, joinGame } = props
+    const { isCreator, gameId, playerId, initGame} = props
 
     const checkAndJoinGame = async () => {
         const check_game_url_part_1 = "http://127.0.0.1:8000/game/initialized/"
@@ -17,7 +17,7 @@ const Pregame = (props) => {
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
-                initGame({init:true})
+                initGame({init:true, amountPlayers:response.data.amount_of_players})
             }
         }).catch(error => {
             console.log(error)
@@ -39,7 +39,7 @@ const Pregame = (props) => {
             const result = await axios.put(
                 init_game_url + gameId + "?player_id=" + playerId
             ).then(response => {
-                initGame({init:true})
+                initGame({init:true, amountPlayers:response.data.amount_of_players})
                 return response.data
             }).catch(error => {
                 console.log(error)

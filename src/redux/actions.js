@@ -47,7 +47,8 @@ export const initGame = (content) => ({
     type: INIT_GAME,
     payload: {
         init: content.init,
-        actualMinister: content.actualMinister
+        actualMinister: content.actualMinister,
+        amountPlayers: content.amountPlayers
     }
 })
 

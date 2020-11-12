@@ -9,6 +9,7 @@ export const gameInitialState = {
     playerId: null,
     minPlayers: null,
     maxPlayers: null,
+    amountPlayers: null,
     init: false,
     actualMinister: 0,
     actualDirector: 0,
@@ -34,7 +35,8 @@ export default function(state = gameInitialState, action) {
         case INIT_GAME: {
           return {
             ...state,
-            init: true
+            init: true,
+            amountPlayers: action.payload.amountPlayers
           };
         }
         case JOIN_GAME: {
