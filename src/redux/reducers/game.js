@@ -13,6 +13,7 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
+    playerRole: "",
     finished: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
@@ -36,7 +37,8 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             init: true,
-            amountPlayers: action.payload.amountPlayers
+            amountPlayers: action.payload.amountPlayers,
+            playerRole: action.payload.playerRole
           };
         }
         case JOIN_GAME: {
