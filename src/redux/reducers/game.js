@@ -1,4 +1,5 @@
-import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, UPDATE_DIR_CANDIDATE} from "../actionsTypes";
+import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME,
+     JOIN_GAME , UPDATE_GAME, ENABLE_SPELL,GET_PLAYERS_INFO} from "../actionsTypes";
 
 export const GAME = "game"
 
@@ -13,13 +14,12 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
-    dirCandidateInTurn: 0,
-    playerRole: "",
     finished: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
     enabledSpell: false,   
-    spellToUse: ""
+    spellToUse: "",
+    playersInfo: []
 }
 
 export default function(state = gameInitialState, action) {
@@ -38,8 +38,7 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             init: true,
-            amountPlayers: action.payload.amountPlayers,
-            playerRole: action.payload.playerRole
+            amountPlayers: action.payload.amountPlayers
           };
         }
         case JOIN_GAME: {
@@ -74,10 +73,10 @@ export default function(state = gameInitialState, action) {
             spell: action.payload.spell
           }
         }
-        case UPDATE_DIR_CANDIDATE: {
+        case GET_PLAYERS_INFO: {
           return {
             ...state,
-            dirCandidateInTurn: action.payload.dirCandidateInTurn
+            playersInfo: action.payload.playersInfo
           }
         }
         default:

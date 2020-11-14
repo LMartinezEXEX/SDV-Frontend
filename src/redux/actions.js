@@ -1,4 +1,6 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL, UPDATE_DIR_CANDIDATE} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
+        INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
+        UPDATE_DIR_CANDIDATE, GET_PLAYERS_INFO} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -90,5 +92,12 @@ export const updateDirCandidate = (content) => ({
     type: UPDATE_DIR_CANDIDATE,
     payload: {
       dirCandidateInTurn: content.dirCandidateInTurn
+    }
+})
+
+export const getPlayersInfo = (content) => ({
+    type: GET_PLAYERS_INFO,
+    payload: {
+        playersInfo: content.playersInfo
     }
 })
