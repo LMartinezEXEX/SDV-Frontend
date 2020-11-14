@@ -13,5 +13,5 @@ export const UPDATE_MINISTER = "updateMinister";
 export const UPDATE_GAME = "UpdateGame"
 export const MAKE_DEATH_PROCLAMATION= "MakeDeathProclamation"
 export const ENABLE_SPELL = "EnableSpell"
-
+export const GET_PLAYERS_INFO = "GetPlayersInfo" 
 

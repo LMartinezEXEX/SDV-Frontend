@@ -4,17 +4,28 @@ import '../../assets/css/game.css'
 import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import PopUp from './PopUp'
-import { updateGameState, enableSpell} from "../../redux/actions";
+import { updateGameState, enableSpell, getPlayersInfo} from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
 
 const Game= (props) => {
-    const {actualMinister, gameId, actualDirector, finished,
-            fenix_promulgations, death_eater_promulgations, updateGameState,
-            playerId, enabledSpell, enableSpell,spell, amountPlayers} = props
+    const {actualMinister, gameId, fenix_promulgations, death_eater_promulgations,
+        updateGameState,playerId, enabledSpell, enableSpell,spell, amountPlayers,
+        getPlayersInfo, playersInfo} = props
     
+    const updatePlayers = async() =>{
+        await axios.get("http://127.0.0.1:8000/game/"+gameId+"/players_info")
+            .then(res=>{
+                getPlayersInfo({playersInfo:res.data["Players info"]})
+            })
+    }
+    
+    if (playersInfo.length === 0){
+        updatePlayers()
+    }
+
     const changeMinister = async () => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
         .then(res => {
@@ -96,13 +107,15 @@ const mapStateToProps = (state) => {
         death_eater_promulgations: state.game.death_eater_promulgations,
         enabledSpell: state.game.enabledSpell,
         spell: state.game.spell,
-        amountPlayers: state.game.amountPlayers
+        amountPlayers: state.game.amountPlayers,
+        playersInfo: state.game.playersInfo
     };
 }
 
 const mapDispatchToProps = {
     updateGameState,
-    enableSpell
+    enableSpell,
+    getPlayersInfo
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
