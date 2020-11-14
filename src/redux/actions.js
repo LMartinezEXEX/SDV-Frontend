@@ -1,6 +1,6 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME,
-    CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER,
-    UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
+        INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
+        UPDATE_DIR_CANDIDATE, GET_PLAYERS_INFO} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -50,7 +50,8 @@ export const initGame = (content) => ({
     payload: {
         init: content.init,
         actualMinister: content.actualMinister,
-        amountPlayers: content.amountPlayers
+        amountPlayers: content.amountPlayers,
+        playerRole: content.playerRole
     }
 })
 
@@ -84,6 +85,13 @@ export const enableSpell = (content) => ({
     payload: {
         enabledSpell: content.enabledSpell,
         spell: content.spell
+    }
+})
+
+export const updateDirCandidate = (content) => ({
+    type: UPDATE_DIR_CANDIDATE,
+    payload: {
+      dirCandidateInTurn: content.dirCandidateInTurn
     }
 })
 

@@ -79,7 +79,6 @@ export default function(state = gameInitialState, action) {
             playersInfo: action.payload.playersInfo
           }
         }
-
         default:
           return state;
     }

@@ -33,7 +33,7 @@ const Votation = (props) => {
         setVote(decition)
         axios.put('http://127.0.0.1:8000/game/'+gameId+'/vote', {
             id: playerId,
-            vote: vote
+            vote: decition
         })
     } 
 

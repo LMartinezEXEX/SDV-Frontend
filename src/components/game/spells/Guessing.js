@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import {connect} from 'react-redux'
-import useInterval from '../../../useInterval';
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -15,8 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Guessing = (props) => {
-    const {gameId, actualMinister, setCards, setshowCards,
-            spell, enabledSpell} = props
+    const {gameId, actualMinister, setCards, setshowCards} = props
 
     const useGuessing = async() => {
         const useSpell_url_part1 = "http://127.0.0.1:8000/game/"
