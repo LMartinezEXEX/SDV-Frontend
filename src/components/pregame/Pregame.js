@@ -17,7 +17,11 @@ const Pregame = (props) => {
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
-                initGame({init:true, amountPlayers:response.data.amount_of_players})
+                initGame(
+                    {init:true, 
+                    amountPlayers:response.data.amount_of_players,
+                    playerRole:response.data.rol}
+                )
             }
         }).catch(error => {
             console.log(error)
@@ -39,7 +43,11 @@ const Pregame = (props) => {
             const result = await axios.put(
                 init_game_url + gameId + "?player_id=" + playerId
             ).then(response => {
-                initGame({init:true, amountPlayers:response.data.amount_of_players})
+                initGame(
+                    {init:true, 
+                    amountPlayers:response.data.amount_of_players,
+                    playerRole:response.data.rol}
+                )
                 return response.data
             }).catch(error => {
                 console.log(error)

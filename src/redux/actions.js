@@ -48,7 +48,8 @@ export const initGame = (content) => ({
     payload: {
         init: content.init,
         actualMinister: content.actualMinister,
-        amountPlayers: content.amountPlayers
+        amountPlayers: content.amountPlayers,
+        playerRole: content.playerRole
     }
 })
 
