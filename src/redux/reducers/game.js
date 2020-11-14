@@ -1,4 +1,4 @@
-import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, ENABLE_SPELL} from "../actionsTypes";
+import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME, JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, UPDATE_DIR_CANDIDATE} from "../actionsTypes";
 
 export const GAME = "game"
 
@@ -13,6 +13,7 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
+    dirCandidateInTurn: 0,
     playerRole: "",
     finished: false,
     fenix_promulgations: null,
@@ -72,7 +73,13 @@ export default function(state = gameInitialState, action) {
             enabledSpell: action.payload.enabledSpell,
             spell: action.payload.spell
           }
-        } 
+        }
+        case UPDATE_DIR_CANDIDATE: {
+          return {
+            ...state,
+            dirCandidateInTurn: action.payload.dirCandidateInTurn
+          }
+        }
         default:
           return state;
     }

@@ -5,16 +5,21 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { updateGameState, enableSpell} from "../../redux/actions";
+import { updateGameState, enableSpell, updateDirCandidate } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
+import Modal from '../Modal'
+import { useState} from 'react'
 
 const Game= (props) => {
+    const [candidates, setCandidates] = useState([])
+    const [isOpen, setIsOpen] = useState(false)
     const {actualMinister, gameId, actualDirector, finished,
             fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell,spell, amountPlayers, playerRole} = props
+
     
     const changeMinister = async () => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
@@ -40,7 +45,8 @@ const Game= (props) => {
                 fenix_promulgations: data["fenix promulgations"],
                 death_eater_promulgations: data["death eater promulgations"]})
             })
-    }
+                updateDirCandidate({dirCandidateInTurn: actualMinister})
+            }
 
     const spellsAvaliable = async() => {
         const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
@@ -59,6 +65,19 @@ const Game= (props) => {
     }, 2000)
 
 
+    const getDirectorCandidates = async() => {
+        await axios.get("http://127.0.0.1:8000/game/"+gameId+
+        "/director_candidates", { 
+        method:'GET',
+        headers: {
+            'accept': 'application/json',
+        }}).then(res => {
+                var data = res.data
+                setCandidates(data["director candidates"])
+            })
+    }
+
+
     return(
         <div>
             <Envelope playerRole={playerRole}/>
@@ -74,6 +93,21 @@ const Game= (props) => {
                             <div><PopUp type="Cargos"/></div>
                             <div><PopUp type="Votar"/></div>
                             <div><PopUp type="Cartas"/></div>
+                            <div >
+                                <button
+                                    className= "app-btn" id="gameButton"
+                                    disabled={playerId!==actualMinister ||
+                                    actualMinister!==actualDirector} onClick={() =>
+                                    {setIsOpen(true); getDirectorCandidates()}}
+                                >
+                                    Director
+                                </button>
+                                <Modal
+                                    open={isOpen} setIsOpen={setIsOpen}
+                                    children={"Director"} candidates={candidates}
+                                    onClose={() => setIsOpen(false)}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="gameSection">
