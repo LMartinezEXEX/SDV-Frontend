@@ -1,6 +1,8 @@
 import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
-        UPDATE_DIR_CANDIDATE, GET_PLAYERS_INFO} from './actionsTypes';
+        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+        GET_CANDIDATES
+} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -88,16 +90,31 @@ export const enableSpell = (content) => ({
     }
 })
 
-export const updateDirCandidate = (content) => ({
-    type: UPDATE_DIR_CANDIDATE,
-    payload: {
-      dirCandidateInTurn: content.dirCandidateInTurn
-    }
-})
-
 export const getPlayersInfo = (content) => ({
     type: GET_PLAYERS_INFO,
     payload: {
         playersInfo: content.playersInfo
+    }
+})
+
+export const getDirectorCandidates = (content) => ({
+    type: GET_DIRECTOR_CANDIDATES,
+    payload: {
+        directorCandidates: content.directorCandidates
+    }
+})
+
+export const voteCurrentTurn = (content) => ({
+    type: DID_VOTE_CURRENT_TURN,
+    payload: {
+        didVoteCurrentTurn: content.didVoteCurrentTurn
+    }
+})
+
+export const getCandidates = (content) => ({
+    type: GET_CANDIDATES,
+    payload: {
+        candidateMinister: content.candidateMinister,
+        candidateDirector: content.candidateDirector
     }
 })
