@@ -5,7 +5,7 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates } from "../../redux/actions";
+import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
@@ -15,7 +15,8 @@ import { useState } from 'react'
 
 const Game = (props) => {
     const [isOpen, setIsOpen] = useState(false)
-    const {actualMinister, gameId, actualDirector, finished, getDirectorCandidates, directorCandidates, didVoteCurrentTurn,
+    const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
+            finished, getDirectorCandidates, directorCandidates, didVoteCurrentTurn, getCandidates,
             fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
             playersInfo, getPlayersInfo } = props
@@ -30,6 +31,37 @@ const Game = (props) => {
     
     if (playersInfo.length === 0){
         updatePlayers()
+    }
+
+    const handleDirectorCandidates = async () => {
+        setIsOpen(true)
+        if (directorCandidates.length === 0) {
+            await axios.get(
+                "http://127.0.0.1:8000/game/" + gameId + "/director_candidates"
+            ).then(response => {
+                if (response.status === 200) {
+                    getDirectorCandidates({ directorCandidates: response.data["director candidates"] })
+                }
+            }).catch(error => {
+                if (error.response != undefined && error.response.data != undefined) {
+                    console.log(error.response.data)
+                }
+            })
+        }
+    }
+
+    const handleCheckCandidates = async () => {
+        await axios(
+            "http://127.0.0.1:8000/game/" + gameId + "/get_candidates"
+        ).then(response => {
+            if (response.status === 200) {
+                getCandidates({ candidateMinister: response.data.minister_id, candidateDirector: response.data.director_id })
+            }
+        }).catch(error => {
+            if (error.response != undefined && error.response.data != undefined) {
+                console.log(JSON.stringify(error.response.data))
+            }
+        })
     }
 
     const changeMinister = async () => {
@@ -67,29 +99,12 @@ const Game = (props) => {
             }
         })
     }
- 
+
     useInterval(async () => {
         console.log("Checking...")
         await spellsAvaliable()
         await getGameState()
     }, 2000)
-
-    const handleDirectorCandidates = async () => {
-        setIsOpen(true)
-        if (directorCandidates.length === 0) {
-            await axios.get(
-                "http://127.0.0.1:8000/game/" + gameId + "/director_candidates"
-            ).then(response => {
-                if (response.status === 200) {
-                    getDirectorCandidates({ directorCandidates: response.data["director candidates"] })
-                }
-            }).catch(error => {
-                if (error.response != undefined && error.response.data != undefined) {
-                    console.log(error.response.data)
-                }
-            })
-        }
-    }
 
     return(
         <div>
@@ -103,10 +118,10 @@ const Game = (props) => {
                     </div>
                     <div className="gameSection">
                         <div className="buttonSection">
-                            <div><PopUp type="Cargos" enableButton={true} /></div>
-                            <div><PopUp type="Votar" enableButton={!didVoteCurrentTurn} /></div>
-                            <div><PopUp type="Cartas" enableButton={true} /></div>
-                            {(playerId === actualMinister && actualMinister == actualDirector)
+                            <div><PopUp type="Cargos" enableButton={true} handleState={undefined} /></div>
+                            <div><PopUp type="Votar"  enableButton={!didVoteCurrentTurn} handleState={() => handleCheckCandidates()} /></div>
+                            <div><PopUp type="Cartas" enableButton={true} handleState={undefined} /></div>
+                            {(playerId === actualMinister && candidateMinister === candidateDirector)
                             ?(
                                 <div >
                                 <button
@@ -140,11 +155,13 @@ const Game = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        actualMinister: state.game.actualMinister,
-        playerId:state.game.playerId,
-        playerRole: state.game.playerRole,
         gameId: state.game.gameId,
+        playerId:state.game.playerId,
+        actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector,
+        candidateMinister: state.game.candidateMinister,
+        candidateDirector: state.game.candidateDirector,
+        playerRole: state.game.playerRole,
         finished: state.game.finished,
         directorCandidates: state.game.directorCandidates,
         didVoteCurrentTurn: state.game.didVoteCurrentTurn,
@@ -161,7 +178,8 @@ const mapDispatchToProps = {
     updateGameState,
     enableSpell,
     getPlayersInfo,
-    getDirectorCandidates
+    getDirectorCandidates,
+    getCandidates
 };
 
 export default connect(

@@ -5,7 +5,7 @@ import axios from 'axios'
 import { voteCurrentTurn } from "../../redux/actions"
 
 const Votation = (props) => {
-    const { gameId, playerId, voteCurrentTurn } = props
+    const { gameId, playerId, actualMinister, candidateMinister, candidateDirector, voteCurrentTurn } = props
 
     const uploadVote = async (vote) => {
         await axios.put(
@@ -20,28 +20,45 @@ const Votation = (props) => {
                 voteCurrentTurn({ didVoteCurrentTurn: true })
             }
         }).catch(error => {
-            if (error.response && error.response.data) {
+            if (error.response != undefined && error.response.data != undefined) {
                 console.log(JSON.stringify(error.response.data))
             }
         })
-    } 
+    }
 
-    return (
-        <div>
-            <button className="votationButton" onClick={() => {uploadVote(true)}}>
-                <i class="far fa-thumbs-up fa-3x"></i>
-            </button>
-            <button className="votationButton" onClick={() => {uploadVote(false)}}>
-                <i class="far fa-thumbs-down fa-3x"></i>
-            </button>
-        </div>
-    )
+    if (candidateMinister != candidateDirector) {
+        return (
+            <div>
+                <ul>
+                    <li>Candidato Ministro: {candidateMinister} </li>
+                    <li>Candidato Director: {candidateDirector} </li>
+                </ul>
+                <button className="votationButton" onClick={() => {uploadVote(true)}}>
+                    <i class="far fa-thumbs-up fa-3x"></i>
+                </button>
+                <button className="votationButton" onClick={() => {uploadVote(false)}}>
+                    <i class="far fa-thumbs-down fa-3x"></i>
+                </button>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <ul>
+                    <li>Candidato Ministro: {actualMinister} </li>
+                </ul>
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = (state) => {
     return {
+        gameId: state.game.gameId,
         playerId: state.game.playerId,
-        gameId: state.game.gameId
+        actualMinister: state.game.actualMinister,
+        candidateMinister: state.game.candidateMinister,
+        candidateDirector: state.game.candidateDirector
     };
 }
 
