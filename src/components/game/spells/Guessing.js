@@ -44,8 +44,6 @@ const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
-        enabledSpell: state.game.enabledSpell,
-        spell: state.game.enabledSpell 
     };
 }
 
