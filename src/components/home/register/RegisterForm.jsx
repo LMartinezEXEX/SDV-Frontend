@@ -115,14 +115,14 @@ const RegisterForm = () => {
 
                     </label>
                 </div>
-                <div>
-                    Avatar: {avatars[avatar]}
-                </div>
+                {/*<div>
+                   Avatar: {avatars[avatar]}
+                </div>*/}
 
                 <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!" />
            
             </form>
-
+            {/*
             <div>
                 <button className="harry" onClick={() => setAvatar(0)} />
                 <button className="ron" onClick={() => setAvatar(1)} />
@@ -135,7 +135,7 @@ const RegisterForm = () => {
                 <button className="umbridge" onClick={() => setAvatar(6)} />
                 <button className="voldemort" onClick={() => setAvatar(7)} />
             </div>
-
+            */}
         </div>
     )
 }

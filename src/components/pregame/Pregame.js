@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
@@ -8,16 +8,26 @@ import axios from 'axios';
 import useInterval from '../../useInterval'
 
 const Pregame = (props) => {
-    const { isCreator, gameId, playerId, initGame, joinGame } = props
+    const { isCreator, gameId, playerId, initGame} = props
+    const [playersPregame, setPlayersPregame] = useState([])
 
+    // Jugadores que no son creadores
     const checkAndJoinGame = async () => {
-        const check_game_url_part_1 = "http://127.0.0.1:8000/game/initialized/"
+        const check_game_url = "http://127.0.0.1:8000/game/initialized/"
         await axios(
-            check_game_url_part_1 + gameId + '?player_id=' +playerId
+            check_game_url + gameId + '?player_id=' + playerId
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
-                initGame({init:true})
+                initGame(
+                    {
+                        init:true, 
+                        amountPlayers:response.data.amount_of_players,
+                        playerRole:response.data.rol
+                    }
+                )
+            } else {
+                setPlayersPregame(response.data.users)
             }
         }).catch(error => {
             console.log(error)
@@ -36,25 +46,29 @@ const Pregame = (props) => {
                Algo como lo que sigue
             */
             const init_game_url = "http://127.0.0.1:8000/game/init/"
-            const result = await axios.put(
+            await axios.put(
                 init_game_url + gameId + "?player_id=" + playerId
             ).then(response => {
-                initGame({init:true})
-                return response.data
+                initGame(
+                    {
+                        init: true, 
+                        amountPlayers: response.data.amount_of_players,
+                        playerRole: response.data.rol
+                    }
+                )
             }).catch(error => {
                 console.log(error)
-                return error
             });
         }
         return (
             <div className='pre-game'>
                 <div className = 'window-style'>
                     <ul className="players-list">
-                        <li> Harry54 </li>
-                        <li> Hermione21 </li>
-                        <li> Hagrid666 </li>
-                        <li> Draco55 </li>
-                        <li> Ron12 </li>
+                        {
+                            playersPregame.map(player => {
+                                return <li key={player.username}> {player.username} </li>
+                            })
+                        }
                     </ul>
                 </div>
                 <StartGame callbackSubmit={callbackInitGame} />
@@ -65,11 +79,11 @@ const Pregame = (props) => {
             <div className='pre-game'>
                 <div className = 'window-style'>
                     <ul className="players-list">
-                        <li> Harry54 </li>
-                        <li> Hermione21 </li>
-                        <li> Hagrid666 </li>
-                        <li> Draco55 </li>
-                        <li> Ron12 </li>
+                        {
+                            playersPregame.map(player => {
+                                return <li key={player.username} > {player.username} </li>
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -89,4 +103,7 @@ const mapDispatchToProps = {
     initGame
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pregame);    
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Pregame);

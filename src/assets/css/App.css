@@ -21,6 +21,11 @@ html {
 	/* Do not repeat the image */
 	background-size: cover;
 	background-position: center;
+	overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 h1 {
@@ -68,4 +73,23 @@ h4 {
 	letter-spacing: 2px;
 	text-align: center;
 	margin-top: 20px;
+}
+
+.envelope {
+	position: absolute;
+	left: 4rem;
+	cursor: pointer;
+}
+
+.envelope:hover{
+	opacity: 0.5;
+}
+
+.img-role{
+	display: block;
+    opacity: 1;
+    width: 80%;
+    margin: auto;
+	margin-top: 10px;
+	margin-bottom: 15px;
 }

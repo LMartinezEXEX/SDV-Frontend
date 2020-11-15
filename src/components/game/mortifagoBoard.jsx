@@ -4,7 +4,8 @@ import proclamation from '../../assets/images/boards/m-proclamation.jpg'
 //import snake from '../../assets/images/boards/snake.png'
 import mortifLogo from '../../assets/images/boards/mortifLogo.png'
 
-const MortifagoBoard = ({death_eater_promulgations}) => {
+const MortifagoBoard = (props) => {
+    const {amountPlayers, death_eater_promulgations} = props
 
     const drawSlot = (slotId, spell) => {
         if(death_eater_promulgations >= slotId){
@@ -15,6 +16,44 @@ const MortifagoBoard = ({death_eater_promulgations}) => {
         }   
     }
 
+    const selectBoards = () => {
+        if(amountPlayers<=6){
+            return(
+            <>
+                <div className= "m-card-slot">{drawSlot(1,"")}</div>
+                <div className= "m-card-slot">{drawSlot(2,"")}</div>
+                <div className= "m-card-slot">{drawSlot(3,"ADIVINACION")}</div>
+                <div className= "m-card-slot">{drawSlot(4,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(5,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(6,"WIN SLOT")}</div>
+            </>)
+        }
+        else if(amountPlayers<=8) {
+            return(
+                <>
+                <div className= "m-card-slot">{drawSlot(1,"")}</div>
+                <div className= "m-card-slot">{drawSlot(2,"CRUCIO")}</div>
+                <div className= "m-card-slot">{drawSlot(3,"IMPERIO")}</div>
+                <div className= "m-card-slot">{drawSlot(4,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(5,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(6,"WIN SLOT")}</div>
+            </>
+            )
+        }
+        else if(amountPlayers>8) {
+            return(
+                <>
+                <div className= "m-card-slot">{drawSlot(1,"CRUCIO")}</div>
+                <div className= "m-card-slot">{drawSlot(2,"CRUCIO")}</div>
+                <div className= "m-card-slot">{drawSlot(3,"IMPERIO")}</div>
+                <div className= "m-card-slot">{drawSlot(4,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(5,"AVADA KEDAVRA")} </div>
+                <div className= "m-card-slot">{drawSlot(6,"WIN SLOT")}</div>
+                </>
+            )
+        }
+    }
+
     return (
         <div className="mortifagoBoard">
             <div className="title">
@@ -23,12 +62,7 @@ const MortifagoBoard = ({death_eater_promulgations}) => {
                 <div></div>
             </div>
             <div className="mortifago-cards-slot">
-                <div className= "m-card-slot">{drawSlot(1,"")}</div>
-                <div className= "m-card-slot">{drawSlot(2,"")}</div>
-                <div className= "m-card-slot">{drawSlot(3,"ADIVINACION")}</div>
-                <div className= "m-card-slot">{drawSlot(4,"AVADA KEDAVRA")} </div>
-                <div className= "m-card-slot">{drawSlot(5,"AVADA KEDAVRA")} </div>
-                <div className= "m-card-slot">{drawSlot(6,"WIN SLOT")}</div>
+                {selectBoards()}
             </div>
         </div>
     );

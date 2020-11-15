@@ -13,5 +13,10 @@ export const UPDATE_MINISTER = "updateMinister";
 export const UPDATE_GAME = "UpdateGame"
 export const MAKE_DEATH_PROCLAMATION= "MakeDeathProclamation"
 export const ENABLE_SPELL = "EnableSpell"
-
-
+export const GET_PLAYERS_INFO = "GetPlayersInfo"
+export const GET_DIRECTOR_CANDIDATES = "GetDirectorCandidates"
+export const DID_VOTE_CURRENT_TURN = "DidVoteCurrentTurn"
+export const HAS_OPEN_TABLE_CURRENT_TURN = "hasOpenTableCurrentTurn"
+export const GET_CANDIDATES = "GetCandidates"
+export const GET_MINISTER_CARDS = "GetMinisterCards"
+export const GET_DIRECTOR_CARDS = "GetDirectorCards"

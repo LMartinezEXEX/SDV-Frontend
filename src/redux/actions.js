@@ -1,4 +1,9 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL} from './actionsTypes';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
+        INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
+        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+        HAS_OPEN_TABLE_CURRENT_TURN,
+        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
+} from './actionsTypes';
 
 export const register = (content) => ({
     type: REGISTER,
@@ -47,7 +52,9 @@ export const initGame = (content) => ({
     type: INIT_GAME,
     payload: {
         init: content.init,
-        actualMinister: content.actualMinister
+        actualMinister: content.actualMinister,
+        amountPlayers: content.amountPlayers,
+        playerRole: content.playerRole
     }
 })
 
@@ -73,6 +80,7 @@ export const updateGameState = (content) => ({
         finished: content.finished,
         fenix_promulgations: content.fenix_promulgations,
         death_eater_promulgations: content.death_eater_promulgations,
+        voteDoneCurrentTurn: content.voteDoneCurrentTurn
     }
 })
 
@@ -81,5 +89,55 @@ export const enableSpell = (content) => ({
     payload: {
         enabledSpell: content.enabledSpell,
         spell: content.spell
+    }
+})
+
+export const getPlayersInfo = (content) => ({
+    type: GET_PLAYERS_INFO,
+    payload: {
+        playersInfo: content.playersInfo
+    }
+})
+
+export const getDirectorCandidates = (content) => ({
+    type: GET_DIRECTOR_CANDIDATES,
+    payload: {
+        directorCandidates: content.directorCandidates
+    }
+})
+
+export const openTableCurrentTurn = (content) => ({
+    type: HAS_OPEN_TABLE_CURRENT_TURN,
+    payload: {
+        hasOpenTableCurrentTurn: content.hasOpenTableCurrentTurn
+    }
+})
+
+export const voteCurrentTurn = (content) => ({
+    type: DID_VOTE_CURRENT_TURN,
+    payload: {
+        didVoteCurrentTurn: content.didVoteCurrentTurn
+    }
+})
+
+export const getCandidates = (content) => ({
+    type: GET_CANDIDATES,
+    payload: {
+        candidateMinister: content.candidateMinister,
+        candidateDirector: content.candidateDirector
+    }
+})
+
+export const getMinisterCards = (content) => ({
+    type: GET_MINISTER_CARDS,
+    payload: {
+        cardsListMinister: content.cardsListMinister
+    }
+})
+
+export const getDirectorCards = (content) => ({
+    type: GET_DIRECTOR_CARDS,
+    payload: {
+        cardsListDirector: content.cardsListDirector
     }
 })

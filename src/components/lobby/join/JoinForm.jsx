@@ -1,26 +1,13 @@
-import React, { useState } from 'react'
-import Input from '../../Input'
+import React from 'react'
 import axios from 'axios';
 import { joinGame } from "../../../redux/actions";
 import { connect } from "react-redux";
 
 const JoinForm = (props) => {
-    const { email, joinGame }= props
-    const [gameId, setGameId] = useState(0);
+    const { email, joinGame, gameList } = props
+    
 
-    function handleChange(name, value) {
-        if (name === 'gameId') {
-            setGameId(value)
-        }
-    }
-
-    const handleSubmit = async (event) => {
-        let game = { gameId, email }
-        if (game) {
-            console.log('game', game);
-        }
-        event.preventDefault();
-        
+    const handleClick = async (gameId) => {        
         const result = await axios.put('http://127.0.0.1:8000/game/join/' + gameId, {
             email: email
         }).then(response => {
@@ -34,27 +21,24 @@ const JoinForm = (props) => {
     }
 
     
-    return (
-        <div>
-            <form className='join-container' onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        <Input attribute={{
-                            id: 'gameId',
-                            name: 'gameId',
-                            type: 'number',
-                            required: 'required',
-                            placeholder: 'ID de la partida'
-                        }}
-                            handleChange={handleChange}
-                        />
-                    </label>
-                </div>
-
-                <input type="submit"  name="createGame"  className="app-btn small-btn" value="Unirse" />
-            </form>
-        </div>
-    )
+    if (gameList.length === 0) {
+        return (
+            <div>
+                <li> NO HAY PARTIDAS ACCESIBLES </li>
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <ul>
+                    {gameList.map(game =>
+                        <li><button className="buttonTaker" onClick={() =>
+                        handleClick(game.id)}> {game.name} </button></li>
+                    )}
+                </ul>
+            </div>
+        )
+    }
 }
 
 const mapStateToProps = (state) => {
