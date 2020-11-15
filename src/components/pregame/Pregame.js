@@ -13,16 +13,18 @@ const Pregame = (props) => {
 
     // Jugadores que no son creadores
     const checkAndJoinGame = async () => {
-        const check_game_url_part_1 = "http://127.0.0.1:8000/game/initialized/"
+        const check_game_url = "http://127.0.0.1:8000/game/initialized/"
         await axios(
-            check_game_url_part_1 + gameId + '?player_id=' +playerId
+            check_game_url + gameId + '?player_id=' + playerId
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
                 initGame(
-                    {init:true, 
-                    amountPlayers:response.data.amount_of_players,
-                    playerRole:response.data.rol}
+                    {
+                        init:true, 
+                        amountPlayers:response.data.amount_of_players,
+                        playerRole:response.data.rol
+                    }
                 )
             } else {
                 setPlayersPregame(response.data.users)
