@@ -1,6 +1,7 @@
 import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
-        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN
+        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+        GET_CANDIDATES
 } from './actionsTypes';
 
 export const register = (content) => ({
@@ -107,5 +108,13 @@ export const voteCurrentTurn = (content) => ({
     type: DID_VOTE_CURRENT_TURN,
     payload: {
         didVoteCurrentTurn: content.didVoteCurrentTurn
+    }
+})
+
+export const getCandidates = (content) => ({
+    type: GET_CANDIDATES,
+    payload: {
+        candidateMinister: content.candidateMinister,
+        candidateDirector: content.candidateDirector
     }
 })

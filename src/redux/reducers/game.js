@@ -1,7 +1,8 @@
 import {
   CREATE_GAME, UPDATE_MINISTER, INIT_GAME,
   JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
-  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN
+  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+  GET_CANDIDATES
 } from "../actionsTypes";
 
 export const GAME = "game"
@@ -17,6 +18,8 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
+    candidateMinister: 0,
+    candidateDirector: 0,
     playerRole: "",
     finished: false,
     directorCandidates: [],
@@ -96,6 +99,13 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             didVoteCurrentTurn: action.payload.didVoteCurrentTurn
+          }
+        }
+        case GET_CANDIDATES: {
+          return {
+            ...state,
+            candidateMinister: action.payload.candidateMinister,
+            candidateDirector: action.payload.candidateDirector
           }
         }
         default:
