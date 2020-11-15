@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import Input from '../../Input'
+import React from 'react'
 import axios from 'axios';
 import { joinGame } from "../../../redux/actions";
 import { connect } from "react-redux";

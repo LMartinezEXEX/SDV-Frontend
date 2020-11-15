@@ -13,7 +13,7 @@ const Modal = ({ open, setIsOpen, children, onClose, candidates}) => { //childre
 
     const windowData = (children) => { 
         switch(children){
-            case "Cargos": return(<ChargeTable />)
+            case "Jugadores": return(<ChargeTable />)
             case "Votar": return(<Votation />)
             case "Cartas": return(<Cards setIsOpen={setIsOpen} />)
             case "Director": return(<Director candidates={candidates}/>)

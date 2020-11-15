@@ -124,7 +124,7 @@ const Game = (props) => {
                         <div className="buttonSection">
                             <div>
                                 <PopUp 
-                                type="Cargos" 
+                                type="Jugadores" 
                                 enableButton={voteDoneCurrentTurn && !hasOpenTableCurrentTurn} 
                                 handleState={undefined}
                                 />
