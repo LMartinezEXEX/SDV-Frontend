@@ -28,15 +28,25 @@
 
 
 .small-btn {
+	background: none;
+	font-family: 'Harp';
 	display: flex;
 	justify-content: center;
-	margin-top: 30px;
+	margin-top: 10px;
 	text-shadow: 0 0 5px white, 0 0 5px white;
 	color: white;
-	padding: 0.3em 0.8em;
+	transition: all 0.2s;
+	padding: 0.1em 0.8em;
 	border-radius: 0.12em;
 	font-size: 20px;
 	margin-bottom: 0px;
+	cursor: pointer;
+}
+
+.small-btn:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+	opacity: 0.85;
 }
 
 .small-btn-group {
