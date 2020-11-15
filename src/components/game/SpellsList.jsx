@@ -7,15 +7,15 @@ import CardsDisplayer from './CardsDisplayer'
 import LoyaltyDisplayer from './LoyaltyDisplayer'
 
 const SpellsList = ({spell}) => {
-    const [showCards, setshowCards] = useState(false)
+    const [showCards, setShowCards] = useState(false)
     const [crucioLoyalty, setCrucioLoyalty] = useState(false)
     const [Cards, setCards] = useState([])
     
     const selectSpell = (spell) => {
         switch(spell){
-            case "Guessing": return (<li><Guessing setCards={setCards} setshowCards={setshowCards}/></li>)
+            case "Guessing": return (<li><Guessing setCards={setCards} setshowCards={setShowCards}/></li>)
             case "Avada Kedavra": return(<li><AvadaKedavra/></li>)
-            case "Crucio": return(<li><Crucio setshowCards={setshowCards} setCrucioLoyalty={setCrucioLoyalty}/></li>)
+            case "Crucio": return(<li><Crucio setShowCards={setShowCards} setCrucioLoyalty={setCrucioLoyalty}/></li>)
         }
     }
 
@@ -32,7 +32,7 @@ const SpellsList = ({spell}) => {
                     <CardsDisplayer cards={Cards}/>
                 </ul>}
                 {showCards && spell==="Crucio" &&
-                <ul className="cardsList">
+                <ul className="loyalty">
                     <LoyaltyDisplayer crucioLoyalty={crucioLoyalty}/>
                 </ul>}
         </div>

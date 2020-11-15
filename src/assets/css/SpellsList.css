@@ -22,6 +22,7 @@
 
 .cardsList {
     display: flex;
+    flex-direction: row;
     height: 435px;
     background-color: rgb(46, 43, 43);
 }
@@ -34,4 +35,24 @@
     border-radius:10px;
     text-align: center;
     line-height: 65px; 
+}
+
+
+.loyalty li {
+    margin:30px auto;
+    border-radius:10px;
+    text-align: center;
+}
+
+.loyalty {
+    display: flex;
+    flex-direction: column;
+    height: 435px;
+    background-color: rgb(46, 43, 43);
+}
+
+.loyalty img{
+    height: 300px;
+    margin-top: -40px;
+    border-radius: 10px;
 }

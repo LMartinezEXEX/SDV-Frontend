@@ -12,6 +12,8 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
+    dirCandidateInTurn: 0,
+    playerRole: "",
     finished: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,

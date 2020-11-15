@@ -13,7 +13,16 @@ import SpellsList from './SpellsList'
 const Game= (props) => {
     const {actualMinister, gameId, actualDirector, finished,
             fenix_promulgations, death_eater_promulgations, updateGameState,
-            playerId, enabledSpell, enableSpell,spell} = props
+            playerId, enabledSpell, enableSpell,spell, amountPlayers, playerRole,
+            playersInfo, getPlayersInfo} = props
+
+    
+    const updatePlayers = async() =>{
+        await axios.get("http://127.0.0.1:8000/game/"+gameId+"/players_info")
+            .then(res=>{
+                getPlayersInfo({playersInfo:res.data["Players info"]})
+            })
+    }
     
     const changeMinister = async () => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
