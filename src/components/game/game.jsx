@@ -5,21 +5,20 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { updateGameState, enableSpell, updateDirCandidate , getPlayersInfo} from "../../redux/actions";
+import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
 import Modal from '../Modal'
-import { useState} from 'react'
+import { useState } from 'react'
 
-const Game= (props) => {
-    const [candidates, setCandidates] = useState([])
+const Game = (props) => {
     const [isOpen, setIsOpen] = useState(false)
-    const {actualMinister, gameId, actualDirector, finished,
+    const {actualMinister, gameId, actualDirector, finished, getDirectorCandidates, directorCandidates, didVoteCurrentTurn,
             fenix_promulgations, death_eater_promulgations, updateGameState,
-            playerId, enabledSpell, enableSpell,spell, amountPlayers, playerRole,
-            playersInfo} = props
+            playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
+            playersInfo, getPlayersInfo } = props
 
     
     const updatePlayers = async() =>{
@@ -39,7 +38,7 @@ const Game= (props) => {
         })
     }
     
-    const getGameState = async() => {
+    const getGameState = async () => {
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
         method:'GET',
         headers: {
@@ -57,8 +56,7 @@ const Game= (props) => {
                 fenix_promulgations: data["fenix promulgations"],
                 death_eater_promulgations: data["death eater promulgations"]})
             })
-                updateDirCandidate({dirCandidateInTurn: actualMinister})
-            }
+    }
 
     const spellsAvaliable = async() => {
         const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
@@ -76,19 +74,22 @@ const Game= (props) => {
         await getGameState()
     }, 2000)
 
-
-    const getDirectorCandidates = async() => {
-        await axios.get("http://127.0.0.1:8000/game/"+gameId+
-        "/director_candidates", { 
-        method:'GET',
-        headers: {
-            'accept': 'application/json',
-        }}).then(res => {
-                var data = res.data
-                setCandidates(data["director candidates"])
+    const handleDirectorCandidates = async () => {
+        setIsOpen(true)
+        if (directorCandidates.length === 0) {
+            await axios.get(
+                "http://127.0.0.1:8000/game/" + gameId + "/director_candidates"
+            ).then(response => {
+                if (response.status === 200) {
+                    getDirectorCandidates({ directorCandidates: response.data["director candidates"] })
+                }
+            }).catch(error => {
+                if (error.response != undefined && error.response.data != undefined) {
+                    console.log(error.response.data)
+                }
             })
+        }
     }
-
 
     return(
         <div>
@@ -102,24 +103,26 @@ const Game= (props) => {
                     </div>
                     <div className="gameSection">
                         <div className="buttonSection">
-                            <div><PopUp type="Cargos"/></div>
-                            <div><PopUp type="Votar"/></div>
-                            <div><PopUp type="Cartas"/></div>
-                            <div >
+                            <div><PopUp type="Cargos" enableButton={true} /></div>
+                            <div><PopUp type="Votar" enableButton={!didVoteCurrentTurn} /></div>
+                            <div><PopUp type="Cartas" enableButton={true} /></div>
+                            {(playerId === actualMinister && actualMinister == actualDirector)
+                            ?(
+                                <div >
                                 <button
-                                    className= "app-btn" id="gameButton"
-                                    disabled={playerId!==actualMinister ||
-                                    actualMinister!==actualDirector} onClick={() =>
-                                    {setIsOpen(true); getDirectorCandidates()}}
+                                    className="app-btn" id="gameButton"
+                                    onClick={() => { handleDirectorCandidates() }}
                                 >
-                                    Director
+                                    Elegir Director
                                 </button>
                                 <Modal
                                     open={isOpen} setIsOpen={setIsOpen}
-                                    children={"Director"} candidates={candidates}
+                                    children={"Director"} candidates={directorCandidates}
                                     onClose={() => setIsOpen(false)}
                                 />
-                            </div>
+                                </div>
+                            ):(<></>)
+                            }
                         </div>
                     </div>
                     <div className="gameSection">
@@ -143,20 +146,25 @@ const mapStateToProps = (state) => {
         gameId: state.game.gameId,
         actualDirector: state.game.actualDirector,
         finished: state.game.finished,
+        directorCandidates: state.game.directorCandidates,
+        didVoteCurrentTurn: state.game.didVoteCurrentTurn,
         fenix_promulgations: state.game.fenix_promulgations,
         death_eater_promulgations: state.game.death_eater_promulgations,
         enabledSpell: state.game.enabledSpell,
         spell: state.game.spell,
         amountPlayers: state.game.amountPlayers,
-        playersInfo: state.game.playersInfo
+        playersInfo: state.game.playersInfo,
     };
 }
 
 const mapDispatchToProps = {
     updateGameState,
     enableSpell,
-    getPlayersInfo
+    getPlayersInfo,
+    getDirectorCandidates
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
-
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Game);
