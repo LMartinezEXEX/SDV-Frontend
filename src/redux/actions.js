@@ -1,7 +1,8 @@
 import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
         GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
-        GET_CANDIDATES
+        HAS_OPEN_TABLE_CURRENT_TURN,
+        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
 } from './actionsTypes';
 
 export const register = (content) => ({
@@ -79,6 +80,7 @@ export const updateGameState = (content) => ({
         finished: content.finished,
         fenix_promulgations: content.fenix_promulgations,
         death_eater_promulgations: content.death_eater_promulgations,
+        voteDoneCurrentTurn: content.voteDoneCurrentTurn
     }
 })
 
@@ -104,6 +106,13 @@ export const getDirectorCandidates = (content) => ({
     }
 })
 
+export const openTableCurrentTurn = (content) => ({
+    type: HAS_OPEN_TABLE_CURRENT_TURN,
+    payload: {
+        hasOpenTableCurrentTurn: content.hasOpenTableCurrentTurn
+    }
+})
+
 export const voteCurrentTurn = (content) => ({
     type: DID_VOTE_CURRENT_TURN,
     payload: {
@@ -116,5 +125,19 @@ export const getCandidates = (content) => ({
     payload: {
         candidateMinister: content.candidateMinister,
         candidateDirector: content.candidateDirector
+    }
+})
+
+export const getMinisterCards = (content) => ({
+    type: GET_MINISTER_CARDS,
+    payload: {
+        cardsListMinister: content.cardsListMinister
+    }
+})
+
+export const getDirectorCards = (content) => ({
+    type: GET_DIRECTOR_CARDS,
+    payload: {
+        cardsListDirector: content.cardsListDirector
     }
 })
