@@ -5,7 +5,7 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates } from "../../redux/actions";
+import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates, openTableCurrentTurn } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
@@ -16,8 +16,10 @@ import { useState } from 'react'
 const Game = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
-            finished, getDirectorCandidates, directorCandidates, didVoteCurrentTurn, getCandidates,
-            fenix_promulgations, death_eater_promulgations, updateGameState,
+            finished, getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
+            hasOpenTableCurrentTurn, openTableCurrentTurn, 
+            didVoteCurrentTurn, 
+            getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
             playersInfo, getPlayersInfo } = props
 
@@ -86,8 +88,10 @@ const Game = (props) => {
                 actualDirector: data["current director id"],
                 finished: data["finished"],
                 fenix_promulgations: data["fenix promulgations"],
-                death_eater_promulgations: data["death eater promulgations"]})
+                death_eater_promulgations: data["death eater promulgations"],
+                voteDoneCurrentTurn: data["vote done"]
             })
+        })
     }
 
     const spellsAvaliable = async() => {
@@ -118,9 +122,30 @@ const Game = (props) => {
                     </div>
                     <div className="gameSection">
                         <div className="buttonSection">
-                            <div><PopUp type="Cargos" enableButton={true} handleState={undefined} /></div>
-                            <div><PopUp type="Votar"  enableButton={!didVoteCurrentTurn} handleState={() => handleCheckCandidates()} /></div>
-                            <div><PopUp type="Cartas" enableButton={true} handleState={undefined} /></div>
+                            <div>
+                                <PopUp 
+                                type="Cargos" 
+                                enableButton={voteDoneCurrentTurn && !hasOpenTableCurrentTurn} 
+                                handleState={undefined}
+                                />
+                            </div>
+                            <div>
+                                <PopUp 
+                                type="Votar" 
+                                enableButton={!didVoteCurrentTurn} 
+                                handleState={() => handleCheckCandidates()} 
+                                />
+                            </div>
+                            <div>
+                                <PopUp 
+                                type="Cartas"
+                                enableButton={
+                                    (playerId === actualMinister || playerId === actualDirector
+                                    || playerId === candidateMinister || playerId === candidateDirector) 
+                                    && candidateMinister != candidateDirector} 
+                                handleState={undefined}
+                                />
+                            </div>
                             {(playerId === actualMinister && candidateMinister === candidateDirector)
                             ?(
                                 <div >
@@ -164,6 +189,8 @@ const mapStateToProps = (state) => {
         playerRole: state.game.playerRole,
         finished: state.game.finished,
         directorCandidates: state.game.directorCandidates,
+        hasOpenTableCurrentTurn: state.game.hasOpenTableCurrentTurn,
+        voteDoneCurrentTurn: state.game.voteDoneCurrentTurn,
         didVoteCurrentTurn: state.game.didVoteCurrentTurn,
         fenix_promulgations: state.game.fenix_promulgations,
         death_eater_promulgations: state.game.death_eater_promulgations,
@@ -179,7 +206,8 @@ const mapDispatchToProps = {
     enableSpell,
     getPlayersInfo,
     getDirectorCandidates,
-    getCandidates
+    getCandidates,
+    openTableCurrentTurn
 };
 
 export default connect(
