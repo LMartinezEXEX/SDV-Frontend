@@ -1,17 +1,52 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import '../../assets/css/game.css'
+import axios from 'axios'
 
 
 const ChargesTable = (props) => {
-    const {actualMinister, actualDirector} = props
-    // const players = ['Harry54', 'Hermione21', 'Hagrid666', 'Draco55', 'Ron12']
+    const {candidateMinister, candidateDirector,playersInfo, gameId} = props  //VER QUÉ HACER CON lumosVotes
+    const [lumosVotes, setlumosVotes] = useState([])
 
+    const voteResult = () => {
+        axios.put('http://127.0.0.1:8000/game/'+gameId+'/result')
+        .then(res =>{
+            setlumosVotes(res.data.voted_lumos)
+        })
+    }
+    
+    if(lumosVotes.length === 0) {
+        voteResult()
+    }
+    
+    const vote = (player) => {
+        if(lumosVotes.length !== 0) {
+            if(lumosVotes.includes(player.player_id)) {
+                return "Lumos"
+            } else {
+                return "Nox"
+            }
+        } else return ""
+    }
+    
+    const charge = (player) => {
+        if (player.player_id == candidateMinister) {
+            return "Ministro"
+        } else if (player.player_id == candidateDirector) {
+            return "Director"
+        } else {
+            return ""
+        }
+    }
+
+    const votationList = playersInfo.map(player => Object.assign({}, {username: player.username,
+                                             vote: vote(player), charge: charge(player)}))
+
+    
     return (
         <div className="chargeTable">
             <ul>
-                <li>Ministro: {actualMinister} </li>
-                <li>Presidente:{actualDirector} </li>
+                {votationList.map(player => <li>{player.username + " " + player.vote + " " + player.charge}</li>)}
             </ul>
         </div>
     )
@@ -19,13 +54,13 @@ const ChargesTable = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        actualMinister: state.game.actualMinister,
-        actualDirector: state.game.actualDirector
+        candidateMinister: state.game.candidateMinister,
+        candidateDirector: state.game.candidateDirector,
+        playersInfo: state.game.playersInfo,
+        gameId: state.game.gameId
     };
 }
 
-const mapDispatchToProps = {
-    
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChargesTable);
+export default connect(mapStateToProps, null)(ChargesTable);
+

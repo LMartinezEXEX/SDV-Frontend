@@ -118,7 +118,7 @@ const Game = (props) => {
                     </div>
                     <div className="gameSection">
                         <div className="buttonSection">
-                            <div><PopUp type="Cargos" enableButton={true} handleState={undefined} /></div>
+                            <div><PopUp type="Jugadores" enableButton={true} handleState={undefined} /></div>
                             <div><PopUp type="Votar"  enableButton={!didVoteCurrentTurn} handleState={() => handleCheckCandidates()} /></div>
                             <div><PopUp type="Cartas" enableButton={true} handleState={undefined} /></div>
                             {(playerId === actualMinister && candidateMinister === candidateDirector)
