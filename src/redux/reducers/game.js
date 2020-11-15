@@ -1,5 +1,8 @@
-import { CREATE_GAME, UPDATE_MINISTER, INIT_GAME,
-     JOIN_GAME , UPDATE_GAME, ENABLE_SPELL,GET_PLAYERS_INFO} from "../actionsTypes";
+import {
+  CREATE_GAME, UPDATE_MINISTER, INIT_GAME,
+  JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
+  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN
+} from "../actionsTypes";
 
 export const GAME = "game"
 
@@ -14,7 +17,10 @@ export const gameInitialState = {
     init: false,
     actualMinister: 0,
     actualDirector: 0,
+    playerRole: "",
     finished: false,
+    directorCandidates: [],
+    didVoteCurrentTurn: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
     enabledSpell: false,   
@@ -38,7 +44,8 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             init: true,
-            amountPlayers: action.payload.amountPlayers
+            amountPlayers: action.payload.amountPlayers,
+            playerRole: action.payload.playerRole
           };
         }
         case JOIN_GAME: {
@@ -77,6 +84,18 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             playersInfo: action.payload.playersInfo
+          }
+        }
+        case GET_DIRECTOR_CANDIDATES: {
+          return {
+            ...state,
+            directorCandidates: action.payload.directorCandidates
+          }
+        }
+        case DID_VOTE_CURRENT_TURN: {
+          return {
+            ...state,
+            didVoteCurrentTurn: action.payload.didVoteCurrentTurn
           }
         }
         default:
