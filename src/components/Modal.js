@@ -8,7 +8,7 @@ import Director from './game/director'
 
 // a switch to know the information that will be displayed in the open window
 
-const Modal = ({ open, setIsOpen, children, onClose, gameState, gameUpdater, candidates}) => { //children is what you write inside the MODAL
+const Modal = ({ open, setIsOpen, children, onClose, candidates}) => { //children is what you write inside the MODAL
     if (!open) return null 
 
     const windowData = (children) => { 
