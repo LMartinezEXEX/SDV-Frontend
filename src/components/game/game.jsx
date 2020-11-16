@@ -176,7 +176,7 @@ const Game = (props) => {
                                     Elegir Director
                                 </button>
                                 <Modal
-                                    open={isOpen && candidateDirector === 0} setIsOpen={setIsOpen}
+                                    open={isOpen} setIsOpen={setIsOpen}
                                     children={"Director"} candidates={directorCandidates}
                                     onClose={() => setIsOpen(false)}
                                 />
