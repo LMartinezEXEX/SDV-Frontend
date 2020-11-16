@@ -37,7 +37,7 @@ const Pregame = (props) => {
     useInterval(async () => {
         console.log("Checking...")
         await checkAndJoinGame()
-    }, 2000)
+    }, 1000)
 
     if (isCreator) {
         const callbackInitGame = async () => {
@@ -65,7 +65,10 @@ const Pregame = (props) => {
                 <div className = 'window-style'>
                     <ul className="players-list">
                         {
-                            playersPregame.map(player => {
+                            playersPregame.sort(
+                                function (user_a, user_b) {
+                                    return (user_a.username > user_b.username)?(1):(-1)
+                            }).map(player => {
                                 return <li key={player.username}> {player.username} </li>
                             })
                         }
@@ -80,7 +83,10 @@ const Pregame = (props) => {
                 <div className = 'window-style'>
                     <ul className="players-list">
                         {
-                            playersPregame.map(player => {
+                            playersPregame.sort(
+                                function (user_a, user_b) {
+                                    return (user_a.username > user_b.username)?(1):(-1)
+                            }).map(player => {
                                 return <li key={player.username} > {player.username} </li>
                             })
                         }
