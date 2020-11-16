@@ -113,6 +113,12 @@ const Game = (props) => {
         })
     }
 
+    const getUsername = (player) => {
+        if (player.player_id == playerId) {
+            return player.username
+        }
+    }
+
     useInterval(async () => {
         console.log("Checking...")
         await spellsAvaliable()
@@ -121,7 +127,12 @@ const Game = (props) => {
 
     return(
         <div>
-            <Envelope playerRole={playerRole}/>
+            <div className="left-view">
+                <Envelope playerRole={playerRole}/>
+                <div className="player-username">
+                    {playersInfo.map(player => <div>{getUsername(player)}</div>)}    
+                </div>
+            </div>
             <div className="gameView">
                 <div className="gameBox">
                     <div className="gameSection">
