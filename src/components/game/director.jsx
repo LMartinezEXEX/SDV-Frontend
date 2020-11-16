@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import '../../assets/css/game.css'
 import axios from 'axios';
+import { getCandidates } from '../../redux/actions'
 
 const Director = (props) => {
-    const {actualMinister, actualDirector, gameId, playerId, candidates } = props
+    const {actualMinister, actualDirector, gameId, playerId, candidates, getCandidates } = props
     
     const setDirectorCandidate = async (option) => {
         await axios.put(
@@ -24,6 +25,19 @@ const Director = (props) => {
         })
     }
 
+    const handleCheckCandidates = async () => {
+        await axios(
+            "http://127.0.0.1:8000/game/" + gameId + "/get_candidates"
+        ).then(response => {
+            if (response.status === 200) {
+                getCandidates({ candidateMinister: response.data.minister_id, candidateDirector: response.data.director_id })
+            }
+        }).catch(error => {
+            if (error.response != undefined && error.response.data != undefined) {
+                console.log(JSON.stringify(error.response.data))
+            }
+        })
+    }
 
     if (actualMinister === actualDirector) {
         return (
@@ -34,7 +48,7 @@ const Director = (props) => {
                             <li>
                                 <button
                                     className="small-btn"
-                                    onClick={() => setDirectorCandidate(option)}
+                                    onClick={() => { setDirectorCandidate(option); handleCheckCandidates() } }
                                 >
                                         {option}
                                 </button>
@@ -61,4 +75,11 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps)(Director);
+const mapDispatchToProps = {
+    getCandidates
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(Director);
