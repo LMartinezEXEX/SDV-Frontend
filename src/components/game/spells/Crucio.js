@@ -18,7 +18,11 @@ const Crucio = (props) => {
     const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
             playersInfo} = props
     const classes = useStyles();
-    const players_list = playersInfo.map(player=> player.username)
+    const players_list = playersInfo.map(player => {
+        if (player.player_id != actualMinister) {
+            return player.username
+        }
+    })
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
     
     const changeMinister = async () => {
