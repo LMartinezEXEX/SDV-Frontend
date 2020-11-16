@@ -5,7 +5,8 @@ import axios from 'axios'
 import { voteCurrentTurn } from "../../redux/actions"
 
 const Votation = (props) => {
-    const { gameId, playerId, actualMinister, candidateMinister, candidateDirector, voteCurrentTurn } = props
+    const { gameId, playerId, actualMinister, candidateMinister,
+        candidateDirector, voteCurrentTurn, playersInfo } = props
 
     const uploadVote = async (vote) => {
         await axios.put(
@@ -26,12 +27,32 @@ const Votation = (props) => {
         })
     }
 
+    const getUsernameMinister = () =>{
+        let response = "" 
+        playersInfo.forEach(player =>{
+            if(player.player_id === candidateMinister){
+                response =player.username
+            }
+        })
+        return response
+    }
+
+    const getUsernameDirector = () =>{
+        let response = ""
+        playersInfo.forEach(player =>{
+            if(player.player_id === candidateDirector){
+                response = player.username
+            }
+        })
+        return response
+    }  
+
     if (candidateMinister != candidateDirector) {
         return (
             <div>
                 <ul>
-                    <li>Candidato Ministro: {candidateMinister} </li>
-                    <li>Candidato Director: {candidateDirector} </li>
+                    <li>Candidato Ministro: {getUsernameMinister()} </li>
+                    <li>Candidato Director: {getUsernameDirector()} </li>
                 </ul>
                 <button className="votationButton" onClick={() => {uploadVote(true)}}>
                     <i className="far fa-thumbs-up fa-3x"></i>
@@ -45,7 +66,7 @@ const Votation = (props) => {
         return (
             <div>
                 <ul>
-                    <li>Candidato Ministro: {actualMinister} </li>
+                    <li>Candidato Ministro: {getUsernameMinister()} </li>
                 </ul>
             </div>
         )
@@ -58,7 +79,8 @@ const mapStateToProps = (state) => {
         playerId: state.game.playerId,
         actualMinister: state.game.actualMinister,
         candidateMinister: state.game.candidateMinister,
-        candidateDirector: state.game.candidateDirector
+        candidateDirector: state.game.candidateDirector,
+        playersInfo: state.game.playersInfo
     };
 }
 

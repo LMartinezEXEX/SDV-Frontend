@@ -42,3 +42,38 @@
 .Drawer {
     background-color: transparent;
 }
+
+
+.left-view {
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 4rem;
+}
+
+.envelope {
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.envelope:hover{
+	opacity: 0.5;
+}
+
+.img-role{
+	display: block;
+    opacity: 1;
+    width: 80%;
+    margin: auto;
+	
+}
+
+.player-username{
+    font-family: 'Syne Mono', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+}
+

@@ -5,7 +5,8 @@ import axios from 'axios';
 import { getCandidates } from '../../redux/actions'
 
 const Director = (props) => {
-    const {actualMinister, actualDirector, gameId, playerId, candidates, getCandidates } = props
+    const {actualMinister, actualDirector, gameId, playerId, candidates,
+        getCandidates, playersInfo } = props
     
     const setDirectorCandidate = async (option) => {
         await axios.put(
@@ -39,6 +40,16 @@ const Director = (props) => {
         })
     }
 
+    const getUsernameCandidate = (directorCandidate) =>{
+        let response = ""
+        playersInfo.forEach(player =>{
+            if(player.player_id === directorCandidate){
+                response = player.username
+            }
+        })
+        return response
+    }  
+
     if (actualMinister === actualDirector) {
         return (
             <div className="director">
@@ -47,10 +58,10 @@ const Director = (props) => {
                         candidates.map(option =>
                             <li>
                                 <button
-                                    className="small-btn"
+                                    className="buttonTaker"
                                     onClick={() => { setDirectorCandidate(option); handleCheckCandidates() } }
                                 >
-                                        {option}
+                                        {getUsernameCandidate(option)}
                                 </button>
                             </li>
                         )
@@ -71,7 +82,8 @@ const mapStateToProps = (state) => {
         playerId: state.game.playerId,
         gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
-        actualDirector: state.game.actualDirector
+        actualDirector: state.game.actualDirector,
+        playersInfo: state.game.playersInfo
     };
 }
 

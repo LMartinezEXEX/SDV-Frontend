@@ -38,7 +38,6 @@ const Crucio = (props) => {
         }).then(res=>{
             setShowCards(true)
             setCrucioLoyalty(res.data["Fenix loyalty"])
-            changeMinister()
         })
     }
 
