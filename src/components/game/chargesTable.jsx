@@ -46,7 +46,7 @@ const ChargesTable = (props) => {
     return (
         <div className="chargeTable">
             <ul>
-                {votationList.map(player => <li>{player.username + " " + player.vote + " " + player.charge}</li>)}
+                {votationList.map(player => <li key={player.username}>{player.username + " " + player.vote + " " + player.charge}</li>)}
             </ul>
         </div>
     )
