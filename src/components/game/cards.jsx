@@ -90,7 +90,7 @@ const Cards = (props) => {
             })
 
             if (result === "Card discarded") {
-                alert(result)
+                alert("Carta Descartada")
             }
         } else if (playerId === actualDirector) {
             // Promulgar (y descartar la otra carta), si el jugador es el director

@@ -144,7 +144,7 @@ const Game = (props) => {
                         <div className="buttonSection">
                             <div>
                                 <PopUp 
-                                type="Jugadores" 
+                                type="Resultados" 
                                 enableButton={voteDoneCurrentTurn} 
                                 />
                             </div>
