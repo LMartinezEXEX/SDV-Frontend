@@ -1,7 +1,6 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, END_GAME,
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
         GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
-        HAS_OPEN_TABLE_CURRENT_TURN,
         GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
 } from './actionsTypes';
 
@@ -58,6 +57,13 @@ export const initGame = (content) => ({
     }
 })
 
+export const endGame = (content) => ({
+    type: END_GAME,
+    payload: {
+        content
+    }
+})
+
 export const updateUsername = (content) => ({
     type: UPDATE_USERNAME,
     payload: {
@@ -103,13 +109,6 @@ export const getDirectorCandidates = (content) => ({
     type: GET_DIRECTOR_CANDIDATES,
     payload: {
         directorCandidates: content.directorCandidates
-    }
-})
-
-export const openTableCurrentTurn = (content) => ({
-    type: HAS_OPEN_TABLE_CURRENT_TURN,
-    payload: {
-        hasOpenTableCurrentTurn: content.hasOpenTableCurrentTurn
     }
 })
 

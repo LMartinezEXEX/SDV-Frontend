@@ -1,8 +1,7 @@
 import {
-  CREATE_GAME, UPDATE_MINISTER, INIT_GAME,
+  CREATE_GAME, UPDATE_MINISTER, INIT_GAME, END_GAME,
   JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
   GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
-  HAS_OPEN_TABLE_CURRENT_TURN, 
   GET_CANDIDATES, GET_MINISTER_CARDS, 
   GET_DIRECTOR_CARDS
 } from "../actionsTypes";
@@ -28,7 +27,6 @@ export const gameInitialState = {
     finished: false,
     directorCandidates: [],
     voteDoneCurrentTurn: false,
-    hasOpenTableCurrentTurn: false,
     didVoteCurrentTurn: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
@@ -66,6 +64,11 @@ export default function(state = gameInitialState, action) {
             init: false            
           };
         }
+        case END_GAME: {
+          return {
+            ...gameInitialState
+          };
+        }
         case UPDATE_MINISTER: {
             return {
               ...state,
@@ -73,8 +76,16 @@ export default function(state = gameInitialState, action) {
             }
           };
         case UPDATE_GAME: {
-          if (action.payload.actualMinister != state.actualMinister 
-            && state.voteDoneCurrentTurn && state.hasOpenTableCurrentTurn) {
+          if (action.payload.finished) {
+            return {
+              ...gameInitialState
+            };
+          } else if (action.payload.actualMinister != state.actualMinister 
+            && state.voteDoneCurrentTurn && !action.payload.voteDoneCurrentTurn) {
+            /*
+            Cambiamos ministro de magia, la votación finalizó, pero el back nos indica que ya estamos con una
+            nueva votación => Nuevo turno de forma local
+            */
             return {
               ...state,
               actualMinister: action.payload.actualMinister,
@@ -89,12 +100,15 @@ export default function(state = gameInitialState, action) {
               directorCandidates: [],
               voteDoneCurrentTurn: false,
               didVoteCurrentTurn: false,
-              hasOpenTableCurrentTurn: false,
               enabledSpell: false,   
               spell: ""
             };
-          } else if (action.payload.actualMinister !== state.actualMinister 
-            && state.voteDoneCurrentTurn && !state.hasOpenTableCurrentTurn) {
+          } else if (action.payload.actualMinister === state.actualMinister 
+            && state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) {
+            /*
+            No cambiamos ministro de magia, la votación finalizó, y el back nos indica que estamos con una
+            la misma votación finalizada => actualizamos sólo el tablero forma local
+            */
             return {
               ...state, 
               finished: action.payload.finished,
@@ -102,7 +116,11 @@ export default function(state = gameInitialState, action) {
               death_eater_promulgations: action.payload.death_eater_promulgations,
             };
           } else if (action.payload.actualMinister === state.actualMinister 
-            && !state.voteDoneCurrentTurn && !state.hasOpenTableCurrentTurn) {
+            && !state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) {
+            /*
+            No cambiamos ministro de magia, la votación no finalizó, pero el back nos indica que acaba de
+            finalizar la votación => actualizamos el turno de forma local
+            */
             return {
               ...state, 
               actualMinister: action.payload.actualMinister,
@@ -113,6 +131,9 @@ export default function(state = gameInitialState, action) {
               voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
             };
           } else {
+            /*
+            Por defecto actualizamos el turno de forma local
+            */
             return {
               ...state, 
               actualMinister: action.payload.actualMinister,
@@ -121,7 +142,7 @@ export default function(state = gameInitialState, action) {
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
               voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
-            };            
+            };
           }
         }
         case ENABLE_SPELL: {
@@ -141,12 +162,6 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             directorCandidates: action.payload.directorCandidates
-          }
-        }
-        case HAS_OPEN_TABLE_CURRENT_TURN: {
-          return {
-            ...state,
-            hasOpenTableCurrentTurn: action.payload.hasOpenTableCurrentTurn
           }
         }
         case DID_VOTE_CURRENT_TURN: {
