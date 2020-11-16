@@ -16,12 +16,6 @@ const useStyles = makeStyles((theme) => ({
 const Guessing = (props) => {
     const {gameId, actualMinister, setCards, setshowCards} = props
 
-    const changeMinister = async () => {
-        await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
-        .then(res => {
-        })
-    }
-
     const useGuessing = async() => {
         const useSpell_url_part1 = "http://127.0.0.1:8000/game/"
         const useSpell_url_part2 = "/execute_spell?spell=Guessing"
@@ -32,7 +26,6 @@ const Guessing = (props) => {
         }).then(res => {
             setshowCards(true)
             setCards(res.data.cards)
-            changeMinister()
         }).catch(error => alert(error))
     }
 
