@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Modal from '../Modal'
 
 const PopUp= (props) => {
-    const { type, enableButton, handleState } = props
+    const { type, enableButton, handleState, handleBeforeClose } = props
     const [isOpen, setIsOpen] = useState(false)
     
     return (
@@ -19,10 +19,16 @@ const PopUp= (props) => {
                 )
             ):(
                 <button className="app-btn" id="gameButton"
-                onClick="" > {type} </button>                
+                onClick={undefined} > {type} </button>                
             )}
-            <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
-                onClose={() => setIsOpen(false)}/>
+            {(handleBeforeClose)
+            ?(
+                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
+                    onClose={() => { handleBeforeClose(); setIsOpen(false) }}/>
+            ):(
+                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
+                    onClose={() => setIsOpen(false)}/>
+            )}
         </div>
     )
 }
