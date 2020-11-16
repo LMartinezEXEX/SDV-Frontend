@@ -21,6 +21,12 @@ const Crucio = (props) => {
     const players_list = playersInfo.map(player=> player.username)
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
     
+    const changeMinister = async () => {
+        await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
+        .then(res => {
+        })
+    }
+
     const useCrucio = async() => {
         const victim = playersInfo.filter(player => 
             player.username === VictimUsername)
@@ -32,6 +38,7 @@ const Crucio = (props) => {
         }).then(res=>{
             setShowCards(true)
             setCrucioLoyalty(res.data["Fenix loyalty"])
+            changeMinister()
         })
     }
 
