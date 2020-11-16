@@ -58,7 +58,7 @@ const Director = (props) => {
                         candidates.map(option =>
                             <li>
                                 <button
-                                    className="small-btn"
+                                    className="buttonTaker"
                                     onClick={() => { setDirectorCandidate(option); handleCheckCandidates() } }
                                 >
                                         {getUsernameCandidate(option)}
