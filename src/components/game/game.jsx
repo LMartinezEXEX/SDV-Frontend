@@ -5,23 +5,29 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { endGame, updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates } from "../../redux/actions";
+import { 
+    endGame, updateGameState, enableSpell, 
+    getPlayersInfo, getDirectorCandidates, 
+    getCandidates, rejectCandidates, 
+    rejectCandidatesNotified 
+} from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
 import Modal from '../Modal'
 import { useState } from 'react'
+import { wait } from '@testing-library/react';
 
 const Game = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
             getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
-            didVoteCurrentTurn, 
+            didVoteCurrentTurn, voteNoxCurrentTurn, 
+            rejectCandidates, rejectCandidatesNotified, 
             getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
             playersInfo, getPlayersInfo, endGame } = props
-
     
     const updatePlayers = async() =>{
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/players_info")
@@ -81,11 +87,49 @@ const Game = (props) => {
         })
     }
     
+    const playerKnowsRejection = async () => {
+        await axios.put(
+            "http://127.0.0.1:8000/game/" + gameId + "/reject_notified?player_id=" + playerId
+        ).then(response => {
+            if (response.status === 200 && response.data.notified) {
+                console.log("Player knows about negative vote and has notified...")
+            }
+        }).catch(error => {
+            if (error.response !== undefined && error.response.data !== undefined) {
+                if (error.response.data["detail"] !== undefined) {
+                    console.log(error.response.data["detail"])
+                }
+            }
+        })
+    }
+
     const getGameState = async () => {
         await axios.get(
             "http://127.0.0.1:8000/game/"+gameId+"/check_game"
         ).then(res => {
             var data = res.data
+
+            if (data["vote done"] && !voteNoxCurrentTurn) {
+                // Obtener resultados
+                axios.put(
+                    'http://127.0.0.1:8000/game/'+gameId+'/result'
+                ).then(response =>{
+                    if (response.status === 200) {
+                        if (!response.data.result) {
+                            // Se rechazaron los candidatos
+                            console.log("Rejected candidates -> should change state")
+                            rejectCandidates({ voteNoxCurrentTurn: true })
+                        }
+                    }
+                }).catch(error => {
+                    if (error.response !== undefined && error.response.data !== undefined) {
+                        if (error.response.data["detail"] !== undefined) {
+                            console.log(error.response.data["detail"])
+                        }
+                    }
+                })
+            }
+
             if(data["finished"] && data["death eater promulgations"] === 6) {
                 alert("GANARON LOS MORTIFAGOS")
             } else if (data["finished"] && data["fenix promulgations"] === 5) {
@@ -135,6 +179,17 @@ const Game = (props) => {
                                 <PopUp 
                                 type="Jugadores" 
                                 enableButton={voteDoneCurrentTurn} 
+                                handleBeforeClose={
+                                    (voteNoxCurrentTurn)
+                                    ?(
+                                        () => {
+                                            console.log("Notify on close...")
+                                            rejectCandidatesNotified({ voteNoxNotified: true })
+                                            console.log("Player knows rejection...")
+                                            playerKnowsRejection()
+                                        }
+                                    ):(undefined)
+                                }
                                 />
                             </div>
                             <div>
@@ -150,7 +205,6 @@ const Game = (props) => {
                                     <PopUp 
                                     type="Cartas"
                                     enableButton={actualMinister != actualDirector} 
-                                    handleState={undefined}
                                     />
                                 </div>
                             ):(<></>)
@@ -199,6 +253,8 @@ const mapStateToProps = (state) => {
         directorCandidates: state.game.directorCandidates,
         voteDoneCurrentTurn: state.game.voteDoneCurrentTurn,
         didVoteCurrentTurn: state.game.didVoteCurrentTurn,
+        voteNoxCurrentTurn: state.game.voteNoxCurrentTurn,
+        voteNoxNotified: state.game.voteNoxNotified,
         fenix_promulgations: state.game.fenix_promulgations,
         death_eater_promulgations: state.game.death_eater_promulgations,
         enabledSpell: state.game.enabledSpell,
@@ -214,7 +270,9 @@ const mapDispatchToProps = {
     enableSpell,
     getPlayersInfo,
     getDirectorCandidates,
-    getCandidates
+    getCandidates,
+    rejectCandidates, 
+    rejectCandidatesNotified
 };
 
 export default connect(
