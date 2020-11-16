@@ -5,7 +5,7 @@ import MortifagoBoard from './mortifagoBoard';
 import OrderBoard from './orderBoard';
 import Envelope from './Envelope'
 import PopUp from './PopUp'
-import { updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates, openTableCurrentTurn } from "../../redux/actions";
+import { endGame, updateGameState, enableSpell, getPlayersInfo, getDirectorCandidates, getCandidates } from "../../redux/actions";
 import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
@@ -16,12 +16,11 @@ import { useState } from 'react'
 const Game = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
-            finished, getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
-            hasOpenTableCurrentTurn, openTableCurrentTurn, 
+            getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
             didVoteCurrentTurn, 
             getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
-            playersInfo, getPlayersInfo } = props
+            playersInfo, getPlayersInfo, endGame } = props
 
     
     const updatePlayers = async() =>{
@@ -71,18 +70,30 @@ const Game = (props) => {
         .then(res => {
         })
     }
+
+    const spellsAvaliable = async() => {
+        const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
+        await axios.get(spellsAvaliable_url + gameId + '/spell'
+        ).then(res => {
+            if(res.data.Spell != "" && playerId === actualMinister){
+                enableSpell({enabledSpell:true, spell:res.data.Spell})
+            }
+        })
+    }
     
     const getGameState = async () => {
-        await axios.get("http://127.0.0.1:8000/game/"+gameId+"/check_game", { 
-        method:'GET',
-        headers: {
-            'accept': 'application/json',
-        }}).then(res => {
+        await axios.get(
+            "http://127.0.0.1:8000/game/"+gameId+"/check_game"
+        ).then(res => {
             var data = res.data
-            if(death_eater_promulgations === 6) 
-                {alert("GANARON LOS MORTIFAGOS")}
-            else if( fenix_promulgations === 5)
-                {alert("GANO LA ORDEN DEL FENIX")}
+            if(data["finished"] && data["death eater promulgations"] === 6) {
+                alert("GANARON LOS MORTIFAGOS")
+            } else if (data["finished"] && data["fenix promulgations"] === 5) {
+                alert("GANO LA ORDEN DEL FENIX")
+            } else if (data["finished"]) {
+                alert("JUEGO FINALIZADO")
+            }
+
             updateGameState({
                 actualMinister: data["current minister id"],
                 actualDirector: data["current director id"],
@@ -91,15 +102,13 @@ const Game = (props) => {
                 death_eater_promulgations: data["death eater promulgations"],
                 voteDoneCurrentTurn: data["vote done"]
             })
-        })
-    }
-
-    const spellsAvaliable = async() => {
-        const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
-        await axios.get(spellsAvaliable_url + gameId + '/spell'
-        ).then(res => {
-            if(res.data.Spell != "" && playerId === actualMinister){
-                enableSpell({enabledSpell:true, spell:res.data.Spell})
+        }).catch(error => {
+            if (error.response !== undefined && error.response.data !== undefined) {
+                console.log(JSON.stringify(error.response.data))
+                if (error.response.data["detail"] !== undefined) {
+                    alert(error.response.data["detail"])
+                    endGame()
+                }
             }
         })
     }
@@ -125,8 +134,7 @@ const Game = (props) => {
                             <div>
                                 <PopUp 
                                 type="Jugadores" 
-                                enableButton={voteDoneCurrentTurn && !hasOpenTableCurrentTurn} 
-                                handleState={undefined}
+                                enableButton={voteDoneCurrentTurn} 
                                 />
                             </div>
                             <div>
@@ -136,16 +144,17 @@ const Game = (props) => {
                                 handleState={() => handleCheckCandidates()} 
                                 />
                             </div>
-                            <div>
-                                <PopUp 
-                                type="Cartas"
-                                enableButton={
-                                    (playerId === actualMinister || playerId === actualDirector
-                                    || playerId === candidateMinister || playerId === candidateDirector) 
-                                    && candidateMinister != candidateDirector} 
-                                handleState={undefined}
-                                />
-                            </div>
+                            {(playerId === actualMinister || playerId === actualDirector)
+                            ?(
+                                <div>
+                                    <PopUp 
+                                    type="Cartas"
+                                    enableButton={actualMinister != actualDirector} 
+                                    handleState={undefined}
+                                    />
+                                </div>
+                            ):(<></>)
+                            }
                             {(playerId === actualMinister && candidateMinister === candidateDirector)
                             ?(
                                 <div >
@@ -156,7 +165,7 @@ const Game = (props) => {
                                     Elegir Director
                                 </button>
                                 <Modal
-                                    open={isOpen} setIsOpen={setIsOpen}
+                                    open={isOpen && candidateDirector === 0} setIsOpen={setIsOpen}
                                     children={"Director"} candidates={directorCandidates}
                                     onClose={() => setIsOpen(false)}
                                 />
@@ -187,9 +196,7 @@ const mapStateToProps = (state) => {
         candidateMinister: state.game.candidateMinister,
         candidateDirector: state.game.candidateDirector,
         playerRole: state.game.playerRole,
-        finished: state.game.finished,
         directorCandidates: state.game.directorCandidates,
-        hasOpenTableCurrentTurn: state.game.hasOpenTableCurrentTurn,
         voteDoneCurrentTurn: state.game.voteDoneCurrentTurn,
         didVoteCurrentTurn: state.game.didVoteCurrentTurn,
         fenix_promulgations: state.game.fenix_promulgations,
@@ -202,12 +209,12 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+    endGame,
     updateGameState,
     enableSpell,
     getPlayersInfo,
     getDirectorCandidates,
-    getCandidates,
-    openTableCurrentTurn
+    getCandidates
 };
 
 export default connect(
