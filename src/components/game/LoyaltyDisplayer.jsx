@@ -13,9 +13,9 @@ const LoyaltyDisplayer = ({crucioLoyalty}) => {
 
     return (
         <div>
-            <li> </li>
+            {/* <li> </li> */}
             <li>{displayImg(crucioLoyalty)}</li>
-            <li> </li>
+            {/* <li> </li> */}
         </div>
     )
 }
