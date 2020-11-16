@@ -6,8 +6,8 @@ const LoyaltyDisplayer = ({crucioLoyalty}) => {
 
     const displayImg = (loyalty) => {
         switch(loyalty){
-            case true:  return <img src={orderLoyalty} alt="Lealtad a la Orden"/>
-            case false: return <img src={deathLoyalty} alt="Lealtad a Mortifago"/>
+            case false:  return <img src={orderLoyalty} alt="Lealtad a la Orden"/>
+            case true: return <img src={deathLoyalty} alt="Lealtad a Mortifago"/>
         }
     }
 
