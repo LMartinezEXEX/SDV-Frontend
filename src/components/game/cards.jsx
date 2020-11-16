@@ -54,8 +54,16 @@ const Cards = (props) => {
             }
         ).then(response => {
             if (response.status === 200) {
-                changeMinister()
-                setIsOpen(false)
+                (async () => {
+                    await axios(
+                        "http://127.0.0.1:8000/game/" + gameId + "/spell"
+                    ).then(response => {
+                        if (response.status === 200 && response.data.Spell == ""){
+                            changeMinister()
+                            setIsOpen(false)        
+                        }
+                    })
+                })()
             }
         })
     }
