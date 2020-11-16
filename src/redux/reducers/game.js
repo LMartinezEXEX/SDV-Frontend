@@ -33,7 +33,7 @@ export const gameInitialState = {
     fenix_promulgations: null,
     death_eater_promulgations: null,
     enabledSpell: false,   
-    spellToUse: "",
+    spell: "",
     playersInfo: []
 }
 
@@ -91,7 +91,7 @@ export default function(state = gameInitialState, action) {
               didVoteCurrentTurn: false,
               hasOpenTableCurrentTurn: false,
               enabledSpell: false,   
-              spellToUse: ""
+              spell: ""
             };
           } else if (action.payload.actualMinister !== state.actualMinister 
             && state.voteDoneCurrentTurn && !state.hasOpenTableCurrentTurn) {
