@@ -1,6 +1,7 @@
 import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, END_GAME,
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
-        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
+        VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
         GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
 } from './actionsTypes';
 
@@ -116,6 +117,20 @@ export const voteCurrentTurn = (content) => ({
     type: DID_VOTE_CURRENT_TURN,
     payload: {
         didVoteCurrentTurn: content.didVoteCurrentTurn
+    }
+})
+
+export const rejectCandidates = (content) => ({
+    type: VOTE_NOX_CURRENT_TURN,
+    payload: {
+        voteNoxCurrentTurn: content.voteNoxCurrentTurn
+    }
+})
+
+export const rejectCandidatesNotified = (content) => ({
+    type: VOTE_NOX_NOTIFIED,
+    payload: {
+        voteNoxNotified: content.voteNoxNotified
     }
 })
 
