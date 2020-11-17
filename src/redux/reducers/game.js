@@ -1,7 +1,8 @@
 import {
   CREATE_GAME, UPDATE_MINISTER, INIT_GAME, END_GAME,
   JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
-  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN,
+  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
+  VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
   GET_CANDIDATES, GET_MINISTER_CARDS, 
   GET_DIRECTOR_CARDS
 } from "../actionsTypes";
@@ -27,6 +28,8 @@ export const gameInitialState = {
     finished: false,
     directorCandidates: [],
     voteDoneCurrentTurn: false,
+    voteNoxCurrentTurn: false,
+    voteNoxNotified: false,
     didVoteCurrentTurn: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
@@ -84,7 +87,7 @@ export default function(state = gameInitialState, action) {
             && state.voteDoneCurrentTurn && !action.payload.voteDoneCurrentTurn) {
             /*
             Cambiamos ministro de magia, la votación finalizó, pero el back nos indica que ya estamos con una
-            nueva votación => Nuevo turno de forma local
+            nueva votación, además el rechazo no fue notificado al jugador => nuevo turno de forma local
             */
             return {
               ...state,
@@ -99,15 +102,19 @@ export default function(state = gameInitialState, action) {
               cardsListDirector: [],
               directorCandidates: [],
               voteDoneCurrentTurn: false,
+              voteNoxCurrentTurn: false,
+              voteNoxNotified: false,
               didVoteCurrentTurn: false,
               enabledSpell: false,   
               spell: ""
             };
           } else if (action.payload.actualMinister === state.actualMinister 
-            && state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) {
+            && state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn 
+            && !state.voteNoxNotified) {
             /*
             No cambiamos ministro de magia, la votación finalizó, y el back nos indica que estamos con una
-            la misma votación finalizada => actualizamos sólo el tablero forma local
+            la misma votación finalizada, no se rechazó a los candidatos (o se rechazó), pero no se notificó el rechazo
+            => actualizamos sólo el tablero forma local
             */
             return {
               ...state, 
@@ -115,12 +122,15 @@ export default function(state = gameInitialState, action) {
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
             };
-          } else if (action.payload.actualMinister === state.actualMinister 
-            && !state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) {
+          } else if ((state.actualMinister === 0) || (action.payload.actualMinister === state.actualMinister 
+            && !state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn)) {
             /*
+            state.actualMinister === 0 => Turno inicial
+
             No cambiamos ministro de magia, la votación no finalizó, pero el back nos indica que acaba de
             finalizar la votación => actualizamos el turno de forma local
             */
+            console.log("State is changing")
             return {
               ...state, 
               actualMinister: action.payload.actualMinister,
@@ -132,16 +142,11 @@ export default function(state = gameInitialState, action) {
             };
           } else {
             /*
-            Por defecto actualizamos el turno de forma local
+            Por defecto conservamos el turno de forma local
             */
+            console.log("State is not changing")
             return {
-              ...state, 
-              actualMinister: action.payload.actualMinister,
-              actualDirector: action.payload.actualDirector,
-              finished: action.payload.finished,
-              fenix_promulgations: action.payload.fenix_promulgations,
-              death_eater_promulgations: action.payload.death_eater_promulgations,
-              voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
+              ...state
             };
           }
         }
@@ -168,6 +173,18 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             didVoteCurrentTurn: action.payload.didVoteCurrentTurn
+          }
+        }
+        case VOTE_NOX_CURRENT_TURN: {
+          return {
+            ...state,
+            voteNoxCurrentTurn: action.payload.voteNoxCurrentTurn
+          }
+        }
+        case VOTE_NOX_NOTIFIED: {
+          return {
+            ...state,
+            voteNoxNotified: action.payload.voteNoxNotified
           }
         }
         case GET_CANDIDATES: {

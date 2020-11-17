@@ -55,10 +55,10 @@ const Votation = (props) => {
                     <li>Candidato Director: {getUsernameDirector()} </li>
                 </ul>
                 <button className="votationButton" onClick={() => {uploadVote(true)}}>
-                    <i class="far fa-thumbs-up fa-3x"></i>
+                    <i className="far fa-thumbs-up fa-3x"></i>
                 </button>
                 <button className="votationButton" onClick={() => {uploadVote(false)}}>
-                    <i class="far fa-thumbs-down fa-3x"></i>
+                    <i className="far fa-thumbs-down fa-3x"></i>
                 </button>
             </div>
         )

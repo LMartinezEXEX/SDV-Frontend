@@ -37,7 +37,7 @@ const Pregame = (props) => {
     useInterval(async () => {
         console.log("Checking...")
         await checkAndJoinGame()
-    }, 1000)
+    }, 500)
 
     if (isCreator) {
         const callbackInitGame = async () => {
