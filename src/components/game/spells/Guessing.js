@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Guessing = (props) => {
-    const {gameId, actualMinister, setCards, setshowCards} = props
+    const {gameId, playerId, setCards, setshowCards} = props
 
     const useGuessing = async() => {
         const useSpell_url_part1 = "http://127.0.0.1:8000/game/"
         const useSpell_url_part2 = "/execute_spell?spell=Guessing"
         await axios.put(useSpell_url_part1 + gameId + 
                         useSpell_url_part2, {
-            minister_id: actualMinister,
+            minister_id: playerId,
             player_id: 0
         }).then(res => {
             setshowCards(true)
@@ -43,7 +43,7 @@ const Guessing = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
+        playerId: state.game.playerId,
     };
 }
 
