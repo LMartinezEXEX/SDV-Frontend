@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import proclamationM from '../../assets/images/boards/m-proclamation.jpg'
 import proclamationO from '../../assets/images/boards/o-proclamation.jpg'
 import '../../assets/css/cards.css';
-import { getMinisterCards, getDirectorCards } from "../../redux/actions"
+import { getMinisterCards, getDirectorCards, ministerDiscardedCard, directorChoseCard } from "../../redux/actions"
 
 const Cards = (props) => {
     const { gameId, playerId, actualMinister, actualDirector, 
         cardsListMinister, cardsListDirector, getMinisterCards, getDirectorCards, 
+        ministerDiscardedCard, directorChoseCard, 
         setIsOpen } = props;
 
     const changeMinister = async () => {
@@ -54,6 +55,7 @@ const Cards = (props) => {
             }
         ).then(response => {
             if (response.status === 200) {
+                directorChoseCard({ directorHasChosenCard: true });
                 (async () => {
                     await axios(
                         "http://127.0.0.1:8000/game/" + gameId + "/spell"
@@ -79,6 +81,7 @@ const Cards = (props) => {
                 }
             ).then(response => {
                 if (response.status === 200 && response.data["message"] != undefined) {
+                    ministerDiscardedCard({ ministerHasDiscardedCard: true })
                     console.log("Director will get cards...")
                     return response.data["message"]
                 }
@@ -175,7 +178,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     getMinisterCards,
-    getDirectorCards
+    getDirectorCards,
+    ministerDiscardedCard,
+    directorChoseCard
 };
 
 export default connect(
