@@ -1,8 +1,10 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, END_GAME,
-        INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
-        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
-        VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
-        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
+import {
+    REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
+    INIT_GAME, END_GAME, UPDATE_GAME, ENABLE_SPELL,
+    GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
+    VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
+    GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
+    MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from './actionsTypes';
 
 export const register = (content) => ({
@@ -69,13 +71,6 @@ export const updateUsername = (content) => ({
     type: UPDATE_USERNAME,
     payload: {
       username: content.newUsername
-    }
-})
-
-export const updateMinister = (content) => ({
-    type: UPDATE_MINISTER,
-    payload: {
-        newMinister: content.newMinister
     }
 })
 
@@ -153,5 +148,19 @@ export const getDirectorCards = (content) => ({
     type: GET_DIRECTOR_CARDS,
     payload: {
         cardsListDirector: content.cardsListDirector
+    }
+})
+
+export const ministerDiscardedCard = (content) => ({
+    type: MINISTER_DISCARDED_CARD,
+    payload: {
+        ministerHasDiscardedCard: content.ministerHasDiscardedCard
+    }
+})
+
+export const directorChoseCard = (content) => ({
+    type: DIRECTOR_CHOSE_CARD,
+    payload: {
+        directorHasChosenCard: content.directorHasChosenCard
     }
 })

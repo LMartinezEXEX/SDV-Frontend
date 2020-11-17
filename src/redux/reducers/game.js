@@ -1,10 +1,10 @@
 import {
-  CREATE_GAME, UPDATE_MINISTER, INIT_GAME, END_GAME,
-  JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
+  CREATE_GAME, INIT_GAME, END_GAME,
+  JOIN_GAME, UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
   GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
   VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
-  GET_CANDIDATES, GET_MINISTER_CARDS, 
-  GET_DIRECTOR_CARDS
+  GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
+  MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from "../actionsTypes";
 
 export const GAME = "game"
@@ -24,6 +24,8 @@ export const gameInitialState = {
     candidateDirector: 0,
     cardsListMinister: [],
     cardsListDirector: [],
+    ministerHasDiscardedCard: false,
+    directorHasChosenCard: false,
     playerRole: "",
     finished: false,
     directorCandidates: [],
@@ -72,18 +74,8 @@ export default function(state = gameInitialState, action) {
             ...gameInitialState
           };
         }
-        case UPDATE_MINISTER: {
-            return {
-              ...state,
-              actualMinister: action.payload.newMinister
-            }
-          };
         case UPDATE_GAME: {
-          if (action.payload.finished) {
-            return {
-              ...gameInitialState
-            };
-          } else if (action.payload.actualMinister != state.actualMinister 
+          if (action.payload.actualMinister != state.actualMinister 
             && state.voteDoneCurrentTurn && !action.payload.voteDoneCurrentTurn) {
             /*
             Cambiamos ministro de magia, la votación finalizó, pero el back nos indica que ya estamos con una
@@ -101,6 +93,8 @@ export default function(state = gameInitialState, action) {
               cardsListMinister: [],
               cardsListDirector: [],
               directorCandidates: [],
+              ministerHasDiscardedCard: false,
+              directorHasChosenCard: false,
               voteDoneCurrentTurn: false,
               voteNoxCurrentTurn: false,
               voteNoxNotified: false,
@@ -204,6 +198,18 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             cardsListDirector: action.payload.cardsListDirector
+          }
+        }
+        case MINISTER_DISCARDED_CARD: {
+          return {
+            ...state,
+            ministerHasDiscardedCard: action.payload.ministerHasDiscardedCard
+          }
+        }
+        case DIRECTOR_CHOSE_CARD: {
+          return {
+            ...state,
+            directorHasChosenCard: action.payload.directorHasChosenCard
           }
         }
         default:
