@@ -32,7 +32,7 @@ const JoinForm = (props) => {
             <div>
                 <ul>
                     {gameList.map(game =>
-                        <li><button className="buttonTaker" onClick={() =>
+                        <li key={game.id}><button className="buttonTaker" onClick={() =>
                         handleClick(game.id)}> {game.name} </button></li>
                     )}
                 </ul>
