@@ -5,8 +5,7 @@ import axios from 'axios';
 import { getCandidates } from '../../redux/actions'
 
 const Director = (props) => {
-    const {actualMinister, actualDirector, gameId, playerId, candidates,
-        getCandidates, playersInfo } = props
+    const { gameId, playerId, candidates, playersInfo } = props
     
     const setDirectorCandidate = async (option) => {
         await axios.put(
@@ -26,20 +25,6 @@ const Director = (props) => {
         })
     }
 
-    const handleCheckCandidates = async () => {
-        await axios(
-            "http://127.0.0.1:8000/game/" + gameId + "/get_candidates"
-        ).then(response => {
-            if (response.status === 200) {
-                getCandidates({ candidateMinister: response.data.minister_id, candidateDirector: response.data.director_id })
-            }
-        }).catch(error => {
-            if (error.response != undefined && error.response.data != undefined) {
-                console.log(JSON.stringify(error.response.data))
-            }
-        })
-    }
-
     const getUsernameCandidate = (directorCandidate) =>{
         let response = ""
         playersInfo.forEach(player =>{
@@ -50,32 +35,25 @@ const Director = (props) => {
         return response
     }  
 
-    if (actualMinister === actualDirector) {
-        return (
-            <div className="director">
-                <ul>
-                    {
-                        candidates.map(option =>
-                            <li>
-                                <button
-                                    className="buttonTaker"
-                                    onClick={() => { setDirectorCandidate(option); handleCheckCandidates() } }
-                                >
-                                        {getUsernameCandidate(option)}
-                                </button>
-                            </li>
-                        )
-                    }
-                </ul>
-            </div>
-        )
-    } else {
-        return (
-            <div> Elegido: {actualDirector} </div>
-        )
-    }
+    return (
+        <div className="director">
+            <ul>
+                {
+                    candidates.map(option =>
+                        <li key={option}>
+                            <button
+                                className="buttonTaker"
+                                onClick={() => setDirectorCandidate(option) }
+                            >
+                                    {getUsernameCandidate(option)}
+                            </button>
+                        </li>
+                    )
+                }
+            </ul>
+        </div>
+    )
 }
-
 
 const mapStateToProps = (state) => {
     return {
@@ -87,11 +65,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-const mapDispatchToProps = {
-    getCandidates
-}
-
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-)(Director);
+export default connect(mapStateToProps)(Director);
