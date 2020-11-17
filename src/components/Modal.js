@@ -16,7 +16,7 @@ const Modal = ({ open, setIsOpen, children, onClose, candidates}) => { //childre
             case "Resultados": return(<ChargeTable />)
             case "Votar": return(<Votation />)
             case "Cartas": return(<Cards setIsOpen={setIsOpen} />)
-            case "Director": return(<Director candidates={candidates}/>)
+            case "Elegir Director": return(<Director candidates={candidates}/>)
             default: return children
         }
     }

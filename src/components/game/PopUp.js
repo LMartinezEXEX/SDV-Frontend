@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Modal from '../Modal'
 
 const PopUp= (props) => {
-    const { type, enableButton, handleState, handleBeforeClose } = props
+    const { type, enableButton, handleState, isOpenExtraCondition, handleBeforeClose, candidates } = props
     const [isOpen, setIsOpen] = useState(false)
     
     return (
@@ -23,11 +23,23 @@ const PopUp= (props) => {
             )}
             {(handleBeforeClose)
             ?(
-                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
+                (isOpenExtraCondition !== undefined)
+                ?(
+                    <Modal open={isOpen && isOpenExtraCondition} setIsOpen={setIsOpen} children={type} candidates={candidates} 
                     onClose={() => { handleBeforeClose(); setIsOpen(false) }}/>
+                ):(
+                    <Modal open={isOpen} setIsOpen={setIsOpen} children={type} candidates={candidates} 
+                    onClose={() => { handleBeforeClose(); setIsOpen(false) }}/>
+                ) 
             ):(
-                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
+                (isOpenExtraCondition !== undefined)
+                ?(
+                    <Modal open={isOpen && isOpenExtraCondition} setIsOpen={setIsOpen} children={type} candidates={candidates} 
                     onClose={() => setIsOpen(false)}/>
+                ):(
+                    <Modal open={isOpen} setIsOpen={setIsOpen} children={type} candidates={candidates} 
+                    onClose={() => setIsOpen(false)}/>
+                )
             )}
         </div>
     )
