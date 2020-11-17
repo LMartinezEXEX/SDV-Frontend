@@ -24,7 +24,8 @@ const Game = (props) => {
     const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
             getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
             didVoteCurrentTurn, voteNoxCurrentTurn, 
-            rejectCandidates, rejectCandidatesNotified, 
+            rejectCandidates, rejectCandidatesNotified,
+            ministerHasDiscardedCard, directorHasChosenCard, 
             getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
             playersInfo, getPlayersInfo, endGame } = props
@@ -81,7 +82,7 @@ const Game = (props) => {
         const spellsAvaliable_url = "http://127.0.0.1:8000/game/"
         await axios.get(spellsAvaliable_url + gameId + '/spell'
         ).then(res => {
-            if(res.data.Spell != "" && playerId === actualMinister){
+            if(res.data.Spell != ""){
                 enableSpell({enabledSpell:true, spell:res.data.Spell})
             }
         })
@@ -105,53 +106,88 @@ const Game = (props) => {
 
     const getGameState = async () => {
         await axios.get(
-            "http://127.0.0.1:8000/game/"+gameId+"/check_game"
+            "http://127.0.0.1:8000/game/" + gameId + "/check_game"
         ).then(res => {
             var data = res.data
 
-            if (data["vote done"] && !voteNoxCurrentTurn) {
-                // Obtener resultados
+            if (data["finished"]) {
+                updateGameState({
+                    actualMinister: data["current minister id"],
+                    actualDirector: data["current director id"],
+                    finished: data["finished"],
+                    fenix_promulgations: data["fenix promulgations"],
+                    death_eater_promulgations: data["death eater promulgations"],
+                    voteDoneCurrentTurn: data["vote done"]
+                })
+
+                console.log("Game should end soon...")
                 axios.put(
-                    'http://127.0.0.1:8000/game/'+gameId+'/result'
-                ).then(response =>{
-                    if (response.status === 200) {
-                        if (!response.data.result) {
-                            // Se rechazaron los candidatos
-                            console.log("Rejected candidates -> should change state")
-                            rejectCandidates({ voteNoxCurrentTurn: true })
-                        }
+                    "http://127.0.0.1:8000/game/" + gameId + "/end_game_notified?player_id=" + playerId
+                ).then(response => {
+                    if (response.status === 200 && response.data.game_result !== "") {
+                        console.log(response.data.game_result)
+                        alert(response.data.game_result)
+                        console.log("Game has ended!")
+                        endGame({})
                     }
                 }).catch(error => {
                     if (error.response !== undefined && error.response.data !== undefined) {
                         if (error.response.data["detail"] !== undefined) {
                             console.log(error.response.data["detail"])
+                            alert(error.response.data["detail"])
+                            
+                            console.log("Game has ended!")
+                            endGame({})
                         }
                     }
                 })
-            }
+            } else {
+                if (data["vote done"] && !voteNoxCurrentTurn) {
+                    // Obtener resultados
+                    axios.put(
+                        'http://127.0.0.1:8000/game/'+gameId+'/result'
+                    ).then(response => {
+                        if (response.status === 200) {
+                            if (!response.data.result) {
+                                // Se rechazaron los candidatos
+                                console.log("Rejected candidates -> should change state")
+                                rejectCandidates({ voteNoxCurrentTurn: true })
+                            }
+                        }
+                    }).catch(error => {
+                        if (error.response !== undefined && error.response.data !== undefined) {
+                            if (error.response.data["detail"] !== undefined) {
+                                console.log(error.response.data["detail"])
+                            }
+                        }
+                    })
+                }
+                
+                if (data["vote done"]) {
+                    console.log("[Check spell] " + "playerId: " + playerId + ", actualMinister:" + data["current minister id"])
+                }
 
-            if(data["finished"] && data["death eater promulgations"] === 6) {
-                alert("GANARON LOS MORTIFAGOS")
-            } else if (data["finished"] && data["fenix promulgations"] === 5) {
-                alert("GANO LA ORDEN DEL FENIX")
-            } else if (data["finished"]) {
-                alert("JUEGO FINALIZADO")
-            }
+                if (data["vote done"] && playerId === data["current minister id"]) {
+                    console.log("Checking spell...")
+                    spellsAvaliable().then()
+                }
 
-            updateGameState({
-                actualMinister: data["current minister id"],
-                actualDirector: data["current director id"],
-                finished: data["finished"],
-                fenix_promulgations: data["fenix promulgations"],
-                death_eater_promulgations: data["death eater promulgations"],
-                voteDoneCurrentTurn: data["vote done"]
-            })
+                updateGameState({
+                    actualMinister: data["current minister id"],
+                    actualDirector: data["current director id"],
+                    finished: data["finished"],
+                    fenix_promulgations: data["fenix promulgations"],
+                    death_eater_promulgations: data["death eater promulgations"],
+                    voteDoneCurrentTurn: data["vote done"]
+                })
+            }
         }).catch(error => {
             if (error.response !== undefined && error.response.data !== undefined) {
                 console.log(JSON.stringify(error.response.data))
                 if (error.response.data["detail"] !== undefined) {
                     alert(error.response.data["detail"])
-                    endGame()
+                    console.log("Game has ended!")
+                    endGame({})
                 }
             }
         })
@@ -165,16 +201,15 @@ const Game = (props) => {
 
     useInterval(async () => {
         console.log("Checking...")
-        await spellsAvaliable()
         await getGameState()
-    }, 2000)
+    }, 1000)
 
     return(
         <div>
             <div className="left-view">
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
-                    {playersInfo.map(player => <div>{getUsername(player)}</div>)}    
+                    {playersInfo.map(player => <div key={player.player_id} >{getUsername(player)}</div>)}    
                 </div>
             </div>
             <div className="gameView">
@@ -186,54 +221,62 @@ const Game = (props) => {
                     </div>
                     <div className="gameSection">
                         <div className="buttonSection">
-                            <div>
-                                <PopUp 
-                                type="Resultados" 
-                                enableButton={voteDoneCurrentTurn} 
-                                handleBeforeClose={
-                                    (voteNoxCurrentTurn)
-                                    ?(
-                                        () => {
-                                            console.log("Notify on close...")
-                                            rejectCandidatesNotified({ voteNoxNotified: true })
-                                            console.log("Player knows rejection...")
-                                            playerKnowsRejection()
-                                        }
-                                    ):(undefined)
-                                }
-                                />
-                            </div>
-                            <div>
-                                <PopUp 
-                                type="Votar" 
-                                enableButton={!didVoteCurrentTurn} 
-                                handleState={() => handleCheckCandidates()} 
-                                />
-                            </div>
-                            {(playerId === actualMinister || playerId === actualDirector)
+                            {(voteDoneCurrentTurn)
                             ?(
                                 <div>
                                     <PopUp 
-                                    type="Cartas"
-                                    enableButton={actualMinister != actualDirector} 
+                                    type="Resultados"  
+                                    enableButton={voteDoneCurrentTurn}
+                                    handleBeforeClose={
+                                        (voteNoxCurrentTurn)
+                                        ?(
+                                            () => {
+                                                console.log("Notify on close...")
+                                                rejectCandidatesNotified({ voteNoxNotified: true })
+                                                console.log("Player knows rejection...")
+                                                playerKnowsRejection()
+                                            }
+                                        ):(undefined)
+                                    }
                                     />
                                 </div>
                             ):(<></>)
                             }
-                            {(playerId === actualMinister && candidateMinister === candidateDirector)
+                            {(!voteDoneCurrentTurn)
+                            ?(
+                                <div>
+                                    <PopUp 
+                                    type="Votar" 
+                                    enableButton={!didVoteCurrentTurn} 
+                                    handleState={() => handleCheckCandidates()} 
+                                    isOpenExtraCondition={!didVoteCurrentTurn}
+                                    />
+                                </div>
+                            ):(<></>)
+                            }
+                            {(voteDoneCurrentTurn 
+                            && !ministerHasDiscardedCard && !directorHasChosenCard 
+                            && (playerId === actualMinister || playerId === actualDirector))
+                            ?(
+                                <div>
+                                    <PopUp 
+                                    type="Cartas"
+                                    enableButton={voteDoneCurrentTurn && !ministerHasDiscardedCard && !directorHasChosenCard}  
+                                    isOpenExtraCondition={!ministerHasDiscardedCard && !directorHasChosenCard}
+                                    />
+                                </div>
+                            ):(<></>)
+                            }
+                            {(playerId === actualMinister && candidateMinister === candidateDirector && candidateDirector === 0)
                             ?(
                                 <div >
-                                <button
-                                    className="app-btn" id="gameButton"
-                                    onClick={() => { handleDirectorCandidates() }}
-                                >
-                                    Elegir Director
-                                </button>
-                                <Modal
-                                    open={isOpen && candidateDirector === 0} setIsOpen={setIsOpen}
-                                    children={"Director"} candidates={directorCandidates}
-                                    onClose={() => setIsOpen(false)}
-                                />
+                                    <PopUp 
+                                    type="Elegir Director"
+                                    enableButton={candidateMinister === candidateDirector && candidateDirector === 0} 
+                                    handleState={() => handleDirectorCandidates() } 
+                                    isOpenExtraCondition={candidateMinister === candidateDirector && candidateDirector === 0}
+                                    candidates={directorCandidates} 
+                                    />
                                 </div>
                             ):(<></>)
                             }
@@ -255,7 +298,8 @@ const Game = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
-        playerId:state.game.playerId,
+        playerId: state.game.playerId,
+        finished: state.game.finished,
         actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector,
         candidateMinister: state.game.candidateMinister,
@@ -272,6 +316,8 @@ const mapStateToProps = (state) => {
         spell: state.game.spell,
         amountPlayers: state.game.amountPlayers,
         playersInfo: state.game.playersInfo,
+        ministerHasDiscardedCard: state.game.ministerHasDiscardedCard,
+        directorHasChosenCard: state.game.directorHasChosenCard
     };
 }
 
