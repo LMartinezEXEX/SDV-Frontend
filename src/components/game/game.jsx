@@ -15,15 +15,12 @@ import { connect } from 'react-redux';
 import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
-import Modal from '../Modal'
-import { useState } from 'react'
 import { wait } from '@testing-library/react';
 
 const Game = (props) => {
-    const [isOpen, setIsOpen] = useState(false)
-    const { gameId, actualMinister, actualDirector, candidateMinister, candidateDirector, 
-            getDirectorCandidates, directorCandidates, voteDoneCurrentTurn, 
-            didVoteCurrentTurn, voteNoxCurrentTurn, 
+    const { gameId, actualMinister, actualDirector,  
+            getDirectorCandidates, directorCandidates, didSelectDirectorCandidate, 
+            didVoteCurrentTurn, voteNoxCurrentTurn, voteDoneCurrentTurn,  
             rejectCandidates, rejectCandidatesNotified,
             ministerHasDiscardedCard, directorHasChosenCard, 
             getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
@@ -42,7 +39,6 @@ const Game = (props) => {
     }
 
     const handleDirectorCandidates = async () => {
-        setIsOpen(true)
         if (directorCandidates.length === 0) {
             await axios.get(
                 "http://127.0.0.1:8000/game/" + gameId + "/director_candidates"
@@ -242,7 +238,7 @@ const Game = (props) => {
                                 </div>
                             ):(<></>)
                             }
-                            {(!voteDoneCurrentTurn)
+                            {(!voteDoneCurrentTurn && !didVoteCurrentTurn)
                             ?(
                                 <div>
                                     <PopUp 
@@ -267,14 +263,14 @@ const Game = (props) => {
                                 </div>
                             ):(<></>)
                             }
-                            {(playerId === actualMinister && candidateMinister === candidateDirector && candidateDirector === 0)
+                            {(playerId === actualMinister && !didSelectDirectorCandidate)
                             ?(
                                 <div >
                                     <PopUp 
                                     type="Elegir Director"
-                                    enableButton={candidateMinister === candidateDirector && candidateDirector === 0} 
+                                    enableButton={!didSelectDirectorCandidate} 
                                     handleState={() => handleDirectorCandidates() } 
-                                    isOpenExtraCondition={candidateMinister === candidateDirector && candidateDirector === 0}
+                                    isOpenExtraCondition={!didSelectDirectorCandidate}
                                     candidates={directorCandidates} 
                                     />
                                 </div>
@@ -302,10 +298,9 @@ const mapStateToProps = (state) => {
         finished: state.game.finished,
         actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector,
-        candidateMinister: state.game.candidateMinister,
-        candidateDirector: state.game.candidateDirector,
         playerRole: state.game.playerRole,
         directorCandidates: state.game.directorCandidates,
+        didSelectDirectorCandidate: state.game.didSelectDirectorCandidate,
         voteDoneCurrentTurn: state.game.voteDoneCurrentTurn,
         didVoteCurrentTurn: state.game.didVoteCurrentTurn,
         voteNoxCurrentTurn: state.game.voteNoxCurrentTurn,

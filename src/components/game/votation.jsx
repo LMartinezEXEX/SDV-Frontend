@@ -5,8 +5,8 @@ import axios from 'axios'
 import { voteCurrentTurn } from "../../redux/actions"
 
 const Votation = (props) => {
-    const { gameId, playerId, actualMinister, candidateMinister,
-        candidateDirector, voteCurrentTurn, playersInfo } = props
+    const { gameId, playerId, candidateMinister,
+        candidateDirector, voteCurrentTurn, playersInfo, onSelect } = props
 
     const uploadVote = async (vote) => {
         await axios.put(
@@ -54,10 +54,10 @@ const Votation = (props) => {
                     <li>Candidato Ministro: {getUsernameMinister()} </li>
                     <li>Candidato Director: {getUsernameDirector()} </li>
                 </ul>
-                <button className="votationButton" onClick={() => {uploadVote(true)}}>
+                <button className="votationButton" onClick={() => { uploadVote(true); onSelect() }}>
                     <i className="far fa-thumbs-up fa-3x"></i>
                 </button>
-                <button className="votationButton" onClick={() => {uploadVote(false)}}>
+                <button className="votationButton" onClick={() => { uploadVote(false); onSelect() }}>
                     <i className="far fa-thumbs-down fa-3x"></i>
                 </button>
             </div>
@@ -77,7 +77,6 @@ const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
         playerId: state.game.playerId,
-        actualMinister: state.game.actualMinister,
         candidateMinister: state.game.candidateMinister,
         candidateDirector: state.game.candidateDirector,
         playersInfo: state.game.playersInfo

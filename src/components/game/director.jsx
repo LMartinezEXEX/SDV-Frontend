@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import '../../assets/css/game.css'
 import axios from 'axios';
-import { getCandidates } from '../../redux/actions'
+import { selectDirectorCandidate } from '../../redux/actions'
 
 const Director = (props) => {
-    const { gameId, playerId, candidates, playersInfo } = props
+    const { gameId, playerId, candidates, playersInfo, selectDirectorCandidate, onSelect } = props
     
     const setDirectorCandidate = async (option) => {
         await axios.put(
@@ -17,6 +17,9 @@ const Director = (props) => {
         ).then(response => {
             if (response.status === 200) {
                 console.log(response.data)
+                selectDirectorCandidate({
+                    didSelectDirectorCandidate: (response.data["candidate director id"] != undefined)
+                })
             }
         }).catch(error => {
             if (error.response != undefined && error.response.data != undefined) {
@@ -43,7 +46,7 @@ const Director = (props) => {
                         <li key={option}>
                             <button
                                 className="buttonTaker"
-                                onClick={() => setDirectorCandidate(option) }
+                                onClick={() => { setDirectorCandidate(option); onSelect() } }
                             >
                                     {getUsernameCandidate(option)}
                             </button>
@@ -59,10 +62,15 @@ const mapStateToProps = (state) => {
     return {
         playerId: state.game.playerId,
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
-        actualDirector: state.game.actualDirector,
         playersInfo: state.game.playersInfo
     };
 }
 
-export default connect(mapStateToProps)(Director);
+const mapDispatchToProps = {
+    selectDirectorCandidate
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Director);
