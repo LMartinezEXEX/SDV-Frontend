@@ -63,7 +63,7 @@ const Pregame = (props) => {
         return (
             <div className='pre-game'>
                 <div className = 'window-style'>
-                    <ul className="players-list">
+                    <ul>
                         {
                             playersPregame.sort(
                                 function (user_a, user_b) {
