@@ -124,7 +124,7 @@ const Game = (props) => {
                         console.log(response.data.game_result)
                         alert(response.data.game_result)
                         console.log("Game has ended!")
-                        endGame({})
+                        endGame()
                     }
                 }).catch(error => {
                     if (error.response !== undefined && error.response.data !== undefined) {
@@ -133,7 +133,7 @@ const Game = (props) => {
                             alert(error.response.data["detail"])
                             
                             console.log("Game has ended!")
-                            endGame({})
+                            endGame()
                         }
                     }
                 })
@@ -157,10 +157,6 @@ const Game = (props) => {
                             }
                         }
                     })
-                }
-                
-                if (data["vote done"]) {
-                    console.log("[Check spell] " + "playerId: " + playerId + ", actualMinister:" + data["current minister id"])
                 }
 
                 if (data["vote done"] && playerId === data["current minister id"]) {
@@ -198,7 +194,7 @@ const Game = (props) => {
     useInterval(async () => {
         console.log("Checking...")
         await getGameState()
-    }, 1000)
+    }, 2000)
 
     return(
         <div>
@@ -250,7 +246,7 @@ const Game = (props) => {
                                 </div>
                             ):(<></>)
                             }
-                            {(voteDoneCurrentTurn 
+                            {(voteDoneCurrentTurn && !voteNoxCurrentTurn 
                             && !ministerHasDiscardedCard && !directorHasChosenCard 
                             && (playerId === actualMinister || playerId === actualDirector))
                             ?(
