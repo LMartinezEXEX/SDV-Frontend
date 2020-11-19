@@ -6,7 +6,7 @@ import "../../../assets/css/buttons.css";
 import axios from 'axios';
 
 const UpdateProfileForm = (props) => {
-    const { callbackUsername, callbackPassword, email, authorization } = props
+    const { callbackUsername, callbackPassword, email, authorization, setIsOpen } = props
 
     const [password, setPassword ] = useState("");
 
@@ -72,6 +72,7 @@ const UpdateProfileForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackUsername(true, newUsername)
+                    setIsOpen(false)
                 }
             }).catch(error => {
                 if (error.response) {
