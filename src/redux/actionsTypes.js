@@ -14,6 +14,7 @@ export const UPDATE_GAME = "UpdateGame";
 export const ENABLE_SPELL = "EnableSpell";
 export const GET_PLAYERS_INFO = "GetPlayersInfo";
 export const GET_DIRECTOR_CANDIDATES = "GetDirectorCandidates";
+export const DID_SELECT_DIRECTOR_CANDIDATE = "DidSelectDirectorCandidate";
 export const DID_VOTE_CURRENT_TURN = "DidVoteCurrentTurn";
 export const VOTE_NOX_CURRENT_TURN = "voteNoxCurrentTurn";
 export const VOTE_NOX_NOTIFIED = "voteNoxNotified";

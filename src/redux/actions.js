@@ -1,8 +1,8 @@
 import {
     REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
     INIT_GAME, END_GAME, UPDATE_GAME, ENABLE_SPELL,
-    GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
-    VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
+    GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
+    DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
     GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
     MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from './actionsTypes';
@@ -105,6 +105,13 @@ export const getDirectorCandidates = (content) => ({
     type: GET_DIRECTOR_CANDIDATES,
     payload: {
         directorCandidates: content.directorCandidates
+    }
+})
+
+export const selectDirectorCandidate = (content) => ({
+    type: DID_SELECT_DIRECTOR_CANDIDATE,
+    payload: {
+        didSelectDirectorCandidate: content.didSelectDirectorCandidate
     }
 })
 

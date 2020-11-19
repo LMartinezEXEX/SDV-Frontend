@@ -1,8 +1,8 @@
 import {
   CREATE_GAME, INIT_GAME, END_GAME,
   JOIN_GAME, UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
-  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
-  VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
+  GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
+  DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
   GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
   MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from "../actionsTypes";
@@ -32,6 +32,7 @@ export const gameInitialState = {
     voteDoneCurrentTurn: false,
     voteNoxCurrentTurn: false,
     voteNoxNotified: false,
+    didSelectDirectorCandidate: false,
     didVoteCurrentTurn: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
@@ -98,6 +99,7 @@ export default function(state = gameInitialState, action) {
               voteDoneCurrentTurn: false,
               voteNoxCurrentTurn: false,
               voteNoxNotified: false,
+              didSelectDirectorCandidate: false,
               didVoteCurrentTurn: false,
               enabledSpell: false,   
               spell: ""
@@ -161,6 +163,12 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             directorCandidates: action.payload.directorCandidates
+          }
+        }
+        case DID_SELECT_DIRECTOR_CANDIDATE: {
+          return {
+            ...state,
+            didSelectDirectorCandidate: action.payload.didSelectDirectorCandidate
           }
         }
         case DID_VOTE_CURRENT_TURN: {
