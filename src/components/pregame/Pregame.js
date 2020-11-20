@@ -13,9 +13,8 @@ const Pregame = (props) => {
 
     // Jugadores que no son creadores
     const checkAndJoinGame = async () => {
-        const check_game_url = "http://127.0.0.1:8000/game/initialized/"
         await axios(
-            check_game_url + gameId + '?player_id=' + playerId
+            'http://127.0.0.1:8000/game/' + gameId + '/initialized?player_id=' + playerId
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
@@ -43,11 +42,9 @@ const Pregame = (props) => {
         const callbackInitGame = async () => {
             /* Debería haber un chequeo al server para ver el número de jugadores
                Entonces debería traer el mínimo y máximo de jugadores de la partida
-               Algo como lo que sigue
             */
-            const init_game_url = "http://127.0.0.1:8000/game/init/"
             await axios.put(
-                init_game_url + gameId + "?player_id=" + playerId
+                "http://127.0.0.1:8000/game/" + gameId + "/init?player_id=" + playerId
             ).then(response => {
                 initGame(
                     {

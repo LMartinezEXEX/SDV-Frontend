@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 
 const JoinForm = (props) => {
     const { email, joinGame, gameList } = props
-    
+  
 
     const handleClick = async (gameId) => {        
-        const result = await axios.put('http://127.0.0.1:8000/game/join/' + gameId, {
+        const result = await axios.put('http://127.0.0.1:8000/game/' + gameId +'/join', {
             email: email
         }).then(response => {
             return response.data
