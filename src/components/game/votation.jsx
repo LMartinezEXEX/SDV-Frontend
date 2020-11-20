@@ -54,12 +54,10 @@ const Votation = (props) => {
                     <li>Candidato Ministro: {getUsernameMinister()} </li>
                     <li>Candidato Director: {getUsernameDirector()} </li>
                 </ul>
-                <button className="votationButton" onClick={() => {uploadVote(true)}}>
-                    <i className="far fa-thumbs-up fa-3x"></i>
-                </button>
-                <button className="votationButton" onClick={() => {uploadVote(false)}}>
-                    <i className="far fa-thumbs-down fa-3x"></i>
-                </button>
+                <div className= "votation-buttons">
+                    <button className="votationButton-lumos" onClick={() => {uploadVote(true)}}></button>
+                    <button className="votationButton-nox" onClick={() => {uploadVote(false)}}> </button>
+                </div>
             </div>
         )
     } else {
