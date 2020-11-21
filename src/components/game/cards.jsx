@@ -1,59 +1,184 @@
-import React, {useState} from 'react'
+import React from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
 import proclamationM from '../../assets/images/boards/m-proclamation.jpg'
 import proclamationO from '../../assets/images/boards/o-proclamation.jpg'
 import '../../assets/css/cards.css';
+import { getMinisterCards, getDirectorCards } from "../../redux/actions"
 
-function Cards({gameState, gameUpdater, setIsOpen}) {
-    const [cards, setCards] = useState([])
+const Cards = (props) => {
+    const { gameId, playerId, actualMinister, actualDirector, 
+        cardsListMinister, cardsListDirector, getMinisterCards, getDirectorCards, 
+        setIsOpen } = props;
 
     const changeMinister = async () => {
-        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/select_MM")
+        await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
         .then(res => {
-            gameUpdater()
-        })
-    }
-
-    const putProclamation = async (promulgationId) => {
-        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/promulgate", {
-            "candidate_id": gameState.current_minister_id,
-            "to_promulgate": promulgationId
-        }).then(res=>{
-            if(gameState.death_eater_promulgations === 5 && promulgationId) {alert("GANARON LOS MORTIFAGOS")}
-            else if( gameState.fenix_promulgations === 4 && !promulgationId) {alert("GANO LA ORDEN DEL FENIX")}
-            gameUpdater()
-            changeMinister()
-            setIsOpen(false)
-        })
-    }
-
-    const TakeCards = async() => {
-        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/get_cards", {
-        method:'PUT',
-        headers: {
-            'accept': 'application/json',
-        }}).then(res => {
-            setCards(res.data.cards)
         })
     }
     
+    const checkMinisterCards = async () => {
+        await axios(
+            "http://127.0.0.1:8000/game/" + gameId + "/minister_cards?player_id=" + actualMinister
+        ).then(response => {
+            if (response.status === 200) {
+                getMinisterCards({ cardsListMinister: response.data["cards"] })
+            }
+        }).catch(error => {
+            if (error.response != undefined && error.response.data) {
+                console.log(JSON.stringify(error.response.data))
+            }
+        })
+    }
+
+    const checkDirectorCards = async () => {
+        await axios(
+            "http://127.0.0.1:8000/game/" + gameId + "/director_cards?player_id=" + actualDirector
+        ).then(response => {
+            if (response.status === 200) {
+                getDirectorCards({ cardsListDirector: response.data["cards"] })
+            }
+        }).catch(error => {
+            if (error.response != undefined && error.response.data) {
+                console.log(JSON.stringify(error.response.data))
+            }
+        })
+    }
+
+    const chooseCardForBoard = async (card) => {
+        await axios.put(
+            "http://127.0.0.1:8000/game/" + gameId + "/promulgate",
+            {
+                player_id: actualDirector,
+                to_promulgate: card
+            }
+        ).then(response => {
+            if (response.status === 200) {
+                (async () => {
+                    await axios(
+                        "http://127.0.0.1:8000/game/" + gameId + "/spell"
+                    ).then(response => {
+                        if (response.status === 200 && response.data.Spell == ""){
+                            changeMinister()
+                            setIsOpen(false)        
+                        }
+                    })
+                })()
+            }
+        })
+    }
+
+    const dispatchCard = async (card) => {
+        if (playerId === actualMinister) {
+            // Descartar carta, si el jugador es el ministro
+            const result = await axios.put(
+                "http://127.0.0.1:8000/game/" + gameId + "/discard",
+                {
+                    player_id: actualMinister, 
+                    to_discard: card
+                }
+            ).then(response => {
+                if (response.status === 200 && response.data["message"] != undefined) {
+                    console.log("Director will get cards...")
+                    return response.data["message"]
+                }
+            }).catch(error => {
+                if (error.response != undefined && error.response.data) {
+                    return error.response.data
+                }
+                console.log(JSON.stringify(error))
+            })
+
+            if (result === "Card discarded") {
+                alert("¡Carta descartada!")
+            }
+        } else if (playerId === actualDirector) {
+            // Promulgar (y descartar la otra carta), si el jugador es el director
+            chooseCardForBoard(card)
+        }
+    }
+
     const showCard = (card) => {
         switch(card){
-            case 1: return (<button onClick={() => {putProclamation(1)}}><img src={proclamationM} alt="Opcion de proclamacion"></img></button>)
-            case 0: return (<button onClick={() => {putProclamation(0)}}><img src={proclamationO} alt="Opcion de proclamacion"></img></button>)
+            case 1: return (<button onClick={() => { dispatchCard(card) }}><img src={proclamationM} alt="Opcion de proclamacion"></img></button>)
+            case 0: return (<button onClick={() => { dispatchCard(card) }}><img src={proclamationO} alt="Opcion de proclamacion"></img></button>)
             default: return <div></div>
         }
     }
-    return (
-        <div>
-            <button className="buttonTaker" onClick={TakeCards}>Tomar 3 cartas</button>
-            <div className="cardsDisplayer">
-                <div>{showCard(cards[0])}</div>
-                <div>{showCard(cards[1])}</div>
-                <div>{showCard(cards[2])}</div>
+
+    if (playerId === actualMinister) {
+
+        if (cardsListMinister.length === 0) {
+            checkMinisterCards()
+        }
+
+        if (cardsListMinister.length === 0) {
+            return (
+                <div>
+                    <div className="cardsDisplayer">
+                        <div> Aún no hay cartas disponibles </div>
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <div>
+                <div>Descartar alguna</div>
+                <div className="cardsDisplayer">
+                    <div>{showCard(cardsListMinister[0])}</div>
+                    <div>{showCard(cardsListMinister[1])}</div>
+                    <div>{showCard(cardsListMinister[2])}</div>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else if (playerId === actualDirector) {
+        
+        if (cardsListDirector.length === 0) {
+            checkDirectorCards()
+        }
+
+        if (cardsListDirector.length === 0) {
+            return (
+                <div>
+                    <div className="cardsDisplayer">
+                        <div> Aún no hay cartas disponibles </div>
+                    </div>
+                </div>
+            )
+        }
+        return (
+            <div>
+                <div>Elegir proclamación</div>
+                <div className="cardsDisplayer">
+                    <div>{showCard(cardsListDirector[0])}</div>
+                    <div>{showCard(cardsListDirector[1])}</div>)        
+                </div>
+            </div>
+        )
+    } else {
+        return(
+            <></>
+        )
+    }
 }
 
-export default Cards
+const mapStateToProps = (state) => {
+    return {
+        gameId: state.game.gameId,
+        playerId: state.game.playerId,
+        actualMinister: state.game.actualMinister,
+        actualDirector: state.game.actualDirector,
+        cardsListMinister: state.game.cardsListMinister,
+        cardsListDirector: state.game.cardsListDirector
+    };
+}
+
+const mapDispatchToProps = {
+    getMinisterCards,
+    getDirectorCards
+};
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(Cards);

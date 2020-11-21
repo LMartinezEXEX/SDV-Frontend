@@ -6,6 +6,7 @@
 }
 
 .modal {
+	font-family: 'Syne Mono', monospace;
 	position: fixed;
 	background-color: black;
 	padding: 60px;

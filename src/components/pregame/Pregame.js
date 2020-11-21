@@ -1,44 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import StartGame from "./StartGame"
 import "../../assets/css/buttons.css"
 import "../../assets/css/pregame.css"
 import { initGame } from "../../redux/actions";
+import axios from 'axios';
+import useInterval from '../../useInterval'
 
 const Pregame = (props) => {
-    const { initGame, isCreator } = props
+    const { isCreator, gameId, playerId, initGame} = props
+    const [playersPregame, setPlayersPregame] = useState([])
+
+    // Jugadores que no son creadores
+    const checkAndJoinGame = async () => {
+        await axios(
+            'http://127.0.0.1:8000/game/' + gameId + '/initialized?player_id=' + playerId
+        ).then(response => {
+            if (response.status === 200 
+                && response.data.game_state === 1) {
+                initGame(
+                    {
+                        init:true, 
+                        amountPlayers:response.data.amount_of_players,
+                        playerRole:response.data.rol
+                    }
+                )
+            } else {
+                setPlayersPregame(response.data.users)
+            }
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
+    useInterval(async () => {
+        console.log("Checking...")
+        await checkAndJoinGame()
+    }, 500)
 
     if (isCreator) {
-        const callbackInitGame = () => {
+        const callbackInitGame = async () => {
             /* Debería haber un chequeo al server para ver el número de jugadores
-            Entonces debería traer el mínimo y máximo de jugadores de la partida
-            Algo como lo que sigue
+               Entonces debería traer el mínimo y máximo de jugadores de la partida
             */
-            /*
-            checkplayers_url_part_1 = "http://127.0.0.1:8000/game/"
-            checkplayers_url_part_2 = "/players"
-            const result = axios(
-                checkplayers_url_part_1 + gameId + checkplayers_url_part_2, {
-                    method: "GET"
-                }
-            )
-            if (minPlayers <= result.data.players) {
-                initGame(true)
-            } else {
-                alert("Not enough players: " + result.data.players)
-            }
-            */
-            initGame({ init: true })
-        }  
+            await axios.put(
+                "http://127.0.0.1:8000/game/" + gameId + "/init?player_id=" + playerId
+            ).then(response => {
+                initGame(
+                    {
+                        init: true, 
+                        amountPlayers: response.data.amount_of_players,
+                        playerRole: response.data.rol
+                    }
+                )
+            }).catch(error => {
+                console.log(error)
+            });
+        }
         return (
             <div className='pre-game'>
                 <div className = 'window-style'>
-                    <ul className="players-list">
-                        <li> Harry54 </li>
-                        <li> Hermione21 </li>
-                        <li> Hagrid666 </li>
-                        <li> Draco55 </li>
-                        <li> Ron12 </li>
+                    <ul>
+                        {
+                            playersPregame.sort(
+                                function (user_a, user_b) {
+                                    return (user_a.username > user_b.username)?(1):(-1)
+                            }).map(player => {
+                                return <li key={player.username}> {player.username} </li>
+                            })
+                        }
                     </ul>
                 </div>
                 <StartGame callbackSubmit={callbackInitGame} />
@@ -49,11 +79,14 @@ const Pregame = (props) => {
             <div className='pre-game'>
                 <div className = 'window-style'>
                     <ul className="players-list">
-                        <li> Harry54 </li>
-                        <li> Hermione21 </li>
-                        <li> Hagrid666 </li>
-                        <li> Draco55 </li>
-                        <li> Ron12 </li>
+                        {
+                            playersPregame.sort(
+                                function (user_a, user_b) {
+                                    return (user_a.username > user_b.username)?(1):(-1)
+                            }).map(player => {
+                                return <li key={player.username} > {player.username} </li>
+                            })
+                        }
                     </ul>
                 </div>
             </div>
@@ -63,7 +96,9 @@ const Pregame = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        isCreator: state.game.isCreator
+        isCreator: state.game.isCreator,
+        gameId: state.game.gameId,
+        playerId: state.game.playerId
     };
 }
 
@@ -71,4 +106,7 @@ const mapDispatchToProps = {
     initGame
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pregame);    
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Pregame);

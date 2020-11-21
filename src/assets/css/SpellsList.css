@@ -1,0 +1,66 @@
+.SpellsList {
+    display: flex;
+    height: 250px;
+    background-color: rgb(46, 43, 43);
+}
+
+.SpellsList li {
+    margin: 10px;
+    width:175px;
+    height:65px;
+    margin:20px auto;
+    border-radius:10px;
+    text-align: center;
+    line-height: 65px;
+}
+
+.SpellsList li::before {
+    content: none;
+}
+
+.SpellButton {
+    background-color: transparent;
+    border: none;
+    inline-size: min-content;
+}
+
+.cardsList {
+    display: flex;
+    flex-direction: row;
+    height: 435px;
+    background-color: rgb(46, 43, 43);
+}
+
+.cardsList li {
+    margin: 10px;
+    width:175px;
+    height:65px;
+    margin:20px auto;
+    border-radius:10px;
+    text-align: center;
+    line-height: 65px; 
+}
+
+
+.loyalty li {
+    margin:100px auto;
+    border-radius:10px;
+    text-align: center;
+}
+
+.loyalty li::before {
+    content: none;
+}
+
+.loyalty {
+    display: flex;
+    flex-direction: column;
+    height: 435px;
+    background-color: rgb(46, 43, 43);
+}
+
+.loyalty img{
+    height: 300px;
+    margin-top: -40px;
+    border-radius: 10px;
+}

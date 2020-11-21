@@ -36,6 +36,7 @@ const UpdateProfile = (props) => {
             <UpdateProfileForm 
               callbackUsername={callbackUpdateUsername} 
               callbackPassword={callbackUpdatePassword} 
+              setIsOpen={setIsOpen}
             />
           </Modal>
         </div>

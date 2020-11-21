@@ -21,6 +21,11 @@ html {
 	/* Do not repeat the image */
 	background-size: cover;
 	background-position: center;
+	overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 h1 {
@@ -54,6 +59,18 @@ h5 {
 	opacity: 0.85;
 	font-family: 'Harp';
 	letter-spacing: 1px;
+	text-align: center;
+	margin-top: 20px;
+}
+
+h4 {
+	color: white;
+	border-color: black;
+	text-shadow: 0 0 3px black, 0 0 5px black;
+	opacity: 0.85;
+	font-family: 'Harp';
+	font-size: 20px;
+	letter-spacing: 2px;
 	text-align: center;
 	margin-top: 20px;
 }

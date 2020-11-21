@@ -4,7 +4,7 @@ const StartGame= (props) => {
     const { callbackSubmit } = props
     return (
         <div >
-            <button className= "app-btn" onClick={callbackSubmit}> Start </button>
+            <button className= "app-btn" onClick={callbackSubmit}> Iniciar Partida </button>
         </div>
     )
 }

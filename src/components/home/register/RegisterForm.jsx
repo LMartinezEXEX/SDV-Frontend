@@ -3,7 +3,8 @@ import Input from '../../Input'
 import axios from 'axios';
 
 
-const RegisterForm = () => {
+const RegisterForm = (props) => {
+    const { setIsOpen } = props
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -50,8 +51,7 @@ const RegisterForm = () => {
         }).then(response => {
             if (response.status === 201) {
                 alert("Registro hecho con éxito")
-            } else {
-                alert("No se pudo realizar el registro, corroborar la informacion ingresada")
+                setIsOpen(false)
             }
         }).catch(error => {
             if (error.response) {
@@ -115,14 +115,14 @@ const RegisterForm = () => {
 
                     </label>
                 </div>
-                <div>
-                    Avatar: {avatars[avatar]}
-                </div>
+                {/*<div>
+                   Avatar: {avatars[avatar]}
+                </div>*/}
 
-                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!" />
+                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!"  />
            
             </form>
-
+            {/*
             <div>
                 <button className="harry" onClick={() => setAvatar(0)} />
                 <button className="ron" onClick={() => setAvatar(1)} />
@@ -135,7 +135,7 @@ const RegisterForm = () => {
                 <button className="umbridge" onClick={() => setAvatar(6)} />
                 <button className="voldemort" onClick={() => setAvatar(7)} />
             </div>
-
+            */}
         </div>
     )
 }

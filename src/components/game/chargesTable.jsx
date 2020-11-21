@@ -1,33 +1,66 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {connect} from 'react-redux'
 import '../../assets/css/game.css'
-import axios from 'axios';
-import { useState } from 'react';
+import axios from 'axios'
 
 
 const ChargesTable = (props) => {
-    const {gameState, gameUpdater} = props
-    const players = ['Harry54', 'Hermione21', 'Hagrid666', 'Draco55', 'Ron12']
-    const [firstTurn, setfirstTurn] = useState(true)
+    const {candidateMinister, candidateDirector,playersInfo, gameId} = props  //VER QUÉ HACER CON lumosVotes
+    const [lumosVotes, setlumosVotes] = useState([])
 
-
-    const changeMinister = async () => {
-        await axios.put("http://127.0.0.1:8000/game/"+gameState.gameId+"/select_MM")
-        .then(res => {
-            setfirstTurn(false)
-            gameUpdater()
+    const voteResult = () => {
+        axios.put('http://127.0.0.1:8000/game/'+gameId+'/result')
+        .then(res =>{
+            setlumosVotes(res.data.voted_lumos)
         })
     }
+    
+    if(lumosVotes.length === 0) {
+        voteResult()
+    }
+    
+    const vote = (player) => {
+        if(lumosVotes.length !== 0) {
+            if(lumosVotes.includes(player.player_id)) {
+                return "Lumos"
+            } else {
+                return "Nox"
+            }
+        } else return ""
+    }
+    
+    const charge = (player) => {
+        if (player.player_id == candidateMinister) {
+            return "Ministro"
+        } else if (player.player_id == candidateDirector) {
+            return "Director"
+        } else {
+            return ""
+        }
+    }
 
+    const votationList = playersInfo.map(player => Object.assign({}, {username: player.username,
+                                             vote: vote(player), charge: charge(player)}))
+
+    
     return (
         <div className="chargeTable">
             <ul>
-                {firstTurn && <button className="buttonTaker" onClick={()=>changeMinister()}>Primer Ministro</button>}
-                {/* equation to get the current minister id depends the gameID */}
-                <li>Ministro: {players[(gameState.current_minister_id-(5*(gameState.gameId-1))-1)]} </li>
-                <li>Presidente:{"-"} </li>
+                {votationList.map(player => <li key={player.username}>{player.username + " " + player.vote + " " + player.charge}</li>)}
             </ul>
         </div>
     )
 }
 
-export default ChargesTable
+const mapStateToProps = (state) => {
+    return {
+        candidateMinister: state.game.candidateMinister,
+        candidateDirector: state.game.candidateDirector,
+        playersInfo: state.game.playersInfo,
+        gameId: state.game.gameId
+    };
+}
+
+
+export default connect(mapStateToProps, null)(ChargesTable);
+
