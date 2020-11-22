@@ -8,17 +8,20 @@ const RegisterForm = (props) => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [avatar, setAvatar] = useState(0);
+    const [password_verify, setPasswordverify ] = useState('');
+    //const [avatar, setAvatar] = useState(0);
     const [passwordError, setPasswordError] = useState(false);
     // const [hasError, setHasError] = useState(false);
 
-    const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
+    //const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
 
     function handleChange(name, value) {
         if (name === 'email') {
             setEmail(value)
         } else if (name === 'username') {
             setUsername(value)
+        } else if (name === 'password_verify') {
+            setPasswordverify(value)
         } else {
             if (value.length < 8) {
                 setPasswordError(true);
@@ -31,9 +34,8 @@ const RegisterForm = (props) => {
 
     
     const handleSubmit = async (event) => {
-        let account = { email, username, password, avatar }
+        let account = { email, username, password, password_verify }
         if (account) {
-            //isMatch(account);
             console.log('account',account);
         }
         event.preventDefault();
@@ -46,7 +48,8 @@ const RegisterForm = (props) => {
             data: {
                 email: email,
                 username: username,
-                password: password
+                password: password,
+                password_verify: password_verify
             }
         }).then(response => {
             if (response.status === 201) {
@@ -109,6 +112,20 @@ const RegisterForm = (props) => {
                             type: 'password',
                             required: 'required',
                             placeholder: 'Contraseña'
+                        }}
+                            handleChange={handleChange}
+                        />
+
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <Input attribute={{
+                            id: 'password_verify',
+                            name: 'password_verify',
+                            type: 'password',
+                            required: 'required',
+                            placeholder: 'Repetir contraseña'
                         }}
                             handleChange={handleChange}
                         />
