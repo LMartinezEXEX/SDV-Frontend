@@ -58,7 +58,7 @@ const RegisterForm = (props) => {
             }
         }).catch(error => {
             if (error.response) {
-                alert(error.response.data);
+                alert("Error, verifique los datos ingresados");
                 console.log("Error (response)", error.response.status);
                 console.log("Error (response)", error.response.headers);
                 console.log("Error (response)", error.response.data);
@@ -125,7 +125,7 @@ const RegisterForm = (props) => {
                             name: 'password_verify',
                             type: 'password',
                             required: 'required',
-                            placeholder: 'Repetir contraseña'
+                            placeholder: 'Confirmar contraseña'
                         }}
                             handleChange={handleChange}
                         />

@@ -9,44 +9,25 @@ const UpdateProfileForm = (props) => {
     const { callbackUsername, callbackPassword, email, authorization, setIsOpen } = props
 
     const [password, setPassword ] = useState("");
-
     const [newUsername, setNewUsername] = useState("");
-    const [newUsernameError, setNewUsernameError] = useState(false);
 
     const [newPassword, setNewPassword] = useState("");
-    const [newPasswordError, setNewPasswordError] = useState(false);
-
-    function checkUsername(username) {
-        return username.length >= 5 && username.length <= 50;
-    }
-
-    function checkPassword(password) {
-        return password.length >= 8 && password.length <= 50;
-    }
+    const [passwordVerify, setPasswordVerify] = useState("");
+    
 
     function handleNewUsernameChange(name, value) {
         if (name === "new-username") {
-            if (checkUsername(value)) {
-                setNewUsername(value)
-            } else {
-                setNewUsername("")
-            }
+            setNewUsername(value)
         }
     }
 
     function handlePasswordChange(name, value) {
-        if (checkPassword(value)) {
-            if (name === "password") {
-                setPassword(value)
-            } else if (name === "new-password") {
-                setNewPassword(value)
-            }
-        } else {
-            if (name === "password") {
-                setPassword("")
-            } else if (name === "new-password") {
-                setNewPassword("")
-            }
+        if (name === "password") {
+            setPassword(value)
+        } else if (name === "new-password") {
+            setNewPassword(value)
+        } else if (name === 'new-password-verify') {
+            setPasswordVerify(value)
         }
     }
 
@@ -80,7 +61,6 @@ const UpdateProfileForm = (props) => {
                     console.log("Error (response)", error.response.status);
                     console.log("Error (response)", error.response.headers);
                     console.log("Error (response)", error.response.data);
-                    setNewUsernameError(true)
                 } else if (error.request) {
                     alert(JSON.stringify(error.request));
                     console.log(error.request);
@@ -96,7 +76,8 @@ const UpdateProfileForm = (props) => {
                 data: {
                     email: email,
                     old_password: password,
-                    new_password: newPassword
+                    new_password: newPassword,
+                    new_password_verify: passwordVerify
                 },
                 headers: {
                     crossDomain: true,
@@ -118,21 +99,8 @@ const UpdateProfileForm = (props) => {
                 } else {
                     console.log("Error", error.message);
                 }
-                setNewPasswordError(true)
+             
             })
-        }
-        if (newUsernameError) {
-            const messageNewUsernameError = (newUsernameError ? "Username" : "")
-            alert(
-                messageNewUsernameError + (newUsernameError ? ", " : "")
-                + " couldn't be updated"
-            )
-        } else if (newPasswordError) {
-            const messageNewPasswordError = (newPasswordError ? "Password" : "")
-            alert
-            ( messageNewPasswordError + (newPasswordError ? ", " : "") 
-            + " couldn't be updated"
-            )
         }
     }
     
@@ -156,7 +124,6 @@ const UpdateProfileForm = (props) => {
                         id: 'password',
                         name: 'password',
                         type: 'password',
-                        required: 'required',
                         placeholder: "Contraseña actual"
                     }}
                         handleChange={handlePasswordChange}
@@ -170,6 +137,16 @@ const UpdateProfileForm = (props) => {
                         name: 'new-password',
                         type: 'password',
                         placeholder: "Contraseña nueva"
+                    }}
+                        handleChange={handlePasswordChange}
+                    />
+                </label>
+                <label >
+                    <Input attribute={{
+                        id: 'new-password-verify',
+                        name: 'new-password-verify',
+                        type: 'password',
+                        placeholder: "Confirmar contraseña"
                     }}
                         handleChange={handlePasswordChange}
                     />
