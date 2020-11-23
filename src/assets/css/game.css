@@ -82,3 +82,46 @@
     text-decoration: none;	
 }
 
+.rolsDisplayer {
+    background-color: rgba(63, 91, 119, 0.788);
+    margin-top: 30px;
+    width: 200px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.rolsDisplayer li::before {
+    content: none;
+}
+.rolsDisplayer li {
+    display: flex;
+    margin: 10px;
+}
+
+.ChargeLogo {
+    border: 2px solid black;
+    border-radius: 40px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.usernameDeath {
+    font-family: 'Syne Mono', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+    color: blue;
+    overflow: hidden;
+    width: 150px;
+}
+
+.usernameFenix {
+    width: 150px;
+    font-family: 'Syne Mono', monospace;
+    font-size: 18px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+}
