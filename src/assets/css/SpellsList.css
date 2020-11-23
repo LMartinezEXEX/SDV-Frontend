@@ -41,6 +41,10 @@
     line-height: 65px; 
 }
 
+.cardsList li::before {
+    content: none;
+}
+
 
 .loyalty li {
     margin:100px auto;

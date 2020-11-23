@@ -22,3 +22,4 @@ export const VOTE_NOX_NOTIFIED = "voteNoxNotified";
 export const GET_CANDIDATES = "GetCandidates";
 export const GET_MINISTER_CARDS = "GetMinisterCards";
 export const GET_DIRECTOR_CARDS = "GetDirectorCards";
+export const LEAVE_GAME = "LeaveGame";

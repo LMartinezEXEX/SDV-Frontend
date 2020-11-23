@@ -78,6 +78,7 @@ const RolsDisplayer = (props) => {
                 })
             return list
         }else if(playerRole === "Voldemort" && amountPlayers>6){
+
             const list = playersInfo.map(player=> {
                 return(
                     <li>

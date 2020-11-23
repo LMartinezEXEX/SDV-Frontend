@@ -1,15 +1,31 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import StartGame from "./StartGame"
+import LeaveGame from "./LeaveGame"
+import DeleteGame from "./DeleteGame"
 import "../../assets/css/buttons.css"
 import "../../assets/css/pregame.css"
-import { initGame } from "../../redux/actions";
+import { initGame, leaveGame } from "../../redux/actions";
 import axios from 'axios';
 import useInterval from '../../useInterval'
 
 const Pregame = (props) => {
-    const { isCreator, gameId, playerId, initGame} = props
+    const { isCreator, gameId, playerId, initGame, email, leaveGame } = props
     const [playersPregame, setPlayersPregame] = useState([])
+
+    // Abandono de partida
+    const leaveGameNotInit = async () => {
+        await axios.put(
+            'http://127.0.0.1:8000/game/' + gameId + '/leave_not_init_game',
+            {
+                email: email
+            }
+        ).then(response => {
+            leaveGame({})
+        }).catch(error => {
+            console.log(error)
+        });
+    }
 
     // Jugadores que no son creadores
     const checkAndJoinGame = async () => {
@@ -25,6 +41,9 @@ const Pregame = (props) => {
                         playerRole:response.data.rol
                     }
                 )
+            } else if (response.data.game_state === "The game has been deleted") {
+                alert("La partida ha sido eliminada por su creador")
+                leaveGame({})
             } else {
                 setPlayersPregame(response.data.users)
             }
@@ -72,6 +91,7 @@ const Pregame = (props) => {
                     </ul>
                 </div>
                 <StartGame callbackSubmit={callbackInitGame} />
+                <DeleteGame callbackSubmit={leaveGameNotInit} />
             </div>
         );
     } else {
@@ -89,6 +109,7 @@ const Pregame = (props) => {
                         }
                     </ul>
                 </div>
+                <LeaveGame callbackSubmit={leaveGameNotInit} />
             </div>
         );
     }
@@ -98,12 +119,14 @@ const mapStateToProps = (state) => {
     return {
         isCreator: state.game.isCreator,
         gameId: state.game.gameId,
-        playerId: state.game.playerId
+        playerId: state.game.playerId,
+        email: state.user.email
     };
 }
 
 const mapDispatchToProps = {
-    initGame
+    initGame,
+    leaveGame
 };
 
 export default connect(
