@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import {connect} from 'react-redux'
 import dropdown from '../../lobby/create/Dropdown'
+import {enableSpell} from "../../../redux/actions";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -15,13 +16,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Imperius = (props) => {
     const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
-        playersInfo} = props
+        playersInfo, enabledSpell} = props
     const classes = useStyles();
-    const players_list = playersInfo.map(player => {
-        if (player.player_id != actualMinister) {
-            return player.username
+    let players_list = []
+    playersInfo.map(player => {
+        if (player.player_id !== actualMinister &&
+            player["is alive"] && player.player_id !== player) {
+                players_list.push(player.username)
         }
     })
+
     const [VictimUsername, PlayerDropdown] = dropdown("Ministro", "",players_list);
     
     const useImperius = async() => {
@@ -33,6 +37,7 @@ const Imperius = (props) => {
             minister_id: actualMinister,
             player_id: victim[0].player_id
         }).then(res=>{
+            enableSpell({enabledSpell:false})
         })
     }
 
@@ -40,7 +45,7 @@ const Imperius = (props) => {
         <>
             <button className="SpellButton" onClick={useImperius}>
                 <Avatar className={classes.large}>I</Avatar>
-                <h4>Imperius</h4>          
+                <h4>Imperio</h4>          
             </button>
                 <PlayerDropdown/>
         </>
@@ -49,10 +54,15 @@ const Imperius = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        enabledSpell: state.game.enabledSpell,
         gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };
 }
 
-export default connect(mapStateToProps, null)(Imperius);    
+const mapDispatchToProps = {
+    enableSpell
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Imperius);    

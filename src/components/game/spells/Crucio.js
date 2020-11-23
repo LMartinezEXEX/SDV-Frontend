@@ -16,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Crucio = (props) => {
     const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
-            playersInfo} = props
+            playersInfo, playerId} = props
     const classes = useStyles();
-    const players_list = playersInfo.map(player => {
-        if (player.player_id != actualMinister) {
-            return player.username
+    let players_list = []
+    playersInfo.map(player => {
+        if (player["is alive"] && player.player_id !== player) {
+                players_list.push(player.username)
         }
     })
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
@@ -56,6 +57,7 @@ const Crucio = (props) => {
 
 const mapStateToProps = (state) => {
     return {
+        playerId: state.game.playerId,
         gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
