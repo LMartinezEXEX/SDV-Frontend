@@ -16,6 +16,7 @@ import useInterval from '../../useInterval'
 import Drawer from '@material-ui/core/Drawer';
 import SpellsList from './SpellsList'
 import Modal from '../Modal'
+import RolsDisplayer from './RolsDisplayer'
 import { useState } from 'react'
 import { wait } from '@testing-library/react';
 
@@ -175,6 +176,9 @@ const Game = (props) => {
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
                     {playersInfo.map(player => <div>{getUsername(player)}</div>)}    
+                </div>
+                <div>
+                    <RolsDisplayer/>
                 </div>
             </div>
             <div className="gameView">
