@@ -22,4 +22,3 @@ export const VoldemortLogo = () => {
             V
         </div>
     )
-}
