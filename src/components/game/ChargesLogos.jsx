@@ -15,3 +15,11 @@ export const DirectorLogo = () => {
         </div>
     )
 }
+
+export const VoldemortLogo = () => {
+    return(
+        <div className="ChargeLogo">
+            V
+        </div>
+    )
+}
