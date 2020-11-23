@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import dropdown from '../../lobby/create/Dropdown'
+import {enableSpell} from "../../../redux/actions";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -17,11 +18,13 @@ const AvadaKadavra = (props) => {
     const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
         playersInfo} = props
     const classes = useStyles();
-    const players_list = playersInfo.map(player => {
-        if (player.player_id != actualMinister) {
-            return player.username
+    let players_list = []
+    playersInfo.map(player => {
+        if (player["is alive"] && player.player_id !== player) {
+                players_list.push(player.username)
         }
     })
+
     const [VictimUsername, PlayerDropdown] = dropdown("Asesinar a", "",players_list);
     
     const useAvada = async() => {
@@ -34,6 +37,7 @@ const AvadaKadavra = (props) => {
             player_id: victim[0].player_id
         }).then(res=>{
             alert(victim[0].username + " asesinado")
+            enableSpell({enabledSpell:false})
         })
     }
 
@@ -56,4 +60,8 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, null)(AvadaKadavra);    
+const mapDispatchToProps = {
+    enableSpell
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AvadaKadavra);    
