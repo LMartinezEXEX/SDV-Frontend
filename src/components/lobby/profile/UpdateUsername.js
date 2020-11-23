@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import UpdateProfileForm from './UpdateProfileForm';
+import UpdateProfileForm from './UpdateUsernameForm';
 import Modal from '../../Modal'
 import '../../../assets/css/profile.css'
 import { updateUsername} from '../../../redux/actions';
 
-const UpdateProfile = (props) => {
+const UpdateUsername = (props) => {
     const { updateUsername} = props
     const [isOpen, setIsOpen] = useState(false)
     
@@ -19,23 +19,13 @@ const UpdateProfile = (props) => {
         alert('Error al actualizar el username')
       }
     }
-
-    const callbackUpdatePassword = (success = false) => {
-      if (success) {
-        console.log("Update password: success")
-        alert('Contraseña actualizada con éxito')
-      } else {
-        console.log("Update password: failed")
-      }
-    }
     
     return (
         <div >
-          <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> Modificar Perfil </button>
+          <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> Modificar Username </button>
           <Modal open={isOpen} onClose={() => setIsOpen(false)}>
             <UpdateProfileForm 
               callbackUsername={callbackUpdateUsername} 
-              callbackPassword={callbackUpdatePassword} 
               setIsOpen={setIsOpen}
             />
           </Modal>
@@ -50,4 +40,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps
-)(UpdateProfile);
+)(UpdateUsername);

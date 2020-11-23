@@ -12,7 +12,7 @@ const LogOut = (props) => {
     
     return (
         <div >
-          <button className= "app-btn small-btn-group" onClick={handleOnClick}> Salir </button>
+          <button className= "app-btn " onClick={handleOnClick}> Salir </button>
         </div>
     )
 }

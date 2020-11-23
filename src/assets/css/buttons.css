@@ -15,8 +15,8 @@
 	text-decoration: none;
 	transition: all 0.2s;
 	letter-spacing: 6px;
-	font-size: 30px;
-	margin-bottom: 60px;
+	font-size: 1.6rem;
+	margin-bottom: 40px;
 	cursor: pointer;
 }
 
@@ -38,7 +38,7 @@
 	transition: all 0.2s;
 	padding: 0.1em 0.8em;
 	border-radius: 0.12em;
-	font-size: 1.3em;
+	font-size: 1em;
 	margin-bottom: 0px;
 	cursor: pointer;
 }
@@ -50,8 +50,10 @@
 }
 
 .small-btn-group {
-	font-size: 28px;
-	margin-bottom: 45px;
+	font-size: 1.4rem;
+	margin-top: 30px;
+    margin-bottom: 20px;
+	letter-spacing: 4px;
 }
 
 
