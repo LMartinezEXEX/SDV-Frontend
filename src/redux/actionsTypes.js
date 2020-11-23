@@ -3,6 +3,7 @@ export const REGISTER = "Register";
 export const LOGIN  = "Login";
 export const LOGOUT = "Logout";
 export const PROFILE = "Profile";
+export const GET_ICON = "GetIcon";
 export const UPDATE_USERNAME = "UpdateUsername";
 
 /* Game */
