@@ -42,7 +42,6 @@ const Pregame = (props) => {
         const callbackInitGame = async () => {
             /* Debería haber un chequeo al server para ver el número de jugadores
                Entonces debería traer el mínimo y máximo de jugadores de la partida
-               Algo como lo que sigue
             */
             await axios.put(
                 "http://127.0.0.1:8000/game/" + gameId + "/init?player_id=" + playerId
@@ -61,7 +60,7 @@ const Pregame = (props) => {
         return (
             <div className='pre-game'>
                 <div className = 'window-style'>
-                    <ul className="players-list">
+                    <ul>
                         {
                             playersPregame.sort(
                                 function (user_a, user_b) {

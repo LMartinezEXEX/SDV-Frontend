@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const JoinForm = (props) => {
     const { email, joinGame, gameList } = props
-    
+  
 
     const handleClick = async (gameId) => {        
         const result = await axios.put('http://127.0.0.1:8000/game/' + gameId +'/join', {
@@ -30,7 +30,7 @@ const JoinForm = (props) => {
     } else {
         return (
             <div>
-                <ul>
+                <ul className="game-list">
                     {gameList.map(game =>
                         <li key={game.id}><button className="buttonTaker" onClick={() =>
                         handleClick(game.id)}> {game.name} </button></li>

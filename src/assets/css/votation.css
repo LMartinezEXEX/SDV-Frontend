@@ -1,8 +1,30 @@
-.votationButton {
-    width: 70px;
-    height: 60px;
+.votation-buttons {
+    text-align: center;
+}
+
+.votationButton-lumos {
+    width: 85px;
+    height: 65px;
     margin: 10px;
     background-color: transparent;
     color: white;
+    background-image: url("../images/lumos.PNG");
+    background-position: center;
+    background-size: cover;
+    border: 0.2em solid #FFFFFF;
+	border-radius: 0.12em;
 }
 
+.votationButton-nox {
+    width: 85px;
+    height: 65px;
+    margin: 10px;
+    background-color: transparent;
+    color: white;
+    background-image: url("../images/nox.PNG");
+    background-position: center;
+    background-size: cover;
+    border: 0.1em solid #FFFFFF;
+    border-radius: 0.12em;
+    filter: brightness(150%);
+}

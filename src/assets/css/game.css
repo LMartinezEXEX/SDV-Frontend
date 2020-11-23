@@ -1,10 +1,12 @@
 .gameView {
+    position: absolute;
     background-color: rgba(63, 91, 119, 0.788);
     display: flex;
     justify-content: center;
     border: 2px black solid;
     border-radius: 10px;
-    margin: 40px 250px;
+    margin: 0px 250px;
+    transform: scale(0.85);
 }
 
 .gameSection{
@@ -22,6 +24,7 @@
     border-radius: 10px;
     width: fit-content;
     height: fit-content;
+    font-size: 1.2em;
 }
 
 .chargeTable * {
@@ -35,8 +38,9 @@
 
 .buttonSection button {
     padding: 0.5em;
-    font-size: 1.5em;
+    font-size: 1.4em;
     margin: 10px;
+    letter-spacing: 3px;
 }
 
 .Drawer {
@@ -45,11 +49,12 @@
 
 
 .left-view {
+    margin-top: 3rem;
     position: absolute;
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 4rem;
+    margin-left: 5rem;
 }
 
 .envelope {

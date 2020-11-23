@@ -6,7 +6,7 @@ import "../../../assets/css/buttons.css";
 import axios from 'axios';
 
 const UpdateProfileForm = (props) => {
-    const { callbackUsername, callbackPassword, email, authorization } = props
+    const { callbackUsername, callbackPassword, email, authorization, setIsOpen } = props
 
     const [password, setPassword ] = useState("");
 
@@ -72,6 +72,7 @@ const UpdateProfileForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackUsername(true, newUsername)
+                    setIsOpen(false)
                 }
             }).catch(error => {
                 if (error.response) {
@@ -120,13 +121,17 @@ const UpdateProfileForm = (props) => {
                 setNewPasswordError(true)
             })
         }
-        if (newUsernameError || newPasswordError) {
+        if (newUsernameError) {
             const messageNewUsernameError = (newUsernameError ? "Username" : "")
-            const messageNewPasswordError = (newPasswordError ? "Password" : "")
             alert(
                 messageNewUsernameError + (newUsernameError ? ", " : "")
-                + messageNewPasswordError + (newPasswordError ? ", " : "")
                 + " couldn't be updated"
+            )
+        } else if (newPasswordError) {
+            const messageNewPasswordError = (newPasswordError ? "Password" : "")
+            alert
+            ( messageNewPasswordError + (newPasswordError ? ", " : "") 
+            + " couldn't be updated"
             )
         }
     }

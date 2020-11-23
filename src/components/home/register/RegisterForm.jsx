@@ -3,21 +3,25 @@ import Input from '../../Input'
 import axios from 'axios';
 
 
-const RegisterForm = () => {
+const RegisterForm = (props) => {
+    const { setIsOpen } = props
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [avatar, setAvatar] = useState(0);
+    const [password_verify, setPasswordverify ] = useState('');
+    //const [avatar, setAvatar] = useState(0);
     const [passwordError, setPasswordError] = useState(false);
     // const [hasError, setHasError] = useState(false);
 
-    const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
+    //const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
 
     function handleChange(name, value) {
         if (name === 'email') {
             setEmail(value)
         } else if (name === 'username') {
             setUsername(value)
+        } else if (name === 'password_verify') {
+            setPasswordverify(value)
         } else {
             if (value.length < 8) {
                 setPasswordError(true);
@@ -30,9 +34,8 @@ const RegisterForm = () => {
 
     
     const handleSubmit = async (event) => {
-        let account = { email, username, password, avatar }
+        let account = { email, username, password, password_verify }
         if (account) {
-            //isMatch(account);
             console.log('account',account);
         }
         event.preventDefault();
@@ -45,13 +48,13 @@ const RegisterForm = () => {
             data: {
                 email: email,
                 username: username,
-                password: password
+                password: password,
+                password_verify: password_verify
             }
         }).then(response => {
             if (response.status === 201) {
                 alert("Registro hecho con éxito")
-            } else {
-                alert("No se pudo realizar el registro, corroborar la informacion ingresada")
+                setIsOpen(false)
             }
         }).catch(error => {
             if (error.response) {
@@ -115,11 +118,25 @@ const RegisterForm = () => {
 
                     </label>
                 </div>
+                <div>
+                    <label>
+                        <Input attribute={{
+                            id: 'password_verify',
+                            name: 'password_verify',
+                            type: 'password',
+                            required: 'required',
+                            placeholder: 'Repetir contraseña'
+                        }}
+                            handleChange={handleChange}
+                        />
+
+                    </label>
+                </div>
                 {/*<div>
                    Avatar: {avatars[avatar]}
                 </div>*/}
 
-                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!" />
+                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!"  />
            
             </form>
             {/*
