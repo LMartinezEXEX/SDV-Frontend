@@ -4,7 +4,7 @@ import {
   GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
   VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
   GET_CANDIDATES, GET_MINISTER_CARDS, 
-  GET_DIRECTOR_CARDS
+  GET_DIRECTOR_CARDS, LEAVE_GAME
 } from "../actionsTypes";
 
 export const GAME = "game"
@@ -205,6 +205,15 @@ export default function(state = gameInitialState, action) {
             ...state,
             cardsListDirector: action.payload.cardsListDirector
           }
+        }
+        case LEAVE_GAME: {
+          return {
+            ...state,
+            isCreator: false,
+            gameId: null,
+            playerId: null,
+            init: false            
+          };
         }
         default:
           return state;

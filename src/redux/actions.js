@@ -2,7 +2,7 @@ import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, END_G
         INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
         GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
         VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
-        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS
+        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, LEAVE_GAME
 } from './actionsTypes';
 
 export const register = (content) => ({
@@ -155,3 +155,10 @@ export const getDirectorCards = (content) => ({
         cardsListDirector: content.cardsListDirector
     }
 })
+
+export const leaveGame = (content) => ({
+    type: LEAVE_GAME,
+    payload: {
+    }
+})
+

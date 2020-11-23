@@ -173,7 +173,7 @@ const Game = (props) => {
     useInterval(async () => {
         await updatePlayers()
     }, 5000)
-    
+
     return(
         <div>
             <div className="left-view">
