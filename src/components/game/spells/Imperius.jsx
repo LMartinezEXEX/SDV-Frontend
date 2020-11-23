@@ -1,7 +1,7 @@
 import React from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios'
+import axios from 'axios';
 import {connect} from 'react-redux'
 import dropdown from '../../lobby/create/Dropdown'
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AvadaKadavra = (props) => {
+const Imperius = (props) => {
     const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
         playersInfo} = props
     const classes = useStyles();
@@ -22,26 +22,25 @@ const AvadaKadavra = (props) => {
             return player.username
         }
     })
-    const [VictimUsername, PlayerDropdown] = dropdown("Asesinar a", "",players_list);
+    const [VictimUsername, PlayerDropdown] = dropdown("Ministro", "",players_list);
     
-    const useAvada = async() => {
+    const useImperius = async() => {
         const victim = playersInfo.filter(player => 
             player.username === VictimUsername)
-        const avada_url = "http://127.0.0.1:8000/game/"
-        const avada_url2 = "/execute_spell?spell=Avada Kedavra"
-        await axios.put(avada_url + gameId + avada_url2,{
+        const imperius_url = "http://127.0.0.1:8000/game/"
+        const imperius_url2 = "/execute_spell?spell=Imperius"
+        await axios.put(imperius_url + gameId + imperius_url2,{
             minister_id: actualMinister,
             player_id: victim[0].player_id
         }).then(res=>{
-            alert(victim[0].username + " asesinado")
         })
     }
 
     return (
         <>
-            <button className="SpellButton" onClick={useAvada}>
-                <Avatar className={classes.large}>AK</Avatar>
-                <h4>Avada Kedabvra</h4>          
+            <button className="SpellButton" onClick={useImperius}>
+                <Avatar className={classes.large}>I</Avatar>
+                <h4>Imperius</h4>          
             </button>
                 <PlayerDropdown/>
         </>
@@ -56,4 +55,4 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps, null)(AvadaKadavra);    
+export default connect(mapStateToProps, null)(Imperius);    

@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import Guessing from './spells/Guessing'
 import Crucio from './spells/Crucio'
 import AvadaKedavra from './spells/AvadaK'
+import Imperius from './spells/Imperius'
 import '../../assets/css/SpellsList.css'
 import CardsDisplayer from './CardsDisplayer'
 import LoyaltyDisplayer from './LoyaltyDisplayer'
@@ -16,6 +17,7 @@ const SpellsList = ({spell}) => {
             case "Guessing": return (<li><Guessing setCards={setCards} setshowCards={setShowCards}/></li>)
             case "Avada Kedavra": return(<li><AvadaKedavra/></li>)
             case "Crucio": return(<li><Crucio setShowCards={setShowCards} setCrucioLoyalty={setCrucioLoyalty}/></li>)
+            case "Imperius": return(<li><Imperius/></li>)
         }
     }
 

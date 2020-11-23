@@ -9,12 +9,8 @@ const RegisterForm = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password_verify, setPasswordverify ] = useState('');
-    //const [avatar, setAvatar] = useState(0);
     const [passwordError, setPasswordError] = useState(false);
-    // const [hasError, setHasError] = useState(false);
-
-    //const avatars = ["Harry","Ron","Hermione","Snape","Draco","Lucius","Umbridge","Voldemort"]
-
+   
     function handleChange(name, value) {
         if (name === 'email') {
             setEmail(value)
@@ -58,7 +54,7 @@ const RegisterForm = (props) => {
             }
         }).catch(error => {
             if (error.response) {
-                alert(error.response.data);
+                alert("Error, verifique los datos ingresados");
                 console.log("Error (response)", error.response.status);
                 console.log("Error (response)", error.response.headers);
                 console.log("Error (response)", error.response.data);
@@ -125,34 +121,17 @@ const RegisterForm = (props) => {
                             name: 'password_verify',
                             type: 'password',
                             required: 'required',
-                            placeholder: 'Repetir contraseña'
+                            placeholder: 'Confirmar contraseña'
                         }}
                             handleChange={handleChange}
                         />
 
                     </label>
                 </div>
-                {/*<div>
-                   Avatar: {avatars[avatar]}
-                </div>*/}
 
                 <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!"  />
            
             </form>
-            {/*
-            <div>
-                <button className="harry" onClick={() => setAvatar(0)} />
-                <button className="ron" onClick={() => setAvatar(1)} />
-                <button className="hermione" onClick={() => setAvatar(2)} />
-                <button className="snape" onClick={() => setAvatar(3)} />
-            <div>
-            </div>
-                <button className="draco" onClick={() => setAvatar(4)} />
-                <button className="lucius" onClick={() => setAvatar(5)} />
-                <button className="umbridge" onClick={() => setAvatar(6)} />
-                <button className="voldemort" onClick={() => setAvatar(7)} />
-            </div>
-            */}
         </div>
     )
 }
