@@ -7,7 +7,13 @@ import { getUsernameFromList } from './gameAuxiliars';
 import { SERVER_URL, GAME_PATH, VOTE } from '../constantsEndpoints';
 
 const Votation = (props) => {
-    const { gameId, playerId, candidateMinister, candidateDirector, playersInfo, onSelect } = props
+    const { 
+        gameId, playerId, 
+        candidateMinister, candidateDirector, 
+        playersInfo, onSelect,
+        voteCurrentTurn, 
+        setMessageTopCenterOpen, setMessageTopCenter 
+    } = props
 
     const uploadVote = async (vote) => {
         await axios.put(
@@ -19,6 +25,8 @@ const Votation = (props) => {
         ).then(response => {
             if (response.status === 200 && response.data.votes) {
                 voteCurrentTurn({ didVoteCurrentTurn: true })
+                setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Voto " + (vote?"Lumos":"Nox") + " enviado" })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
