@@ -21,7 +21,7 @@ export const updateUsername = (content) => ({
 export const getIcon = (content) => ({
     type: GET_ICON,
     payload: {
-      avatar: content.avatar 
+      timeBreaker: content.timeBreaker 
     }
 })
 

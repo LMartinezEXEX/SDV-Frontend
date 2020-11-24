@@ -13,7 +13,7 @@ import Game from './components/game/game';
 import PageNotFound from './components/PageNotFound';
 
 const Routes = (props) => {
-    const { isAuth, type, email, username, gameId, init} = props;
+    const { isAuth, type, email, username, icon, gameId, init} = props;
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
@@ -42,7 +42,7 @@ const Routes = (props) => {
                 <Router history={history}>
                     <Redirect from="/" to="/lobby" />
                     <Route path="/lobby" >
-                    <Lobby email={email} username={username} />
+                    <Lobby email={email} username={username} icon={icon} />
                     </Route>
                 </Router>
             );
@@ -61,6 +61,7 @@ const mapStateToProps = (state) => {
         type: state.user.type,
         email: state.user.email,
         username: state.user.username,
+        icon: state.user.icon,
         gameId: state.game.gameId,
         init: state.game.init
     };

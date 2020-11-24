@@ -11,7 +11,7 @@ const UpdateIcon = (props) => {
     const callbackUpdateIcon = (success = false) => {
       if (success) {
         console.log("Update icon: success")
-        getIcon({ avatar: "?" + new Date().getTime() })
+        getIcon({ timeBreaker: "?" + new Date().getTime() })
       }
     }
 

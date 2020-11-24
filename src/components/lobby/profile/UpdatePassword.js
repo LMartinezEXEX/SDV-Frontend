@@ -3,7 +3,7 @@ import UpdatePasswordForm from './UpdatePasswordForm';
 import Modal from '../../Modal'
 import '../../../assets/css/profile.css'
 
-const UpdatePassword = (props) => {
+const UpdatePassword = () => {
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdatePassword = (success = false) => {

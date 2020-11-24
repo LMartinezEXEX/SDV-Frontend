@@ -34,6 +34,7 @@ const UpdateIconForm = (props) => {
             )
             await axios(
                 SERVER_URL + USER_ICON, {
+
                 method: "PUT",
                 data: formData,
                 headers: {

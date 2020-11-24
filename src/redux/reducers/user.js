@@ -26,7 +26,8 @@ export default function(state = userInitialState, action) {
             type: action.payload.type,
             authorization: action.payload.authorization,
             email: action.payload.email,
-            username: action.payload.username
+            username: action.payload.username,
+            icon: SERVER_URL + USER_ICON + action.payload.email
           };
         }
         case LOGOUT: {
@@ -37,7 +38,8 @@ export default function(state = userInitialState, action) {
             type: "guest",
             authorization: "",
             email: "",
-            username: ""
+            username: "",
+            icon: ""
           }
         }
         case UPDATE_USERNAME: {
@@ -49,7 +51,7 @@ export default function(state = userInitialState, action) {
         case GET_ICON: {
           return {
             ...state,
-            icon: SERVER_URL + state.email + USER_ICON + action.payload.avatar
+            icon: SERVER_URL + USER_ICON + state.email + action.payload.timeBreaker
           };
         }
         default:
