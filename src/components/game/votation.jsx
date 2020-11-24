@@ -37,10 +37,8 @@ const Votation = (props) => {
                 </ul>
                 <div className="buttonSection">
                 <button className="votationButton-lumos" onClick={() => { uploadVote(true); onSelect() }}>
-                    Lumos
                 </button>
                 <button className="votationButton-nox" onClick={() => { uploadVote(false); onSelect() }}>
-                    Nox
                 </button>
                 </div>
             </div>
