@@ -4,47 +4,47 @@ import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
 import Input from '../../Input';
-import { SERVER_URL, USER_UPDATE_USERNAME } from '../../constantsEndpoints';
+import { SERVER_URL, USER_ICON } from '../../constantsEndpoints';
 
-const UpdateProfileForm = (props) => {
-    const { callbackUsername, email, authorization, setIsOpen } = props
+const UpdateIconForm = (props) => {
+    const { callbackIcon, email, authorization, setIsOpen} = props
 
-    const [newUsername, setNewUsername] = useState("");
     const [password, setPassword ] = useState("");
-    
+    const [newIcon, setNewIcon] = useState(null);
+  
     function handlePasswordChange(name, value) {
         if (name === "password") {
             setPassword(value)
         }
     }
 
-    function handleNewUsernameChange(name, value) {
-        if (name === "new-username") {
-            setNewUsername(value)
-        }
+    function handleIconChange(event) {
+        setNewIcon(event.target.files[0])
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        if (newUsername) {
+    const handleSubmit = async () => {
+        if (newIcon) {
+            const formData = new FormData()
+            formData.append("email", email)
+            formData.append("password", password)
+            formData.append(
+              "new_icon",
+              newIcon,
+              newIcon.name
+            )
             await axios(
-                SERVER_URL + USER_UPDATE_USERNAME, {
+                SERVER_URL + USER_ICON, {
                 method: "PUT",
-                data: {
-                    email: email,
-                    password: password,
-                    new_username: newUsername
-                },
+                data: formData,
                 headers: {
                     crossDomain: true,
                     "Authorization": authorization
                 }
             }).then(response => {
                 if (response.status === 200) {
-                    callbackUsername(true, newUsername)
-                    setIsOpen(false)
+                    callbackIcon(true, email)
                 }
+                setIsOpen(false)
             }).catch(error => {
                 if (error.response) {
                     alert(JSON.stringify(error.response.data));
@@ -60,34 +60,29 @@ const UpdateProfileForm = (props) => {
             })
         }
     }
-    
+
+
+
     return (
         <form className='profile-container' onSubmit={handleSubmit}>
-            <div>
-                <label >
-                    <Input attribute={{
-                        id: 'new-username',
-                        name: 'new-username',
-                        type: 'text',
-                        placeholder: "Nuevo Username"
-                    }}
-                        handleChange={handleNewUsernameChange}
-                    />
-                </label>
-            </div>
+            <button className="app-btn small-btn">
+                <label for="new-icon" className="file-upload"> {(newIcon)?(newIcon.name):("Elegir avatar")} </label>
+                <input  id="new-icon" type='file' style={{ display: 'none' }} onChange={handleIconChange}/>
+            </button>
             <div>
                 <label >
                     <Input attribute={{
                         id: 'password',
                         name: 'password',
                         type: 'password',
+                        required: 'required',
                         placeholder: "Contraseña"
                     }}
                         handleChange={handlePasswordChange}
                     />
                 </label>
             </div>
-            <input type="submit" name="Update"  className="app-btn small-btn" value="Modificar" />
+            <input type="submit" name="Update"  className="app-btn small-btn" value="Subir" />
         </form>
     )
 }
@@ -99,4 +94,4 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps)(UpdateProfileForm);
+export default connect(mapStateToProps)(UpdateIconForm);

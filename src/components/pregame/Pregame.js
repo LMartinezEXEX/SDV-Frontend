@@ -1,13 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import StartGame from "./StartGame"
-import LeaveGame from "./LeaveGame"
-import DeleteGame from "./DeleteGame"
-import "../../assets/css/buttons.css"
-import "../../assets/css/pregame.css"
-import { initGame, leaveGame } from "../../redux/actions";
 import axios from 'axios';
-import useInterval from '../../useInterval'
+import useInterval from '../../useInterval';
+import StartGame from './StartGame';
+import LeaveGame from './LeaveGame';
+import DeleteGame from './DeleteGame';
+import '../../assets/css/buttons.css';
+import '../../assets/css/pregame.css';
+import { initGame, leaveGame } from '../../redux/actions';
+import { 
+    SERVER_URL, GAME_PATH, INIT,  
+    INITIALIZED, LEAVE_NOT_INIT_GAME, 
+    PLAYER_ID_QUERY_STRING 
+} from '../constantsEndpoints';
 
 const Pregame = (props) => {
     const { isCreator, gameId, playerId, initGame, email, leaveGame } = props
@@ -16,12 +21,12 @@ const Pregame = (props) => {
     // Abandono de partida
     const leaveGameNotInit = async () => {
         await axios.put(
-            'http://127.0.0.1:8000/game/' + gameId + '/leave_not_init_game',
+            SERVER_URL + GAME_PATH + gameId + LEAVE_NOT_INIT_GAME,
             {
                 email: email
             }
         ).then(response => {
-            leaveGame({})
+            leaveGame()
         }).catch(error => {
             console.log(error)
         });
@@ -30,7 +35,7 @@ const Pregame = (props) => {
     // Jugadores que no son creadores
     const checkAndJoinGame = async () => {
         await axios(
-            'http://127.0.0.1:8000/game/' + gameId + '/initialized?player_id=' + playerId
+            SERVER_URL + GAME_PATH + gameId + INITIALIZED + PLAYER_ID_QUERY_STRING + playerId
         ).then(response => {
             if (response.status === 200 
                 && response.data.game_state === 1) {
@@ -63,7 +68,7 @@ const Pregame = (props) => {
                Entonces debería traer el mínimo y máximo de jugadores de la partida
             */
             await axios.put(
-                "http://127.0.0.1:8000/game/" + gameId + "/init?player_id=" + playerId
+                SERVER_URL + GAME_PATH + gameId + INIT + PLAYER_ID_QUERY_STRING + playerId
             ).then(response => {
                 initGame(
                     {

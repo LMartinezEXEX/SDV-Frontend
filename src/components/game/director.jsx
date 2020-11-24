@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import '../../assets/css/game.css'
+import React from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
-import { getCandidates } from '../../redux/actions'
+import '../../assets/css/game.css';
+import { 
+    selectDirectorCandidate, 
+    setMessageTopCenter, setMessageTopCenterOpen 
+} from '../../redux/actions';
+import { getUsernameFromList } from './gameAuxiliars';
+import { SERVER_URL, GAME_PATH, SELECT_DIRECTOR_CANDIDATE } from '../constantsEndpoints';
 
 const Director = (props) => {
-    const {actualMinister, actualDirector, gameId, playerId, candidates,
-        getCandidates, playersInfo } = props
-    
+    const { 
+        gameId, playerId, candidates, playersInfo, onSelect, 
+        selectDirectorCandidate, 
+        setMessageTopCenter, setMessageTopCenterOpen
+    } = props
+
     const setDirectorCandidate = async (option) => {
         await axios.put(
-            'http://127.0.0.1:8000/game/' + gameId + '/select_director_candidate',
+            SERVER_URL + GAME_PATH + gameId + SELECT_DIRECTOR_CANDIDATE,
             {
                 minister_id: playerId,
                 director_id: option
@@ -18,77 +26,49 @@ const Director = (props) => {
         ).then(response => {
             if (response.status === 200) {
                 console.log(response.data)
+                selectDirectorCandidate({
+                    didSelectDirectorCandidate: (response.data["candidate director id"] !== undefined)
+                })
             }
         }).catch(error => {
-            if (error.response != undefined && error.response.data != undefined) {
-                console.log(error.response.data)
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
     }
 
-    const handleCheckCandidates = async () => {
-        await axios(
-            "http://127.0.0.1:8000/game/" + gameId + "/get_candidates"
-        ).then(response => {
-            if (response.status === 200) {
-                getCandidates({ candidateMinister: response.data.minister_id, candidateDirector: response.data.director_id })
-            }
-        }).catch(error => {
-            if (error.response != undefined && error.response.data != undefined) {
-                console.log(JSON.stringify(error.response.data))
-            }
-        })
-    }
-
-    const getUsernameCandidate = (directorCandidate) =>{
-        let response = ""
-        playersInfo.forEach(player =>{
-            if(player.player_id === directorCandidate){
-                response = player.username
-            }
-        })
-        return response
-    }  
-
-    if (actualMinister === actualDirector) {
-        return (
-            <div className="director">
-                <ul>
-                    {
-                        candidates.map(option =>
-                            <li>
-                                <button
-                                    className="buttonTaker"
-                                    onClick={() => { setDirectorCandidate(option); handleCheckCandidates() } }
-                                >
-                                        {getUsernameCandidate(option)}
-                                </button>
-                            </li>
-                        )
-                    }
-                </ul>
-            </div>
-        )
-    } else {
-        return (
-            <div> Elegido: {actualDirector} </div>
-        )
-    }
+    return (
+        <div className="director">
+            <ul>
+                {
+                    candidates.map(option =>
+                        <li key={option}>
+                            <button
+                                className="buttonTaker"
+                                onClick={() => { setDirectorCandidate(option); onSelect() } }
+                            >
+                                    {getUsernameFromList(playersInfo, option)}
+                            </button>
+                        </li>
+                    )
+                }
+            </ul>
+        </div>
+    )
 }
-
 
 const mapStateToProps = (state) => {
     return {
         playerId: state.game.playerId,
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
-        actualDirector: state.game.actualDirector,
         playersInfo: state.game.playersInfo
     };
 }
 
 const mapDispatchToProps = {
-    getCandidates
+    selectDirectorCandidate, 
+    setMessageTopCenter, setMessageTopCenterOpen
 }
 
 export default connect(

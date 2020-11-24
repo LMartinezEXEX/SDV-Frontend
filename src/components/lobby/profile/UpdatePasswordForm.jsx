@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Input from '../../Input';
+import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
-import axios from 'axios';
+import Input from '../../Input';
+import { SERVER_URL, USER_UPDATE_PASSWORD } from '../../constantsEndpoints';
 
 const UpdatePasswordForm = (props) => {
     const { callbackPassword, email, authorization, setIsOpen } = props
@@ -24,12 +25,10 @@ const UpdatePasswordForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        const update_password_url = "http://127.0.0.1:8000/user/update/password/"
-    
+
         if (newPassword) {
             await axios(
-                update_password_url, {
+                SERVER_URL + USER_UPDATE_PASSWORD, {
                 method: "PUT",
                 data: {
                     email: email,

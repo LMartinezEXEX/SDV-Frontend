@@ -5,28 +5,26 @@ import LoginForm from './LoginForm';
 import { login } from '../../../redux/actions';
 
 const LogIn = (props) => {
-    const { login } = props;
+    const { login } = props
     const [isOpen, setIsOpen] = useState(false);
     
     const callbackLoggedInStatus = (hasLoggedIn, authorization_header, email, username) => {
         if (hasLoggedIn) {
-            console.log("Authorization: success")
             login({
                 isAuth: hasLoggedIn,
                 type: "private",
                 authorization: authorization_header,
                 email: email,
                 username: username
-            });
+            })
         } else {
-            console.log("Authorization: failed")
             login({ 
                 isAuth: hasLoggedIn, 
                 type: "guest", 
                 authorization: "",
                 email: "",
                 username: ""
-            });   
+            })   
         }
     }
     
@@ -42,7 +40,7 @@ const LogIn = (props) => {
 
 const mapDispatchToProps = {
     login
-};
+}
 
 export default connect(
     null,

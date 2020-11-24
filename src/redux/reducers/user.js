@@ -1,4 +1,5 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME } from "../actionsTypes";
+import { REGISTER, LOGIN, LOGOUT, GET_ICON, UPDATE_USERNAME } from '../actionsTypes';
+import { SERVER_URL, USER_ICON } from '../../components/constantsEndpoints';
 
 export const USER = "user"
 
@@ -7,7 +8,8 @@ export const userInitialState = {
     type: "guest",
     authorization: "",
     email: "",
-    username: ""
+    username: "",
+    icon: ""
 }
 
 export default function(state = userInitialState, action) {
@@ -42,6 +44,12 @@ export default function(state = userInitialState, action) {
           return {
             ...state,
             username: action.payload.username
+          };
+        }
+        case GET_ICON: {
+          return {
+            ...state,
+            icon: SERVER_URL + state.email + USER_ICON + action.payload.avatar
           };
         }
         default:

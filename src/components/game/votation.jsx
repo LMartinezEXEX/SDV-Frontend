@@ -1,70 +1,55 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import '../../assets/css/votation.css'
-import axios from 'axios'
-import { voteCurrentTurn } from "../../redux/actions"
+import React from 'react';
+import {connect} from 'react-redux';
+import axios from 'axios';
+import '../../assets/css/votation.css';
+import { voteCurrentTurn, setMessageTopCenterOpen, setMessageTopCenter } from '../../redux/actions';
+import { getUsernameFromList } from './gameAuxiliars';
+import { SERVER_URL, GAME_PATH, VOTE } from '../constantsEndpoints';
 
 const Votation = (props) => {
-    const { gameId, playerId, actualMinister, candidateMinister,
-        candidateDirector, voteCurrentTurn, playersInfo } = props
+    const { gameId, playerId, candidateMinister, candidateDirector, playersInfo, onSelect } = props
 
     const uploadVote = async (vote) => {
         await axios.put(
-            'http://127.0.0.1:8000/game/' + gameId + '/vote',
+            SERVER_URL + GAME_PATH + gameId + VOTE,
             {
                 id: playerId,
                 vote: vote
             }
         ).then(response => {
-            console.log(response.data)
-            if (response.data.votes) {
+            if (response.status === 200 && response.data.votes) {
                 voteCurrentTurn({ didVoteCurrentTurn: true })
             }
         }).catch(error => {
-            if (error.response != undefined && error.response.data != undefined) {
-                console.log(JSON.stringify(error.response.data))
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
     }
 
-    const getUsernameMinister = () =>{
-        let response = "" 
-        playersInfo.forEach(player =>{
-            if(player.player_id === candidateMinister){
-                response =player.username
-            }
-        })
-        return response
-    }
-
-    const getUsernameDirector = () =>{
-        let response = ""
-        playersInfo.forEach(player =>{
-            if(player.player_id === candidateDirector){
-                response = player.username
-            }
-        })
-        return response
-    }  
-
-    if (candidateMinister != candidateDirector) {
+    if (candidateMinister !== candidateDirector) {
         return (
             <div>
-                <ul>
-                    <li>Candidato Ministro: {getUsernameMinister()} </li>
-                    <li>Candidato Director: {getUsernameDirector()} </li>
+                <ul key="candidates">
+                    <li>Candidato Ministro: {getUsernameFromList(playersInfo, candidateMinister)} </li>
+                    <li>Candidato Director: {getUsernameFromList(playersInfo, candidateDirector)} </li>
                 </ul>
-                <div className= "votation-buttons">
-                    <button className="votationButton-lumos" onClick={() => {uploadVote(true)}}></button>
-                    <button className="votationButton-nox" onClick={() => {uploadVote(false)}}> </button>
+                <div className="buttonSection">
+                <button className="votationButton-lumos" onClick={() => { uploadVote(true); onSelect() }}>
+                    Lumos
+                </button>
+                <button className="votationButton-nox" onClick={() => { uploadVote(false); onSelect() }}>
+                    Nox
+                </button>
                 </div>
             </div>
         )
     } else {
         return (
             <div>
-                <ul>
-                    <li>Candidato Ministro: {getUsernameMinister()} </li>
+                <ul key="candidates">
+                    <li>Candidato Ministro: {getUsernameFromList(playersInfo, candidateMinister)} </li>
                 </ul>
             </div>
         )
@@ -75,15 +60,15 @@ const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
         playerId: state.game.playerId,
-        actualMinister: state.game.actualMinister,
         candidateMinister: state.game.candidateMinister,
         candidateDirector: state.game.candidateDirector,
         playersInfo: state.game.playersInfo
     };
 }
 
-const mapDispatchToProps = {
-    voteCurrentTurn
+const mapDispatchToProps = { 
+    voteCurrentTurn, 
+    setMessageTopCenterOpen, setMessageTopCenter
 }
 
 export default connect(

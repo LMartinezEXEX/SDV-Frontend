@@ -1,16 +1,17 @@
-import React, {useState} from 'react'
-import {connect} from 'react-redux'
-import '../../assets/css/game.css'
-import axios from 'axios'
-
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import '../../assets/css/game.css';
+import { SERVER_URL, GAME_PATH, VOTE_RESULTS } from '../constantsEndpoints';
 
 const ChargesTable = (props) => {
     const {candidateMinister, candidateDirector,playersInfo, gameId} = props  //VER QUÉ HACER CON lumosVotes
     const [lumosVotes, setlumosVotes] = useState([])
 
     const voteResult = () => {
-        axios.put('http://127.0.0.1:8000/game/'+gameId+'/result')
-        .then(res =>{
+        axios.put(
+            SERVER_URL + GAME_PATH + gameId + VOTE_RESULTS
+        ).then(res =>{
             setlumosVotes(res.data.voted_lumos)
         })
     }
@@ -30,9 +31,9 @@ const ChargesTable = (props) => {
     }
     
     const charge = (player) => {
-        if (player.player_id == candidateMinister) {
+        if (player.player_id === candidateMinister) {
             return "Ministro"
-        } else if (player.player_id == candidateDirector) {
+        } else if (player.player_id === candidateDirector) {
             return "Director"
         } else {
             return ""
@@ -62,5 +63,5 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, null)(ChargesTable);
+export default connect(mapStateToProps)(ChargesTable);
 

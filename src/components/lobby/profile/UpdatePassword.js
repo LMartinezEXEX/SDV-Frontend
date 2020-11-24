@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux';
 import UpdatePasswordForm from './UpdatePasswordForm';
 import Modal from '../../Modal'
 import '../../../assets/css/profile.css'
