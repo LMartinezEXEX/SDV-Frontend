@@ -17,8 +17,8 @@ const Lobby = (props) => {
           },
         },
         small: {
-          width: theme.spacing(12),
-          height: theme.spacing(12),
+          width: theme.spacing(13),
+          height: theme.spacing(13),
         },
     }));
 

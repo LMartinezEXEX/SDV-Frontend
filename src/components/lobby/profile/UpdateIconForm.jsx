@@ -21,9 +21,7 @@ const UpdateIconForm = (props) => {
         setNewIcon(event.target.files[0])
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
+    const handleSubmit = async () => {
         const update_icon_url = "http://127.0.0.1:8000/user/update/icon/"      
         if (newIcon) {
             const formData = new FormData()
@@ -62,14 +60,15 @@ const UpdateIconForm = (props) => {
             })
         }
     }
-    
+
+
+
     return (
         <form className='profile-container' onSubmit={handleSubmit}>
-            <div>
-                <label className="file-upload"> Subir avatar </label>
-                <input  id="new-icon" type='file' onChange={handleIconChange}/>
-                
-            </div>
+            <button className="app-btn small-btn">
+                <label for="new-icon" className="file-upload"> {(newIcon)?(newIcon.name):("Elegir avatar")} </label>
+                <input  id="new-icon" type='file' style={{ display: 'none' }} onChange={handleIconChange}/>
+            </button>
             <div>
                 <label >
                     <Input attribute={{
