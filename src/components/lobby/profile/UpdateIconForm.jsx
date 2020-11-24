@@ -4,7 +4,7 @@ import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
 import Input from '../../Input';
-import { SERVER_URL, USER_ICON } from '../../constantsEndpoints';
+import { SERVER_URL, USER_UPDATE_ICON } from '../../constantsEndpoints';
 
 const UpdateIconForm = (props) => {
     const { callbackIcon, email, authorization, setIsOpen} = props
@@ -33,7 +33,7 @@ const UpdateIconForm = (props) => {
               newIcon.name
             )
             await axios(
-                SERVER_URL + USER_ICON, {
+                SERVER_URL + USER_UPDATE_ICON, {
 
                 method: "PUT",
                 data: formData,
