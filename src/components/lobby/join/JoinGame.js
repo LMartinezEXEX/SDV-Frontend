@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import Modal from '../../Modal'
-import axios from 'axios'
-import JoinForm from './JoinForm'
+import React, { useState } from 'react';
+import axios from 'axios';
+import JoinForm from './JoinForm';
+import Modal from '../../Modal';
+import { SERVER_URL, GAME_PATH, LIST_GAMES } from '../../constantsEndpoints';
 
 const JoinGame= () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -10,7 +10,8 @@ const JoinGame= () => {
 
     const getAvailableGames = async () => {
     
-        await axios.get('http://127.0.0.1:8000/game/list_games', { 
+        await axios(
+        SERVER_URL + GAME_PATH + LIST_GAMES, { 
         method:'GET',
         headers: {
             'accept': 'application/json',
@@ -19,7 +20,7 @@ const JoinGame= () => {
             // Descartamos las partidas que alcanzaron el máximo de jugadores
             data = data.filter(game => game.players < game.max_players)
             setGames(data)
-        })        
+        })
     }
 
     return (
@@ -33,5 +34,4 @@ const JoinGame= () => {
     )
 }
 
-export default JoinGame
-
+export default JoinGame;

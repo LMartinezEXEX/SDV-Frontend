@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import UpdateUsername from './UpdateUsername'
-import UpdatePassword from './UpdatePassword'
-import UpdateIcon from './UpdateIcon'
-import Modal from '../../Modal'
+import React, { useState } from 'react';
+import UpdateUsername from './UpdateUsername';
+import UpdatePassword from './UpdatePassword';
+import UpdateIcon from './UpdateIcon';
+import Modal from '../../Modal';
 
 const Profile = () => {
     const [isOpen, setIsOpen] = useState(false)

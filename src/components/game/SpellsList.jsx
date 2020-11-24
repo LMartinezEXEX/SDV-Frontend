@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
-import Guessing from './spells/Guessing'
-import Crucio from './spells/Crucio'
-import AvadaKedavra from './spells/AvadaK'
-import Imperius from './spells/Imperius'
-import '../../assets/css/SpellsList.css'
-import CardsDisplayer from './CardsDisplayer'
-import LoyaltyDisplayer from './LoyaltyDisplayer'
+import React, {useState} from 'react';
+import Guessing from './spells/Guessing';
+import Crucio from './spells/Crucio';
+import AvadaKedavra from './spells/AvadaK';
+import Imperius from './spells/Imperius';
+import '../../assets/css/SpellsList.css';
+import CardsDisplayer from './CardsDisplayer';
+import LoyaltyDisplayer from './LoyaltyDisplayer';
 
 const SpellsList = ({spell}) => {
     const [showCards, setShowCards] = useState(false)
@@ -41,4 +41,4 @@ const SpellsList = ({spell}) => {
     )
 }
 
-export default SpellsList
+export default SpellsList;

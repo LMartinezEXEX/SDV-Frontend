@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import UpdateIconForm from './UpdateIconForm';
-import Modal from '../../Modal';
 import { getIcon } from '../../../redux/actions';
+import Modal from '../../Modal';
 
 const UpdateIcon = (props) => {
     const { getIcon } = props
@@ -11,7 +11,7 @@ const UpdateIcon = (props) => {
     const callbackUpdateIcon = (success = false) => {
       if (success) {
         console.log("Update icon: success")
-        getIcon({ avatar: "?" + new Date().getTime() })
+        getIcon({ timeBreaker: "?" + new Date().getTime() })
       }
     }
 
@@ -30,7 +30,7 @@ const UpdateIcon = (props) => {
 
 const mapDispatchToProps = {
   getIcon
-};
+}
 
 export default connect(
   null,

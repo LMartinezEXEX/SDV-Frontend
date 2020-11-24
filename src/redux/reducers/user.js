@@ -1,7 +1,5 @@
-import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, GET_ICON } from "../actionsTypes";
-
-const icon_url_part_1 = "http://127.0.0.1:8000/user/icon/"
-const icon_url_part_2 = "/"
+import { REGISTER, LOGIN, LOGOUT, GET_ICON, UPDATE_USERNAME } from '../actionsTypes';
+import { SERVER_URL, USER_ICON } from '../../components/constantsEndpoints';
 
 export const USER = "user"
 
@@ -29,7 +27,7 @@ export default function(state = userInitialState, action) {
             authorization: action.payload.authorization,
             email: action.payload.email,
             username: action.payload.username,
-            icon: icon_url_part_1 + action.payload.email + icon_url_part_2
+            icon: SERVER_URL + USER_ICON + action.payload.email
           };
         }
         case LOGOUT: {
@@ -53,7 +51,7 @@ export default function(state = userInitialState, action) {
         case GET_ICON: {
           return {
             ...state,
-            icon: icon_url_part_1 + state.email + icon_url_part_2 + action.payload.avatar
+            icon: SERVER_URL + USER_ICON + state.email + action.payload.timeBreaker
           };
         }
         default:

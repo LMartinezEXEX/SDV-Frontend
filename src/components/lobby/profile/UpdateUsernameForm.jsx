@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import Input from '../../Input';
+import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
-import axios from 'axios';
+import Input from '../../Input';
+import { SERVER_URL, USER_UPDATE_USERNAME } from '../../constantsEndpoints';
 
 const UpdateProfileForm = (props) => {
     const { callbackUsername, email, authorization, setIsOpen } = props
@@ -25,13 +26,10 @@ const UpdateProfileForm = (props) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-        const update_username_url = "http://127.0.0.1:8000/user/update/username/"
-      
     
         if (newUsername) {
             await axios(
-                update_username_url, {
+                SERVER_URL + USER_UPDATE_USERNAME, {
                 method: "PUT",
                 data: {
                     email: email,

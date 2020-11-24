@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 import {
     BrowserRouter as Router,
     Redirect,
     Route,
     useHistory
-} from 'react-router-dom'
-import { connect } from "react-redux";
-import Home from './components/home/Home'
-import Lobby from './components/lobby/Lobby'
-import PreGame from './components/pregame/Pregame'
-import Game from './components/game/game'
-import PageNotFound from './components/PageNotFound'
+} from 'react-router-dom';
+import { connect } from 'react-redux';
+import Home from './components/home/Home';
+import Lobby from './components/lobby/Lobby';
+import PreGame from './components/pregame/Pregame';
+import Game from './components/game/game';
+import PageNotFound from './components/PageNotFound';
 
 const Routes = (props) => {
     const { isAuth, type, email, username, icon, gameId, init} = props;
@@ -47,7 +47,7 @@ const Routes = (props) => {
                 </Router>
             );
         }
-     }
+    }
     return (
         <Router history={history}>
             <Route component={PageNotFound}/>

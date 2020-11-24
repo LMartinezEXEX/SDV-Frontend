@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import Input from '../../Input'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
-
+import Input from '../../Input';
+import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+import { SERVER_URL, USER_REGISTER } from '../../constantsEndpoints';
 
 const RegisterForm = (props) => {
-    const { setIsOpen } = props
+    const { setIsOpen, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,30 +15,41 @@ const RegisterForm = (props) => {
    
     function handleChange(name, value) {
         if (name === 'email') {
-            setEmail(value)
+            if (value.length < 10) {
+                setEmail('')
+            } else {
+                setEmail(value)
+            }
         } else if (name === 'username') {
-            setUsername(value)
+            if (value.length < 5) {
+                setUsername('')
+            } else {
+                setUsername(value)
+            }
         } else if (name === 'password_verify') {
-            setPasswordverify(value)
+            if (value.length < 8) {
+                setPasswordverify('')
+                setPasswordError(true)
+            } else {
+                setPasswordverify(value)
+                setPasswordError(false)
+            }
         } else {
             if (value.length < 8) {
-                setPasswordError(true);
+                setPassword('')
+                setPasswordError(true)
             } else {
-                setPasswordError(false);
                 setPassword(value)
+                setPasswordError(false)
             }
         }
     }
 
     
-    const handleSubmit = async (event) => {
-        let account = { email, username, password, password_verify }
-        if (account) {
-            console.log('account',account);
-        }
-        event.preventDefault();
+    const handleSubmit = async () => {
 
-        await axios("http://127.0.0.1:8000/user/register/", {
+        await axios(
+            SERVER_URL + USER_REGISTER, {
             method: 'POST',
             headers: {
                 'accept': 'application/json'
@@ -49,23 +62,21 @@ const RegisterForm = (props) => {
             }
         }).then(response => {
             if (response.status === 201) {
-                alert("Registro hecho con éxito")
+                console.log("Registro exitoso")
                 setIsOpen(false)
             }
         }).catch(error => {
-            if (error.response) {
-                alert("Error, verifique los datos ingresados");
-                console.log("Error (response)", error.response.status);
-                console.log("Error (response)", error.response.headers);
-                console.log("Error (response)", error.response.data);
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: "No se pudo registrar el usuario" })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else if (error.response) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             } else if (error.request) {
-                alert(error.request);
-                console.log(error.request);
-            } else {
-                console.log("Error", error.message);
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
-            // setHasError(true)
-        });
+        })
     }
 
     
@@ -136,4 +147,11 @@ const RegisterForm = (props) => {
     )
 }
 
-export default RegisterForm;
+const mapDispatchToProps = {
+    setMessageTopCenterOpen, setMessageTopCenter
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(RegisterForm);

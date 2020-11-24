@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import orderLoyalty from '../../assets/images/phoenix.jpeg';
-import deathLoyalty from '../../assets/images/death_eater.jpeg'
+import deathLoyalty from '../../assets/images/death_eater.jpeg';
 
-const LoyaltyDisplayer = ({crucioLoyalty}) => {
+const LoyaltyDisplayer = ({ crucioLoyalty }) => {
 
     const displayImg = (loyalty) => {
         switch(loyalty){
@@ -13,11 +13,9 @@ const LoyaltyDisplayer = ({crucioLoyalty}) => {
 
     return (
         <div>
-            {/* <li> </li> */}
             <li>{displayImg(crucioLoyalty)}</li>
-            {/* <li> </li> */}
         </div>
     )
 }
 
-export default LoyaltyDisplayer
+export default LoyaltyDisplayer;

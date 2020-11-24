@@ -1,19 +1,27 @@
-import React, { useState } from 'react'
-import Input from '../../Input'
-import "../../../assets/css/form.css"
-import axios from 'axios'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import Input from '../../Input';
+import '../../../assets/css/form.css';
+import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+import { SERVER_URL, USER_LOGIN, USER_PROFILE } from '../../constantsEndpoints';
 
 const LoginForm = (props) => {
-    const { callbackSubmit } = props
+    const { callbackSubmit, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     
     function handleChange(name, value) {
-        if (name === 'email' && value.length > 8) {
-            setEmail(value)
+        if (name === 'email') {
+            if (value.length >= 10) {
+                setEmail(value)
+            } else {
+                setEmail('')
+            }
         } else {
             if (value.length < 8) {
+                setPassword('')
                 setPasswordError(true);
             } else {
                 setPasswordError(false);
@@ -22,18 +30,49 @@ const LoginForm = (props) => {
         }
     }
 
+    const getProfile = async (email, authorization) => {
+        await axios(
+            SERVER_URL + USER_PROFILE + email, {
+            method: "GET",
+            headers: {
+                'accept': 'application/json'
+            }
+        }).then(response => {
+            callbackSubmit(
+                true,
+                authorization,
+                email,
+                response.data.username
+            )
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: "No se pudo loguear al usuario" })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else if (error.response) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else if (error.request) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+            callbackSubmit(
+                false,
+                "",
+                "",
+                ""
+            )
+        })
+    }
+
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        const profile_url_part_1 = "http://127.0.0.1:8000/user/profile/"
-        const profile_url_part_2 = "/"
-        const login_url = "http://127.0.0.1:8000/user/login/"
+        event.preventDefault()
 
         const formLogin = new FormData()
         formLogin.append("email", email)
         formLogin.append("password", password)
 
-        await axios(login_url, {
+        await axios(
+            SERVER_URL + USER_LOGIN, {
             method: "POST",
             data: formLogin,
             headers: {
@@ -45,55 +84,18 @@ const LoginForm = (props) => {
             console.log("Response", JSON.stringify(response.data));
             const authorization = response.headers["authorization"]
             if (response.status === 200 && authorization) {
-                (async () => {
-                    await axios(profile_url_part_1 + email + profile_url_part_2, {
-                        method: "GET",
-                        headers: {
-                            'accept': 'application/json'
-                        }
-                    }).then(response => {
-                        callbackSubmit(
-                            true,
-                            authorization,
-                            email,
-                            response.data.username
-                        )
-                    }).catch(error => {
-                        if (error.response) {
-                            alert(JSON.stringify(error.response.data));
-                            console.log("Error (response)", error.response.status);
-                            console.log("Error (response)", error.response.headers);
-                            console.log("Error (response)", error.response.data);
-                        } else if (error.request) {
-                            alert(JSON.stringify(error.request));
-                            console.log(error.request);
-                        } else {
-                            console.log("Error", error.message);
-                        }
-                        alert(error)
-                        callbackSubmit(
-                            false,
-                            "",
-                            "",
-                            ""
-                        )
-                    });
-                })()
+                console.log("Logueado exitosamente")
+                getProfile(email, authorization)
             }
         }).catch(error => {
-            if (error.response) {
-                alert(JSON.stringify(error.response.data));
-                console.log("Error (response)", error.response.status);
-                console.log("Error (response)", error.response.headers);
-                console.log("Error (response)", error.response.data);
-            } else if (error.request) {
-                alert(JSON.stringify(error.request));
-                console.log(error.request);
-            } else {
-                console.log("Error", error.message);
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else if (error.response) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
-            alert(error)
-        });
+        })
     }
     
 
@@ -132,6 +134,13 @@ const LoginForm = (props) => {
        
         </form>
     )
-
 }
-export default LoginForm;
+
+const mapDispatchToProps = { 
+    setMessageTopCenterOpen, setMessageTopCenter 
+}
+
+export default connect(
+    null, 
+    mapDispatchToProps
+)(LoginForm);

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
 import Input from '../../Input';
-import axios from 'axios';
+import { SERVER_URL, USER_ICON } from '../../constantsEndpoints';
 
 const UpdateIconForm = (props) => {
     const { callbackIcon, email, authorization, setIsOpen} = props
@@ -22,7 +23,6 @@ const UpdateIconForm = (props) => {
     }
 
     const handleSubmit = async () => {
-        const update_icon_url = "http://127.0.0.1:8000/user/update/icon/"      
         if (newIcon) {
             const formData = new FormData()
             formData.append("email", email)
@@ -33,7 +33,8 @@ const UpdateIconForm = (props) => {
               newIcon.name
             )
             await axios(
-                update_icon_url, {
+                SERVER_URL + USER_ICON, {
+
                 method: "PUT",
                 data: formData,
                 headers: {
