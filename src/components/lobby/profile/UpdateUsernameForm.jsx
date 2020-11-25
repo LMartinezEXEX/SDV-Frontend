@@ -57,7 +57,7 @@ const UpdateProfileForm = (props) => {
                         var field = ""
                         for (var i = 0; i < error_detail.length; i++) {
                             field = error_detail[i]["loc"][(error_detail[i]["loc"].length > 1) + 0]
-                            error_string += field + ": " + errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
+                            error_string += errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
                         }
                         setMessageTopCenter({ 
                             messageSeverity: "warning", 
