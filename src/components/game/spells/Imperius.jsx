@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import {connect} from 'react-redux'
-import dropdown from '../../lobby/create/Dropdown'
-import {enableSpell} from "../../../redux/actions";
+import dropdown from '../../lobby/create/Dropdown';
+import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from '../../../redux/actions';
+import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
+import errorTranslate from '../../errorTranslate';
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -15,13 +17,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Imperius = (props) => {
-    const {gameId, actualMinister, setShowCards, setCrucioLoyalty,
-        playersInfo, enabledSpell} = props
+    const { 
+        gameId, playerId, actualMinister, playersInfo, 
+        setMessageTopCenter, setMessageTopCenterOpen
+    } = props
+    
     const classes = useStyles();
+    
     let players_list = []
     playersInfo.map(player => {
         if (player.player_id !== actualMinister &&
-            player["is alive"] && player.player_id !== player) {
+            player["is alive"] && player.player_id !== playerId) {
                 players_list.push(player.username)
         }
     })
@@ -30,14 +36,22 @@ const Imperius = (props) => {
     
     const useImperius = async() => {
         const victim = playersInfo.filter(player => 
-            player.username === VictimUsername)
-        const imperius_url = "http://127.0.0.1:8000/game/"
-        const imperius_url2 = "/execute_spell?spell=Imperius"
-        await axios.put(imperius_url + gameId + imperius_url2,{
+            player.username === VictimUsername
+        )
+        
+        await axios.put(
+            SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Imperius', {
             minister_id: actualMinister,
             player_id: victim[0].player_id
-        }).then(res=>{
-            enableSpell({enabledSpell:false})
+        }).then(response => {
+            if (response.status === 200) {
+                enableSpell({ enabledSpell: false })
+            }
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
         })
     }
 
@@ -56,13 +70,17 @@ const mapStateToProps = (state) => {
     return {
         enabledSpell: state.game.enabledSpell,
         gameId: state.game.gameId,
+        playerId: state.game.playerId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };
 }
 
 const mapDispatchToProps = {
-    enableSpell
+    enableSpell, setMessageTopCenter, setMessageTopCenterOpen
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Imperius);    
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(Imperius);    
