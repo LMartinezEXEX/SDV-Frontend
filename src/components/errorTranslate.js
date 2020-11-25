@@ -86,14 +86,17 @@ export const errorTranslate = (errorString) => {
 export const errorConcat = (fieldErrorList) => {
     var error_string = ""
     var field = ""
+    var message = ""
     for (var i = 0; i < fieldErrorList.length; i++) {
         field = fieldErrorList[i]["loc"][(fieldErrorList[i]["loc"].length > 1) + 0]
-        if (field === "username" || field === "email" || field === "password") {
+        message = fieldErrorList[i]["msg"]
+        if (field === "username" || field === "email" || field === "password" 
+            || message === "passwords don't match") {
             field = ""
         } else {
             field = errorTranslate(field)
         }
-        error_string += field + ((field)?": ":"") + errorTranslate(fieldErrorList[i]["msg"]) + ((fieldErrorList.length > 1)?"; ":"")
+        error_string += field + ((field)?": ":"") + errorTranslate(message) + ((fieldErrorList.length > 1)?"; ":"")
     }
     return error_string
 }
