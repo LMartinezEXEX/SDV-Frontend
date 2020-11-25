@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import UpdateIconForm from './UpdateIconForm';
-import { getIcon } from '../../../redux/actions';
 import Modal from '../../Modal';
+import { getIcon, setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+
 
 const UpdateIcon = (props) => {
-    const { getIcon } = props
+    const { setIsOpenProfile, getIcon, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdateIcon = (success = false) => {
       if (success) {
-        console.log("Update icon: success")
         getIcon({ timeBreaker: "?" + new Date().getTime() })
+        setTimeout(() => {
+            setMessageTopCenter({ 
+                messageSeverity: "success", 
+                messageTopCenter: "Avatar actualizado con éxito" 
+            })
+            setMessageTopCenterOpen({ messageTopCenterOpen: true })
+        }, 500)
+      } else {
+        setTimeout(() => {
+            setMessageTopCenter({ 
+                messageSeverity: "warning", 
+                messageTopCenter: "No se pudo al actualizar el avatar" 
+            })
+            setMessageTopCenterOpen({ messageTopCenterOpen: true })
+        }, 500)
       }
+      setIsOpenProfile(false)
     }
 
     return (
@@ -29,7 +45,7 @@ const UpdateIcon = (props) => {
 }
 
 const mapDispatchToProps = {
-  getIcon
+  getIcon, setMessageTopCenterOpen, setMessageTopCenter
 }
 
 export default connect(

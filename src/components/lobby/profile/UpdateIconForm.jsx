@@ -4,10 +4,15 @@ import axios from 'axios';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
 import Input from '../../Input';
+import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
 import { SERVER_URL, USER_UPDATE_ICON } from '../../constantsEndpoints';
+import errorTranslate from '../../errorTranslate';
 
 const UpdateIconForm = (props) => {
-    const { callbackIcon, email, authorization, setIsOpen} = props
+    const { 
+        callbackIcon, email, authorization, setIsOpen, 
+        setMessageTopCenterOpen, setMessageTopCenter 
+    } = props
 
     const [password, setPassword ] = useState("");
     const [newIcon, setNewIcon] = useState(null);
@@ -22,7 +27,9 @@ const UpdateIconForm = (props) => {
         setNewIcon(event.target.files[0])
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        
         if (newIcon) {
             const formData = new FormData()
             formData.append("email", email)
@@ -45,21 +52,45 @@ const UpdateIconForm = (props) => {
                 if (response.status === 200) {
                     callbackIcon(true, email)
                 }
-                setIsOpen(false)
+                
             }).catch(error => {
-                if (error.response) {
-                    alert(JSON.stringify(error.response.data));
-                    console.log("Error (response)", error.response.status);
-                    console.log("Error (response)", error.response.headers);
-                    console.log("Error (response)", error.response.data);
+                if (error.response && error.response.data["detail"] !== undefined) {
+                    const error_detail = error.response.data["detail"]
+                    if (Array.isArray(error_detail)) {
+                        var error_string = ""
+                        var field = ""
+                        for (var i = 0; i < error_detail.length; i++) {
+                            field = error_detail[i]["loc"][(error_detail[i]["loc"].length > 1) + 0]
+                            error_string += field + ": " + errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
+                        }
+                        setMessageTopCenter({ 
+                            messageSeverity: "warning", 
+                            messageTopCenter: error_string 
+                        })
+                        setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                    } else {
+                        setMessageTopCenter({ 
+                            messageSeverity: "warning", 
+                            messageTopCenter: errorTranslate(error_detail) 
+                        })
+                        setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                    }
                 } else if (error.request) {
-                    alert(JSON.stringify(error.request));
-                    console.log(error.request);
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error.message) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 } else {
-                    console.log("Error", error.message);
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error.message) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 }
             })
         }
+        setIsOpen(false)
     }
 
 
@@ -83,7 +114,7 @@ const UpdateIconForm = (props) => {
                     />
                 </label>
             </div>
-            <input type="submit" name="Update"  className="app-btn small-btn" value="Subir" />
+            <button type="submit" className="app-btn small-btn"> Subir </button>
         </form>
     )
 }
@@ -95,4 +126,11 @@ const mapStateToProps = (state) => {
   };
 }
 
-export default connect(mapStateToProps)(UpdateIconForm);
+const mapDispatchToProps = {
+    setMessageTopCenterOpen, setMessageTopCenter
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(UpdateIconForm);

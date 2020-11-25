@@ -35,29 +35,34 @@ const Lobby = (props) => {
 
     return (
         <div>
-           <div className= "user-profile">
-           <Avatar alt="avatar" src={icon} className={useStyles().small} />
-                <h3> {username} </h3>
-                <h3> {email}  </h3>
-           </div>
-           <div className="btn-group">
-                < Profile />
-                < CreateGame />
-                < JoinGame />
-                < LogOut />
-           </div>
-           <Snackbar 
+          <div className= "user-profile">
+          <Avatar alt="avatar" src={icon} className={useStyles().small} />
+               <h3> {username} </h3>
+               <h3> {email}  </h3>
+          </div>
+          <div className="btn-group">
+               < Profile />
+               < CreateGame />
+               < JoinGame />
+               < LogOut />
+          </div>
+          {(messageTopCenter.length)
+          ?(
+            <Snackbar 
             anchorOrigin={{ vertical: "top", horizontal: "center" }} 
             open={messageTopCenterOpen} 
             autoHideDuration={5000}
             onClose={() => handleSnackbarTopCenter()}
             onExit={() => handleSnackbarTopCenter()}
             >
-                <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
+              <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
             </Snackbar>
+          ):(<></>)
+          }
         </div>
     );
 }
+
 const mapStateToProps = (state) => {
   return {
       messageTopCenterOpen: state.notifications.messageTopCenterOpen,

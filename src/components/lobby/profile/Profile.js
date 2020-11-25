@@ -12,9 +12,11 @@ const Profile = () => {
             <button className="app-btn" onClick={() => setIsOpen(true)}> 
                 Modificar Perfil </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <UpdateUsername /> 
-                <UpdatePassword /> 
-                <UpdateIcon />
+                <div style={{ textAlign: "center" }}>
+                <UpdateUsername setIsOpenProfile={setIsOpen} /> 
+                <UpdatePassword setIsOpenProfile={setIsOpen} /> 
+                <UpdateIcon setIsOpenProfile={setIsOpen} />
+                </div>
             </Modal>
         </div>
     )
