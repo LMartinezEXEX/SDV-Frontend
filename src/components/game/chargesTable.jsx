@@ -5,7 +5,7 @@ import '../../assets/css/game.css';
 import { SERVER_URL, GAME_PATH, VOTE_RESULTS } from '../constantsEndpoints';
 
 const ChargesTable = (props) => {
-    const {candidateMinister, candidateDirector,playersInfo, gameId} = props  //VER QUÉ HACER CON lumosVotes
+    const {playersInfo, gameId} = props  
     const [lumosVotes, setlumosVotes] = useState([])
 
     const voteResult = () => {
@@ -30,24 +30,15 @@ const ChargesTable = (props) => {
         } else return ""
     }
     
-    const charge = (player) => {
-        if (player.player_id === candidateMinister) {
-            return "Ministro"
-        } else if (player.player_id === candidateDirector) {
-            return "Director"
-        } else {
-            return ""
-        }
-    }
-
     const votationList = playersInfo.map(player => Object.assign({}, {username: player.username,
-                                             vote: vote(player), charge: charge(player)}))
+                                             vote: vote(player)}))
 
     
     return (
         <div className="chargeTable">
             <ul>
-                {votationList.map(player => <li key={player.username}>{player.username + " " + player.vote + " " + player.charge}</li>)}
+                {votationList.map(player => <li key={player.username}>
+                    {player.username + " " + player.vote}</li>)}
             </ul>
         </div>
     )
