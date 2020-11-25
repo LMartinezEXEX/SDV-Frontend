@@ -11,23 +11,24 @@ import SpellsList from './SpellsList';
 import PopUp from './PopUp';
 import Alert from '@material-ui/lab/Alert';
 import { 
-    Drawer, 
-    Snackbar, Slide, 
+    Drawer, Snackbar, 
     Dialog, DialogContent, DialogContentText, DialogTitle 
 } from '@material-ui/core';
 import {
     endGame, 
     updateGameState, getPlayersInfo, 
     getDirectorCandidates, getCandidates,
-    rejectCandidates, rejectCandidatesNotified, enableSpell,
+    rejectCandidates, rejectCandidatesNotified, enableSpell, 
+    getMinisterCards, getDirectorCards, 
     reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
     setMessageBottomLeftOpen, setMessageBottomLeft
 } from '../../redux/actions';
-import { getUsername } from './gameAuxiliars';
+import { getUsernameFromList, isPlayerAliveFromList } from './gameAuxiliars';
 import {
     SERVER_URL, GAME_PATH, CHECK_GAME, 
     PLAYERS_INFO, DIRECTOR_CANDIDATES,
     GET_CANDIDATES, VOTE_RESULTS, 
+    GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, 
     REJECT_NOTIFIED, END_GAME_NOTIFIED, 
     SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
 } from '../constantsEndpoints';
@@ -49,7 +50,8 @@ const Game = (props) => {
         endGame, 
         updateGameState, getPlayersInfo, 
         getDirectorCandidates, getCandidates,
-        rejectCandidates, rejectCandidatesNotified, enableSpell,
+        rejectCandidates, rejectCandidatesNotified, enableSpell, 
+        getMinisterCards, getDirectorCards,
         reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
         setMessageBottomLeftOpen, setMessageBottomLeft
     } = props
@@ -77,16 +79,21 @@ const Game = (props) => {
         setMessageBottomLeft({ messageBottomLeft: "" })
         setMessageBottomLeftOpen({ messageBottomLeftOpen: false })
     }
-
-    function SlideTransitionDown(props) {
-        return <Slide {...props} direction="up" />;
-    }
     
     const updatePlayers = async () => {
         await axios.get(
             SERVER_URL + GAME_PATH + gameId + PLAYERS_INFO
         ).then(response => {
             getPlayersInfo({ playersInfo: response.data["Players info"] })
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined 
+            && error.response.data["detail"] !== "The game has finished") {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
         })
     }
     
@@ -157,11 +164,6 @@ const Game = (props) => {
             SERVER_URL + GAME_PATH + gameId + SPELL
         ).then(response => {
             if(response.data.Spell !== ""){
-                setMessageTopCenter({ 
-                    messageSeverity: "info", 
-                    messageTopCenter: "Hay un hechizo disponible ¡Debes ejecutarlo!" 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 enableSpell({ enabledSpell: true, spell: response.data.Spell })
             }
         })
@@ -233,6 +235,44 @@ const Game = (props) => {
         })
     }
 
+    const checkMinisterCards = async () => {
+        await axios(
+            SERVER_URL + GAME_PATH + gameId + GET_MINISTER_CARDS + PLAYER_ID_QUERY_STRING + playerId
+        ).then(response => {
+            if (response.status === 200) {
+                getMinisterCards({ cardsListMinister: response.data["cards"] })
+            }
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+        })
+    }
+
+    const checkDirectorCards = async () => {
+        await axios(
+            SERVER_URL + GAME_PATH + gameId + GET_DIRECTOR_CARDS + PLAYER_ID_QUERY_STRING + playerId
+        ).then(response => {
+            if (response.status === 200) {
+                getDirectorCards({ cardsListDirector: response.data["cards"] })
+            }
+        }).catch(error => {
+            if (error.response && error.response.data !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+        })
+    }
+
+    const handleCheckCards = () => {
+        if (playerId === actualMinister && cardsListMinister.length === 0) {
+            checkMinisterCards()
+        } else if (playerId === actualDirector && cardsListDirector.length === 0) {
+            checkDirectorCards()
+        }
+    }
+
     const getGameState = async () => {
         await axios.get(
             SERVER_URL + GAME_PATH + gameId + CHECK_GAME
@@ -283,7 +323,8 @@ const Game = (props) => {
                 })
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
+            if (error.response && error.response.data["detail"] !== undefined 
+                && error.response.data["detail"] !== "The game has finished") {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
                     messageTopCenter: errorTranslate(error.response.data["detail"]) 
@@ -308,6 +349,10 @@ const Game = (props) => {
                 setMessageBottomLeft({
                     messageBottomLeft: "El director puede promulgar..."
                 })
+            } else if (playerId === actualMinister && ministerHasDiscardedCard && enabledSpell) {
+                setMessageBottomLeft({
+                    messageBottomLeft: "Hechizo disponible..."
+                })
             } else if (playerId === actualDirector && cardsListDirector.length === 0 && !directorHasChosenCard) {
                 setMessageBottomLeft({
                     messageBottomLeft: "Esperando las cartas del ministro..."
@@ -319,6 +364,10 @@ const Game = (props) => {
             } else if (playerId === actualDirector && directorHasChosenCard && !enabledSpell) {
                 setMessageBottomLeft({
                         messageBottomLeft: "Nueva promulgación..."
+                })
+            } else if (playerId === actualDirector && directorHasChosenCard && enabledSpell) {
+                setMessageBottomLeft({
+                    messageBottomLeft: "Hechizo disponible..."
                 })
             } else if (playerId !== actualMinister && playerId !== actualDirector) {
                 setMessageBottomLeft({
@@ -360,9 +409,7 @@ const Game = (props) => {
             <div className="left-view">
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
-                    {playersInfo.map(player => 
-                        <div key={player.player_id} >{getUsername(player, playerId)}</div>
-                    )}  
+                    <div>{getUsernameFromList(playersInfo, playerId)}</div>
                 </div>
                 <div>
                     <RolsDisplayer/>
@@ -382,8 +429,9 @@ const Game = (props) => {
                         />
                     </div>
                     <div className="gameSection">
-                        <div className="buttonSection">
-                        {(voteDoneCurrentTurn)
+                        {(isPlayerAliveFromList(playersInfo, playerId))?
+                        (<div className="buttonSection">
+                            {(voteDoneCurrentTurn)
                             ?(
                                 <div>
                                     <PopUp 
@@ -414,7 +462,11 @@ const Game = (props) => {
                                     <PopUp 
                                     type="Cartas"
                                     enableButton={voteDoneCurrentTurn && !ministerHasDiscardedCard && !directorHasChosenCard}  
-                                    isOpenExtraCondition={!ministerHasDiscardedCard && !directorHasChosenCard}
+                                    handleBeforeOpen={() => handleCheckCards()}
+                                    isOpenExtraCondition={
+                                        !ministerHasDiscardedCard 
+                                        && !directorHasChosenCard 
+                                        && ((playerId === actualMinister)?(cardsListMinister.length > 0):(cardsListDirector.length > 0))}
                                     />
                                 </div>
                             ):(<></>)
@@ -433,6 +485,8 @@ const Game = (props) => {
                             ):(<></>)
                             }
                         </div>
+                        ):(<></>)
+                        }
                     </div>
                 </div>
             </div>
@@ -442,8 +496,6 @@ const Game = (props) => {
                 open={dialogEndGameOpen} 
                 onClose={()=> handleDialogEndGame()} 
                 onExit={()=> handleDialogEndGame()} 
-                TransitionComponent={SlideTransitionDown} 
-                transitionDuration={{ enter: 1000, exit: 1000 }} 
                 style={{ textAlign: "center" }} 
                 fullWidth={true} 
                 maxWidth={"md"} 
@@ -529,7 +581,8 @@ const mapDispatchToProps = {
     endGame, 
     updateGameState, getPlayersInfo, 
     getDirectorCandidates, getCandidates,
-    rejectCandidates, rejectCandidatesNotified, enableSpell,
+    rejectCandidates, rejectCandidatesNotified, enableSpell, 
+    getMinisterCards, getDirectorCards, 
     reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
     setMessageBottomLeftOpen, setMessageBottomLeft
 };
