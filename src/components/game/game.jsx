@@ -249,7 +249,7 @@ const Game = (props) => {
                     voteDoneCurrentTurn: data_check_game["vote done"]
                 })
                 console.log("Game should end soon...")
-                playerKnowsEndGame(gameId, playerId, handleEndGame)
+                playerKnowsEndGame()
             } else {
                 if (data_check_game["vote done"] && !voteDoneCurrentTurn) {
                     // Obtener resultados
@@ -436,42 +436,55 @@ const Game = (props) => {
                     </div>
                 </div>
             </div>
-            <Dialog 
-            open={dialogEndGameOpen} 
-            onClose={()=> handleDialogEndGame()} 
-            onExit={()=> handleDialogEndGame()} 
-            autoHideDuration={20000} 
-            TransitionComponent={SlideTransitionDown} 
-            transitionDuration={{ enter: 1000, exit: 1000 }} 
-            >
-                <DialogTitle 
-                id="end-game" 
-                style={{ backgroundColor: "#424242", color: "white" }} 
+            {(dialogEndGameMessage.length)
+            ?(
+                <Dialog 
+                open={dialogEndGameOpen} 
+                onClose={()=> handleDialogEndGame()} 
+                onExit={()=> handleDialogEndGame()} 
+                TransitionComponent={SlideTransitionDown} 
+                transitionDuration={{ enter: 1000, exit: 1000 }} 
+                style={{ textAlign: "center" }} 
+                fullWidth={true} 
+                maxWidth={"md"} 
                 >
-                {"LA PARTIDA HA FINALIZADO"}
-                </DialogTitle>
-                <DialogContent style={{ backgroundColor: "#424242" }} >
-                  <DialogContentText id="description" style={{ color: "white" }}>
-                    {dialogEndGameMessage.toUpperCase()}
-                  </DialogContentText>
-                </DialogContent>
-            </Dialog>
-            <Snackbar 
-            anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-            open={messageTopCenterOpen} 
-            autoHideDuration={3000}
-            onClose={() => handleSnackbarTopCenter()}
-            onExit={() => handleSnackbarTopCenter()}
-            >
-                <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
-            </Snackbar>
-            <Snackbar 
-            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-            open={messageBottomLeftOpen} 
-            onClose={() => handleSnackbarBottomLeft()} 
-            onExit={() => handleSnackbarBottomLeft()} 
-            message={messageBottomLeft}
-            />
+                    <DialogTitle 
+                    id="end-game" 
+                    style={{ backgroundColor: "#424242", color: "white" }} 
+                    >
+                    {"LA PARTIDA HA FINALIZADO"}
+                    </DialogTitle>
+                    <DialogContent style={{ backgroundColor: "#424242" }} >
+                      <DialogContentText id="description" style={{ color: "white" }}>
+                        {dialogEndGameMessage.toUpperCase()}
+                      </DialogContentText>
+                    </DialogContent>
+                </Dialog>
+            ):(<></>)
+            }
+            {(messageTopCenter.length)
+            ?(
+                <Snackbar 
+                anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+                open={messageTopCenterOpen} 
+                autoHideDuration={3000}
+                onClose={() => handleSnackbarTopCenter()}
+                onExit={() => handleSnackbarTopCenter()}
+                >
+                    <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
+                </Snackbar>
+            ):(<></>)}
+            {(messageBottomLeft.length)
+            ?(
+                <Snackbar 
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                open={messageBottomLeftOpen} 
+                onClose={() => handleSnackbarBottomLeft()} 
+                onExit={() => handleSnackbarBottomLeft()} 
+                message={messageBottomLeft}
+                />
+            ):(<></>)
+            }
             <Drawer className="Drawer" anchor='bottom' open={enabledSpell} 
                 onClose={() => onCloseSpellDrawer()}>
                     <SpellsList spell={spell}/>
