@@ -4,7 +4,7 @@ import axios from 'axios';
 import Input from '../../Input';
 import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
 import { SERVER_URL, USER_REGISTER } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate, errorConcat } from '../../errorTranslate';
 
 const RegisterForm = (props) => {
     const { setIsOpen, setMessageTopCenterOpen, setMessageTopCenter } = props
@@ -75,23 +75,16 @@ const RegisterForm = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                const error_detail = error.response.data["detail"]
-                if (Array.isArray(error_detail)) {
-                    var error_string = ""
-                    var field = ""
-                    for (var i = 0; i < error_detail.length; i++) {
-                        //field = error_detail[i]["loc"][(error_detail[i]["loc"].length > 1) + 0]
-                        error_string +=  errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
-                    }
+                if (Array.isArray(error.response.data["detail"])) {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
-                        messageTopCenter: error_string 
+                        messageTopCenter: errorConcat(error.response.data["detail"])
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 } else {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
-                        messageTopCenter: errorTranslate(error_detail) 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 }

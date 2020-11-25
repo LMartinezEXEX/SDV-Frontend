@@ -31,7 +31,7 @@ import {
     REJECT_NOTIFIED, END_GAME_NOTIFIED, 
     SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
 } from '../constantsEndpoints';
-import errorTranslate from '../errorTranslate';
+import { errorTranslate } from '../errorTranslate';
 
 const Game = (props) => {
     const { 

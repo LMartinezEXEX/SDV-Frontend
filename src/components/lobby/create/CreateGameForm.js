@@ -5,7 +5,7 @@ import Input from '../../Input';
 import dropdown from './Dropdown';
 import { setMessageTopCenter, setMessageTopCenterOpen } from '../../../redux/actions';
 import { SERVER_URL, GAME_PATH, CREATE } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate, errorConcat } from '../../errorTranslate';
 
 const CreateGameForm = (props) => {
     const { callbackSubmit, email, setMessageTopCenter, setMessageTopCenterOpen } = props
@@ -43,13 +43,31 @@ const CreateGameForm = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
+                if (Array.isArray(error.response.data["detail"])) {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorConcat(error.response.data["detail"])
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                } else {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }
+            } else if (error.request) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                    messageTopCenter: errorTranslate(error.message) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             } else {
-                console.log("Error", error.message);
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         });
     }

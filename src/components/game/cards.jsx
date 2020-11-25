@@ -14,7 +14,7 @@ import {
     GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, PROMULGATE_CARD, DISCARD_CARD, 
     SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
 } from '../constantsEndpoints';
-import errorTranslate from '../errorTranslate';
+import { errorTranslate } from '../errorTranslate';
 
 const Cards = (props) => {
     const { 

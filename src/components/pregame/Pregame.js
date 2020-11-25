@@ -13,7 +13,7 @@ import {
     INITIALIZED, LEAVE_NOT_INIT_GAME, 
     PLAYER_ID_QUERY_STRING 
 } from '../constantsEndpoints';
-import errorTranslate from '../errorTranslate';
+import { errorTranslate } from '../errorTranslate';
 
 const Pregame = (props) => {
     const { 
