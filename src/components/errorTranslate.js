@@ -1,6 +1,15 @@
 const errorDict = {
+    "password": "contraseña",
+    "old_password": "contraseña",
+    "password_verify": "contraseña (verificación)",
+    "old_password_verify": "contraseña (verificación)",
+    "new_password": "contraseña nueva",
+    "name": "nombre de partida",
+    "min_players": "mínimo de jugadores",
+    "max_players": "máximo de jugadores",
     "field required": "Campo requerido",
     "value is not a valid email address": "El email no es válido",
+    "value is not a valid integer": "El valor no es un entero válido",
     "email length is less than 10": "El email no puede tener menos de 10 caracteres",
     "email length is greater than 100": "El email puede tener como máximo 100 caracteres",
     "username must be a nonempty alphanumeric string": "El username debe ser alfanumérico",
@@ -65,7 +74,7 @@ const errorDict = {
     "Consent already given": "Ya se ha dado permiso"
 }
 
-const errorTranslate = (errorString) => {
+export const errorTranslate = (errorString) => {
     const translatedString = errorDict[errorString]
     if (translatedString) {
         return translatedString
@@ -73,4 +82,17 @@ const errorTranslate = (errorString) => {
     return errorString
 }
 
-export default errorTranslate;
+export const errorConcat = (fieldErrorList) => {
+    var error_string = ""
+    var field = ""
+    for (var i = 0; i < fieldErrorList.length; i++) {
+        field = fieldErrorList[i]["loc"][(fieldErrorList[i]["loc"].length > 1) + 0]
+        if (field === "username" || field === "email" || field === "password") {
+            field = ""
+        } else {
+            field = errorTranslate(field)
+        }
+        error_string += field + ((field)?": ":"") + errorTranslate(fieldErrorList[i]["msg"]) + ((fieldErrorList.length > 1)?"; ":"")
+    }
+    return error_string
+}
