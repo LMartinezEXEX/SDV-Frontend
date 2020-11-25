@@ -1,4 +1,5 @@
 const errorDict = {
+    "Network Error": "Error de red",
     "password": "contraseña",
     "old_password": "contraseña",
     "password_verify": "contraseña (verificación)",
