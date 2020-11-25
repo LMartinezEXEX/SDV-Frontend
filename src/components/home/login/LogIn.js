@@ -26,6 +26,7 @@ const LogIn = (props) => {
                 username: ""
             })   
         }
+        setIsOpen(false)
     }
     
     return (

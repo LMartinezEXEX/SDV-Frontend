@@ -27,15 +27,19 @@ const Home = (props) => {
                  < SignUp />
                  < LogIn />
             </div>
-            <Snackbar 
-            anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-            open={messageTopCenterOpen} 
-            autoHideDuration={5000}
-            onClose={() => handleSnackbarTopCenter()}
-            onExit={() => handleSnackbarTopCenter()}
-            >
-                <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
-            </Snackbar>
+            {(messageTopCenter.length)
+            ?(
+                <Snackbar 
+                anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+                open={messageTopCenterOpen} 
+                autoHideDuration={(messageTopCenter.length > 50)?10000:5000}
+                onClose={() => handleSnackbarTopCenter()}
+                onExit={() => handleSnackbarTopCenter()}
+                >
+                    <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
+                </Snackbar>
+            ):(<></>)
+            }
         </div>
     );
 }

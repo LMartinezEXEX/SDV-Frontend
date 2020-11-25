@@ -12,8 +12,8 @@ const RegisterForm = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password_verify, setPasswordverify ] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
-   
+    const [passwordError, setPasswordError]     = useState(false);
+    
     function handleChange(name, value) {
         if (name === 'email') {
             if (value.length < 10) {
@@ -47,7 +47,8 @@ const RegisterForm = (props) => {
     }
 
     
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
 
         await axios(
             SERVER_URL + USER_REGISTER, {
@@ -63,20 +64,51 @@ const RegisterForm = (props) => {
             }
         }).then(response => {
             if (response.status === 201) {
-                console.log("Registro exitoso")
+                setTimeout(() => {
+                    setMessageTopCenter({ 
+                        messageSeverity: "success", 
+                        messageTopCenter: "Registro exitoso" 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }, 500)
                 setIsOpen(false)
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: "No se pudo registrar el usuario" })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                const error_detail = error.response.data["detail"]
+                if (Array.isArray(error_detail)) {
+                    var error_string = ""
+                    var field = ""
+                    for (var i = 0; i < error_detail.length; i++) {
+                        field = error_detail[i]["loc"][(error_detail[i]["loc"].length > 1) + 0]
+                        error_string += field + ": " + errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
+                    }
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: error_string 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                } else {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error_detail) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }
             } else if (error.response) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             } else if (error.request) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.message })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
+            setIsOpen(false)
         })
     }
 
@@ -141,7 +173,7 @@ const RegisterForm = (props) => {
                     </label>
                 </div>
 
-                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!"  />
+                <button type="submit" className="app-btn small-btn"> ¡Registrate! </button>
            
             </form>
         </div>
