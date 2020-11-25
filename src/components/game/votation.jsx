@@ -5,6 +5,7 @@ import '../../assets/css/votation.css';
 import { voteCurrentTurn, setMessageTopCenterOpen, setMessageTopCenter } from '../../redux/actions';
 import { getUsernameFromList } from './gameAuxiliars';
 import { SERVER_URL, GAME_PATH, VOTE } from '../constantsEndpoints';
+import errorTranslate from '../errorTranslate';
 
 const Votation = (props) => {
     const { 
@@ -30,7 +31,7 @@ const Votation = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })

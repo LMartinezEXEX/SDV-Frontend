@@ -14,6 +14,7 @@ import {
     GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, PROMULGATE_CARD, DISCARD_CARD, 
     SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
 } from '../constantsEndpoints';
+import errorTranslate from '../errorTranslate';
 
 const Cards = (props) => {
     const { 
@@ -34,7 +35,7 @@ const Cards = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -49,7 +50,7 @@ const Cards = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -64,7 +65,7 @@ const Cards = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -77,6 +78,11 @@ const Cards = (props) => {
             if (response.status === 200 && response.data.Spell === ""){
                 changeMinister()
                 setIsOpen(false)        
+            }
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
     }
@@ -102,7 +108,7 @@ const Cards = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -121,6 +127,11 @@ const Cards = (props) => {
                 setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Carta promulgada" })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 spellsAvailableDirectorCheck(gameId)
+            }
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
     }
@@ -175,7 +186,7 @@ const Cards = (props) => {
         }
         return (
             <div>
-                <div>Descartar alguna</div>
+                <div style={{ textAlign: "center" }}>Descartar alguna</div>
                 <div className="cardsDisplayer">
                     <div>{showCard(cardsListMinister[0])}</div>
                     <div>{showCard(cardsListMinister[1])}</div>
@@ -200,7 +211,7 @@ const Cards = (props) => {
         }
         return (
             <div>
-                <div>Elegir proclamación</div>
+                <div style={{ textAlign: "center" }}>Elegir proclamación</div>
                 <div className="cardsDisplayer">
                     <div>{showCard(cardsListDirector[0])}</div>
                     <div>{showCard(cardsListDirector[1])}</div>)        

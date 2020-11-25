@@ -4,6 +4,7 @@ import axios from 'axios';
 import Input from '../../Input';
 import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
 import { SERVER_URL, USER_REGISTER } from '../../constantsEndpoints';
+import errorTranslate from '../../errorTranslate';
 
 const RegisterForm = (props) => {
     const { setIsOpen, setMessageTopCenterOpen, setMessageTopCenter } = props

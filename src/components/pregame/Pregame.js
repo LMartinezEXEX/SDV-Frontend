@@ -7,15 +7,19 @@ import LeaveGame from './LeaveGame';
 import DeleteGame from './DeleteGame';
 import '../../assets/css/buttons.css';
 import '../../assets/css/pregame.css';
-import { initGame, leaveGame } from '../../redux/actions';
+import { initGame, leaveGame, setMessageTopCenter, setMessageTopCenterOpen } from "../../redux/actions";
 import { 
     SERVER_URL, GAME_PATH, INIT,  
     INITIALIZED, LEAVE_NOT_INIT_GAME, 
     PLAYER_ID_QUERY_STRING 
 } from '../constantsEndpoints';
+import errorTranslate from '../errorTranslate';
 
 const Pregame = (props) => {
-    const { isCreator, gameId, playerId, initGame, email, leaveGame } = props
+    const { 
+        isCreator, gameId, playerId, initGame, email, leaveGame, 
+        setMessageTopCenter, setMessageTopCenterOpen 
+    } = props
     const [playersPregame, setPlayersPregame] = useState([])
 
     // Abandono de partida
@@ -28,8 +32,11 @@ const Pregame = (props) => {
         ).then(response => {
             leaveGame()
         }).catch(error => {
-            console.log(error)
-        });
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+        })
     }
 
     // Jugadores que no son creadores
@@ -47,18 +54,21 @@ const Pregame = (props) => {
                     }
                 )
             } else if (response.data.game_state === "The game has been deleted") {
-                alert("La partida ha sido eliminada por su creador")
-                leaveGame({})
+                setMessageTopCenter({ messageSeverity: "info", messageTopCenter: "La partida ha sido eliminada por su creador" })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                leaveGame()
             } else {
                 setPlayersPregame(response.data.users)
             }
         }).catch(error => {
-            console.log(error)
-        });
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+        })
     }
 
     useInterval(async () => {
-        console.log("Checking...")
         await checkAndJoinGame()
     }, 500)
 
@@ -130,8 +140,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    initGame,
-    leaveGame
+    initGame, leaveGame, 
+    setMessageTopCenter, setMessageTopCenterOpen
 };
 
 export default connect(

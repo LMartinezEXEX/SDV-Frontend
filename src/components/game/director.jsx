@@ -8,6 +8,7 @@ import {
 } from '../../redux/actions';
 import { getUsernameFromList } from './gameAuxiliars';
 import { SERVER_URL, GAME_PATH, SELECT_DIRECTOR_CANDIDATE } from '../constantsEndpoints';
+import errorTranslate from '../errorTranslate';
 
 const Director = (props) => {
     const { 
@@ -32,7 +33,7 @@ const Director = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: error.response.data["detail"] })
+                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })

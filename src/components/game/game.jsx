@@ -31,6 +31,7 @@ import {
     REJECT_NOTIFIED, END_GAME_NOTIFIED, 
     SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
 } from '../constantsEndpoints';
+import errorTranslate from '../errorTranslate';
 
 const Game = (props) => {
     const { 
@@ -104,7 +105,7 @@ const Game = (props) => {
                 if (error.response && error.response.data["detail"] !== undefined) {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
-                        messageTopCenter: error.response.data["detail"] 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 }
@@ -126,7 +127,7 @@ const Game = (props) => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: error.response.data["detail"] 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
@@ -144,7 +145,7 @@ const Game = (props) => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: error.response.data["detail"] 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
@@ -183,7 +184,7 @@ const Game = (props) => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: error.response.data["detail"] 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
@@ -201,7 +202,7 @@ const Game = (props) => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: error.response.data["detail"] 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 console.log("Game has ended!")
@@ -225,7 +226,7 @@ const Game = (props) => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
-                    messageTopCenter: error.response.data["detail"] 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
@@ -283,7 +284,11 @@ const Game = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                console.log(error.response.data["detail"])
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
     }
