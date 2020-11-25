@@ -101,7 +101,6 @@ const RegisterForm = (props) => {
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
-            setIsOpen(false)
         })
     }
 
