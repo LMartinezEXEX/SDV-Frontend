@@ -87,7 +87,9 @@ export const updateGameState = (content) => ({
         finished: content.finished,
         fenix_promulgations: content.fenix_promulgations,
         death_eater_promulgations: content.death_eater_promulgations,
-        voteDoneCurrentTurn: content.voteDoneCurrentTurn
+        voteDoneCurrentTurn: content.voteDoneCurrentTurn,
+        expelliarmus: content.expelliarmus,
+        ministerConsent: content.ministerConsent,
     }
 })
 

@@ -28,7 +28,7 @@ const Game = (props) => {
             rejectCandidates, rejectCandidatesNotified, 
             getCandidates, fenix_promulgations, death_eater_promulgations, updateGameState,
             playerId, enabledSpell, enableSpell, spell, amountPlayers, playerRole,
-            playersInfo, getPlayersInfo, endGame } = props
+            playersInfo, getPlayersInfo, endGame , expelliarmus, ministerConsent} = props
     
     const updatePlayers = async() =>{
         await axios.get("http://127.0.0.1:8000/game/"+gameId+"/players_info")
@@ -145,7 +145,9 @@ const Game = (props) => {
                 finished: data["finished"],
                 fenix_promulgations: data["fenix promulgations"],
                 death_eater_promulgations: data["death eater promulgations"],
-                voteDoneCurrentTurn: data["vote done"]
+                voteDoneCurrentTurn: data["vote done"],
+                expelliarmus: data["expelliarmus"],
+                ministerConsent: data["minister consent"]
             })
         }).catch(error => {
             if (error.response !== undefined && error.response.data !== undefined) {
@@ -252,9 +254,10 @@ const Game = (props) => {
                             fenix_promulgations= {fenix_promulgations}/>
                     </div>
                 </div>
-                <Drawer className="Drawer" anchor='bottom' open={enabledSpell} 
+                <Drawer className="Drawer" anchor='bottom' 
+                open={(enabledSpell || expelliarmus) && actualMinister===playerId} 
                     onClose={()=>{enableSpell({enabledSpell:false}); changeMinister()}}>
-                        <SpellsList spell={spell}/>
+                        <SpellsList spell={spell} enableExpelliarmus={expelliarmus}/>
                 </Drawer>
             </div>    
     </div>);
@@ -280,6 +283,8 @@ const mapStateToProps = (state) => {
         spell: state.game.spell,
         amountPlayers: state.game.amountPlayers,
         playersInfo: state.game.playersInfo,
+        expelliarmus: state.game.expelliarmus,
+        ministerConsent: state.game.ministerConsent
     };
 }
 

@@ -9,7 +9,7 @@ import { getMinisterCards, getDirectorCards } from "../../redux/actions"
 const Cards = (props) => {
     const { gameId, playerId, actualMinister, actualDirector, 
         cardsListMinister, cardsListDirector, getMinisterCards, getDirectorCards, 
-        setIsOpen } = props;
+        setIsOpen, expelliarmus, ministerConsent, death_eater_promulgations} = props;
 
     const changeMinister = async () => {
         await axios.put("http://127.0.0.1:8000/game/"+gameId+"/select_MM")
@@ -98,11 +98,32 @@ const Cards = (props) => {
         }
     }
 
+    const useExpelliarmus = async() => {
+        const exp_url1 ="http://127.0.0.1:8000/game/"
+        const exp_url2 = "/director_expelliarmus?director_id=" 
+        await axios.put(exp_url1 + gameId + exp_url2 + actualDirector
+            ).then(res=>{
+                setIsOpen(false)
+            })
+    }
+
     const showCard = (card) => {
         switch(card){
-            case 1: return (<button onClick={() => { dispatchCard(card) }}><img src={proclamationM} alt="Opcion de proclamacion"></img></button>)
-            case 0: return (<button onClick={() => { dispatchCard(card) }}><img src={proclamationO} alt="Opcion de proclamacion"></img></button>)
+            case 1: return (<button onClick={() => { dispatchCard(card) }}>
+                                <img src={proclamationM} alt="Opcion de proclamacion"/>
+                            </button>)
+            case 0: return (<button onClick={() => { dispatchCard(card) }}>
+                                <img src={proclamationO} alt="Opcion de proclamacion"/>
+                            </button>)
             default: return <div></div>
+        }
+    }
+
+    const displayExpelliarmus = () =>{
+        if(death_eater_promulgations>=5){
+            return <button className="app-btn SpellLikeCard" onClick={useExpelliarmus}>
+                        Expelliarmus
+                    </button>
         }
     }
 
@@ -148,11 +169,12 @@ const Cards = (props) => {
         }
         return (
             <div>
-                <div>Elegir proclamación</div>
+                <div className="TitleCards">Elegir proclamación</div>
                 <div className="cardsDisplayer">
                     <div>{showCard(cardsListDirector[0])}</div>
-                    <div>{showCard(cardsListDirector[1])}</div>)        
+                    <div>{showCard(cardsListDirector[1])}</div>     
                 </div>
+                    {displayExpelliarmus()}
             </div>
         )
     } else {
@@ -169,7 +191,10 @@ const mapStateToProps = (state) => {
         actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector,
         cardsListMinister: state.game.cardsListMinister,
-        cardsListDirector: state.game.cardsListDirector
+        cardsListDirector: state.game.cardsListDirector,
+        expelliarmus: state.game.expelliarmus,
+        ministerConsent: state.game.ministerConsent,
+        death_eater_promulgations: state.game.death_eater_promulgations
     };
 }
 
