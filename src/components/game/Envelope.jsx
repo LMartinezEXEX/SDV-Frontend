@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import Modal from '../Modal';
+import React, { useState } from 'react'
+import Modal from '../Modal'
 import Lottie from "react-lottie";
 import animationData from "../../assets/envelope.json";
-import voldemort from '../../assets/images/voldemort.PNG';
-import death_eater from '../../assets/images/death_eater.jpeg';
-import fenix from '../../assets/images/phoenix.jpeg';
-import '../../assets/css/App.css';
+import voldemort from '../../assets/images/voldemort.PNG'
+import death_eater from '../../assets/images/death_eater.jpeg'
+import fenix from '../../assets/images/phoenix.jpeg'
+import '../../assets/css/App.css'
 
 const defaultOptions = {
     renderer: 'svg',

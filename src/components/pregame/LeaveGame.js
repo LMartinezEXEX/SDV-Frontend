@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-const LeaveGame = (props) => {
+const LeaveGame= (props) => {
     const { callbackSubmit } = props
     return (
         <div >

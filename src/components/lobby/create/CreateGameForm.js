@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import Input from '../../Input'
+import dropdown from './Dropdown'
 import axios from 'axios';
-import Input from '../../Input';
-import dropdown from './Dropdown';
-import { setMessageTopCenter, setMessageTopCenterOpen } from '../../../redux/actions';
-import { SERVER_URL, GAME_PATH, CREATE } from '../../constantsEndpoints';
-import { errorTranslate, errorConcat } from '../../errorTranslate';
 
 const CreateGameForm = (props) => {
-    const { callbackSubmit, email, setMessageTopCenter, setMessageTopCenterOpen } = props
+    const { callbackSubmit, email } = props
     const [gameName, setGameName] = useState('');
     const min_players_list= [5, 6, 7, 8, 9, 10]
     const max_players_list= [5, 6, 7, 8, 9, 10]
@@ -21,11 +18,12 @@ const CreateGameForm = (props) => {
         } 
     }
 
+    /* Verdadero handleSubmit */
     const handleSubmit = async (event) => {
         event.preventDefault()
         
-        await axios(
-            SERVER_URL + GAME_PATH + CREATE, {
+        const create_game_url = "http://127.0.0.1:8000/game/create/"
+        await axios(create_game_url, {
             method: 'POST',
             data: JSON.stringify({
                 email: email,
@@ -42,33 +40,18 @@ const CreateGameForm = (props) => {
                 callbackSubmit(response.data.Game_Id, response.data.Player_Id, minPlayers, maxPlayers)
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                if (Array.isArray(error.response.data["detail"])) {
-                    setMessageTopCenter({ 
-                        messageSeverity: "warning", 
-                        messageTopCenter: errorConcat(error.response.data["detail"])
-                    })
-                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                } else {
-                    setMessageTopCenter({ 
-                        messageSeverity: "warning", 
-                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
-                    })
-                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                }
+            if (error.response) {
+                alert(JSON.stringify(error.response.data));
+                console.log("Error (response)", error.response.status);
+                console.log("Error (response)", error.response.headers);
+                console.log("Error (response)", error.response.data);
             } else if (error.request) {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.message) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                alert(JSON.stringify(error.request));
+                console.log(error.request);
             } else {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.message) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                console.log("Error", error.message);
             }
+            alert(error)
         });
     }
 
@@ -104,11 +87,4 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = { 
-    setMessageTopCenter, setMessageTopCenterOpen 
-}
-
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-)(CreateGameForm);
+export default connect(mapStateToProps)(CreateGameForm);

@@ -1,45 +1,23 @@
-import React from 'react';
-import { connect } from "react-redux";
+import React from 'react'
 import axios from 'axios';
-import { joinGame, setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
-import { SERVER_URL, GAME_PATH, JOIN } from '../../constantsEndpoints';
-import { errorTranslate } from '../../errorTranslate';
+import { joinGame } from "../../../redux/actions";
+import { connect } from "react-redux";
 
 const JoinForm = (props) => {
-    const { 
-        email, joinGame, gameList, 
-        setMessageTopCenter, setMessageTopCenterOpen
-    } = props
+    const { email, joinGame, gameList } = props
   
+
     const handleClick = async (gameId) => {        
-        await axios.put(
-            SERVER_URL + GAME_PATH + gameId + JOIN, {
+        const result = await axios.put('http://127.0.0.1:8000/game/' + gameId +'/join', {
             email: email
         }).then(response => {
-            if (response.status === 200 && response.data.Player_Id !== undefined) {
-                joinGame({ gameId: gameId, playerId: response.data.Player_Id })
-            }
+            return response.data
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            } else if (error.request) {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.message) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            } else {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.message) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }
-        })
+            return error
+        });
+        if (result.Player_Id) {
+            joinGame({ gameId: gameId, playerId: result.Player_Id })
+        }
     }
 
     
@@ -69,8 +47,7 @@ const mapStateToProps = (state) => {
     };
 }
 const mapDispatchToProps = {
-    joinGame, 
-    setMessageTopCenter, setMessageTopCenterOpen
+    joinGame
 }
 
 export default connect(

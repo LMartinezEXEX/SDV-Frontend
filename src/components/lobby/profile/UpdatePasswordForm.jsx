@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import Input from '../../Input';
 import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
-import Input from '../../Input';
-import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
-import { SERVER_URL, USER_UPDATE_PASSWORD } from '../../constantsEndpoints';
-import { errorTranslate, errorConcat } from '../../errorTranslate';
+import axios from 'axios';
 
 const UpdatePasswordForm = (props) => {
-    const { 
-        callbackPassword, email, authorization, setIsOpen, 
-        setMessageTopCenterOpen, setMessageTopCenter
-    } = props
+    const { callbackPassword, email, authorization, setIsOpen } = props
 
     const [password, setPassword ] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -29,11 +23,13 @@ const UpdatePasswordForm = (props) => {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
-
+        event.preventDefault();
+        
+        const update_password_url = "http://127.0.0.1:8000/user/update/password/"
+    
         if (newPassword) {
             await axios(
-                SERVER_URL + USER_UPDATE_PASSWORD, {
+                update_password_url, {
                 method: "PUT",
                 data: {
                     email: email,
@@ -48,38 +44,23 @@ const UpdatePasswordForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackPassword(true)
+                    setIsOpen(false)
                 }
             }).catch(error => {
-                if (error.response && error.response.data["detail"] !== undefined) {
-                    if (Array.isArray(error.response.data["detail"])) {
-                        setMessageTopCenter({ 
-                            messageSeverity: "warning", 
-                            messageTopCenter: errorConcat(error.response.data["detail"]) 
-                        })
-                        setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                    } else {
-                        setMessageTopCenter({ 
-                            messageSeverity: "warning", 
-                            messageTopCenter: errorTranslate(error.response.data["detail"]) 
-                        })
-                        setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                    }
+                if (error.response) {
+                    alert(JSON.stringify(error.response.data));
+                    console.log("Error (response)", error.response.status);
+                    console.log("Error (response)", error.response.headers);
+                    console.log("Error (response)", error.response.data);
                 } else if (error.request) {
-                    setMessageTopCenter({ 
-                        messageSeverity: "warning", 
-                        messageTopCenter: errorTranslate(error.message) 
-                    })
-                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                    alert(JSON.stringify(error.request));
+                    console.log(error.request);
                 } else {
-                    setMessageTopCenter({ 
-                        messageSeverity: "warning", 
-                        messageTopCenter: errorTranslate(error.message) 
-                    })
-                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                    console.log("Error", error.message);
                 }
+             
             })
         }
-        setIsOpen(false)
     }
     
     return (
@@ -121,7 +102,7 @@ const UpdatePasswordForm = (props) => {
                 </label>
             </div>
             
-            <button type="submit" className="app-btn small-btn"> Modificar </button>
+            <input type="submit" name="Update"  className="app-btn small-btn" value="Modificar" />
         </form>
     )
 }
@@ -133,11 +114,4 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = {
-    setMessageTopCenterOpen, setMessageTopCenter
-}
-
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-)(UpdatePasswordForm);
+export default connect(mapStateToProps)(UpdatePasswordForm);

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import Modal from '../Modal';
+import React, { useState } from 'react'
+import Modal from '../Modal'
 
 const PopUp= (props) => {
-    const { type, enableButton, isOpenExtraCondition, handleBeforeOpen, handleBeforeClose, candidates } = props
+    const { type, enableButton, handleState, handleBeforeClose } = props
     const [isOpen, setIsOpen] = useState(false)
     
     return (
         <div>
             {(enableButton)
             ?(
-                (handleBeforeOpen)
+                (handleState)
                 ?(
                     <button className="app-btn game-button" id="gameButton"
                      onClick={() => { handleBeforeOpen(); setIsOpen(true) }}> {type} </button>
@@ -23,23 +23,11 @@ const PopUp= (props) => {
             )}
             {(handleBeforeClose)
             ?(
-                (isOpenExtraCondition !== undefined)
-                ?(
-                    <Modal open={isOpen && isOpenExtraCondition} setIsOpen={setIsOpen} children={type} candidates={candidates} 
+                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
                     onClose={() => { handleBeforeClose(); setIsOpen(false) }}/>
-                ):(
-                    <Modal open={isOpen} setIsOpen={setIsOpen} children={type} candidates={candidates} 
-                    onClose={() => { handleBeforeClose(); setIsOpen(false) }}/>
-                ) 
             ):(
-                (isOpenExtraCondition !== undefined)
-                ?(
-                    <Modal open={isOpen && isOpenExtraCondition} setIsOpen={setIsOpen} children={type} candidates={candidates} 
+                <Modal open={isOpen} setIsOpen={setIsOpen} children={type}
                     onClose={() => setIsOpen(false)}/>
-                ):(
-                    <Modal open={isOpen} setIsOpen={setIsOpen} children={type} candidates={candidates} 
-                    onClose={() => setIsOpen(false)}/>
-                )
             )}
         </div>
     )

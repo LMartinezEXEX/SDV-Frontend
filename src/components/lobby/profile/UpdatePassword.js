@@ -1,33 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import UpdatePasswordForm from './UpdatePasswordForm';
-import Modal from '../../Modal';
-import '../../../assets/css/profile.css';
-import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+import Modal from '../../Modal'
+import '../../../assets/css/profile.css'
 
 const UpdatePassword = (props) => {
-    const { setIsOpenProfile, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdatePassword = (success = false) => {
         if (success) {
-            setTimeout(() => {
-                setMessageTopCenter({ 
-                    messageSeverity: "success", 
-                    messageTopCenter: "Contraseña actualizada con éxito" 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }, 500)
+            console.log("Update password: success")
+            alert('Contraseña actualizada con éxito')
         } else {
-            setTimeout(() => {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: "No se pudo actualizar la contraseña" 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }, 500)
+            console.log("Update password: failed")
         }
-        setIsOpenProfile(false)
     }
     
     return (
@@ -44,11 +30,4 @@ const UpdatePassword = (props) => {
     )
 }
 
-const mapDispatchToProps = {
-    setMessageTopCenterOpen, setMessageTopCenter
-}
-
-export default connect(
-    null, 
-    mapDispatchToProps
-)(UpdatePassword);
+export default UpdatePassword;

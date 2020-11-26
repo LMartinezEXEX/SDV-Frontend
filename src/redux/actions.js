@@ -1,29 +1,9 @@
-import {
-    REGISTER, LOGIN, LOGOUT, GET_ICON, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, 
-    INIT_GAME, LEAVE_GAME, END_GAME, UPDATE_GAME, ENABLE_SPELL,
-    GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
-    DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, SET_LUMOS_VOTES, 
-    GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
-    MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD, 
-    REINIT_MESSAGES, MESSAGE_TOP_CENTER_OPEN, SET_MESSAGE_TOP_CENTER, 
-    MESSAGE_BOTTOM_LEFT_OPEN, SET_MESSAGE_BOTTOM_LEFT
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME, CREATE_GAME, JOIN_GAME, END_GAME,
+        INIT_GAME, UPDATE_MINISTER, UPDATE_GAME, ENABLE_SPELL,
+        GET_PLAYERS_INFO, GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
+        VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
+        GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, LEAVE_GAME
 } from './actionsTypes';
-
-/* USER */
-
-export const updateUsername = (content) => ({
-    type: UPDATE_USERNAME,
-    payload: {
-      username: content.newUsername
-    }
-})
-
-export const getIcon = (content) => ({
-    type: GET_ICON,
-    payload: {
-      timeBreaker: content.timeBreaker 
-    }
-})
 
 export const register = (content) => ({
     type: REGISTER,
@@ -49,8 +29,6 @@ export const logout = (content) => ({
         content
     }
 })
-
-/* GAME */
 
 export const createGame = (content) => ({
     type: CREATE_GAME,
@@ -80,17 +58,24 @@ export const initGame = (content) => ({
     }
 })
 
-export const leaveGame = (content) => ({
-    type: LEAVE_GAME,
+export const endGame = (content) => ({
+    type: END_GAME,
     payload: {
         content
     }
 })
 
-export const endGame = (content) => ({
-    type: END_GAME,
+export const updateUsername = (content) => ({
+    type: UPDATE_USERNAME,
     payload: {
-        content
+      username: content.newUsername
+    }
+})
+
+export const updateMinister = (content) => ({
+    type: UPDATE_MINISTER,
+    payload: {
+        newMinister: content.newMinister
     }
 })
 
@@ -102,9 +87,9 @@ export const updateGameState = (content) => ({
         finished: content.finished,
         fenix_promulgations: content.fenix_promulgations,
         death_eater_promulgations: content.death_eater_promulgations,
-        electionCount: content.electionCount,
-        voteStartedCurrentTurn: content.voteStartedCurrentTurn,
-        voteDoneCurrentTurn: content.voteDoneCurrentTurn
+        voteDoneCurrentTurn: content.voteDoneCurrentTurn,
+        expelliarmus: content.expelliarmus,
+        ministerConsent: content.ministerConsent,
     }
 })
 
@@ -130,13 +115,6 @@ export const getDirectorCandidates = (content) => ({
     }
 })
 
-export const selectDirectorCandidate = (content) => ({
-    type: DID_SELECT_DIRECTOR_CANDIDATE,
-    payload: {
-        didSelectDirectorCandidate: content.didSelectDirectorCandidate
-    }
-})
-
 export const voteCurrentTurn = (content) => ({
     type: DID_VOTE_CURRENT_TURN,
     payload: {
@@ -155,13 +133,6 @@ export const rejectCandidatesNotified = (content) => ({
     type: VOTE_NOX_NOTIFIED,
     payload: {
         voteNoxNotified: content.voteNoxNotified
-    }
-})
-
-export const setLumosVotes = (content) => ({
-    type: SET_LUMOS_VOTES,
-    payload: {
-        lumosVotes: content.lumosVotes
     }
 })
 
@@ -187,53 +158,9 @@ export const getDirectorCards = (content) => ({
     }
 })
 
-export const ministerDiscardedCard = (content) => ({
-    type: MINISTER_DISCARDED_CARD,
+export const leaveGame = (content) => ({
+    type: LEAVE_GAME,
     payload: {
-        ministerHasDiscardedCard: content.ministerHasDiscardedCard
     }
 })
 
-export const directorChoseCard = (content) => ({
-    type: DIRECTOR_CHOSE_CARD,
-    payload: {
-        directorHasChosenCard: content.directorHasChosenCard
-    }
-})
-
-/* NOTIFICATIONS */
-export const reinitMessages = (content) => ({
-    type: REINIT_MESSAGES,
-    payload: {
-        content
-    }
-})
-
-export const setMessageTopCenterOpen = (content) => ({
-    type: MESSAGE_TOP_CENTER_OPEN,
-    payload: {
-        messageTopCenterOpen: content.messageTopCenterOpen
-    }
-})
-
-export const setMessageTopCenter = (content) => ({
-    type: SET_MESSAGE_TOP_CENTER,
-    payload: {
-        messageSeverity: content.messageSeverity,
-        messageTopCenter: content.messageTopCenter
-    }
-})
-
-export const setMessageBottomLeftOpen = (content) => ({
-    type: MESSAGE_BOTTOM_LEFT_OPEN,
-    payload: {
-        messageBottomLeftOpen: content.messageBottomLeftOpen
-    }
-})
-
-export const setMessageBottomLeft = (content) => ({
-    type: SET_MESSAGE_BOTTOM_LEFT,
-    payload: {
-        messageBottomLeft: content.messageBottomLeft
-    }
-})
