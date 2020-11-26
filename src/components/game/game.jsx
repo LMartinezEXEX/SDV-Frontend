@@ -7,6 +7,7 @@ import MortifagoBoard from './boards/mortifagoBoard';
 import OrderBoard from './boards/orderBoard';
 import RolsDisplayer from './RolsDisplayer';
 import Envelope from './Envelope';
+import ElectionCounter from './electionCounter'
 import SpellsList from './SpellsList';
 import PopUp from './PopUp';
 import Alert from '@material-ui/lab/Alert';
@@ -53,7 +54,8 @@ const Game = (props) => {
         rejectCandidates, rejectCandidatesNotified, enableSpell, 
         getMinisterCards, getDirectorCards,
         reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
-        setMessageBottomLeftOpen, setMessageBottomLeft
+        setMessageBottomLeftOpen, setMessageBottomLeft,
+        electionCount
     } = props
 
     // Al final del juego
@@ -285,6 +287,7 @@ const Game = (props) => {
                     finished: data_check_game["finished"],
                     fenix_promulgations: data_check_game["fenix promulgations"],
                     death_eater_promulgations: data_check_game["death eater promulgations"],
+                    electionCount: data_check_game["election counter"],
                     voteStartedCurrentTurn: data_check_game["vote started"],
                     voteDoneCurrentTurn: data_check_game["vote done"]
                 })
@@ -318,6 +321,7 @@ const Game = (props) => {
                     finished: data_check_game["finished"],
                     fenix_promulgations: data_check_game["fenix promulgations"],
                     death_eater_promulgations: data_check_game["death eater promulgations"],
+                    electionCount: data_check_game["election counter"],
                     voteStartedCurrentTurn: data_check_game["vote started"],
                     voteDoneCurrentTurn: data_check_game["vote done"]
                 })
@@ -410,6 +414,11 @@ const Game = (props) => {
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
                     <div>{getUsernameFromList(playersInfo, playerId)}</div>
+                </div>
+                <ElectionCounter electionCount={electionCount}/>
+                <div className="election-counter">
+                    <div> Contador de </div>
+                    <div> Elecciones: {electionCount}/3 </div>
                 </div>
                 <div>
                     <RolsDisplayer/>
@@ -567,6 +576,7 @@ const mapStateToProps = (state) => {
         spell: state.game.spell,
         amountPlayers: state.game.amountPlayers,
         playersInfo: state.game.playersInfo,
+        electionCount: state.game.electionCount,
         ministerHasDiscardedCard: state.game.ministerHasDiscardedCard,
         directorHasChosenCard: state.game.directorHasChosenCard,
         messageTopCenterOpen: state.notifications.messageTopCenterOpen,

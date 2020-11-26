@@ -39,7 +39,8 @@ export const gameInitialState = {
     death_eater_promulgations: null,
     enabledSpell: false,   
     spell: "",
-    playersInfo: []
+    playersInfo: [],
+    electionCount: 0
 }
 
 export default function(state = gameInitialState, action) {
@@ -95,6 +96,7 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
+              electionCount: action.payload.electionCount,
               candidateMinister: 0,
               candidateDirector: 0,
               cardsListMinister: [],
@@ -143,6 +145,7 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
+              electionCount: action.payload.electionCount,
               voteStartedCurrentTurn: action.payload.voteStartedCurrentTurn,
               voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
             };
