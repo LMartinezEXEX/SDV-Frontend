@@ -5,6 +5,7 @@
 }
 
 .SpellsList li {
+    display: block;
     margin: 10px;
     width:175px;
     height:65px;
@@ -32,6 +33,7 @@
 }
 
 .cardsList li {
+    display: block;
     margin: 10px;
     width:175px;
     height:65px;
@@ -47,6 +49,7 @@
 
 
 .loyalty li {
+    display: block;
     margin:100px auto;
     border-radius:10px;
     text-align: center;
