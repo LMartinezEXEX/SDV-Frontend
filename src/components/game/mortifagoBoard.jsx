@@ -1,7 +1,8 @@
 import React from 'react';
-import '../../../assets/css/mortifagoBoard.css';
-import proclamation from '../../../assets/images/boards/m-proclamation.jpg';
-import mortifLogo   from '../../../assets/images/boards/mortifLogo.png';
+import '../../assets/css/mortifagoBoard.css';
+import proclamation from '../../assets/images/boards/m-proclamation.jpg'
+//import snake from '../../assets/images/boards/snake.png'
+import mortifLogo from '../../assets/images/boards/mortifLogo.png'
 
 const MortifagoBoard = (props) => {
     const {amountPlayers, death_eater_promulgations} = props
@@ -67,4 +68,5 @@ const MortifagoBoard = (props) => {
     );
 }
 
-export default MortifagoBoard;
+
+export default MortifagoBoard ;

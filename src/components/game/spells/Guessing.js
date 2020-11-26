@@ -1,11 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import React from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
-import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
-import { errorTranslate } from '../../errorTranslate';
+import axios from 'axios';
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -15,26 +12,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const Guessing = (props) => {
-    const { 
-        gameId, actualMinister, setCards, setshowCards, 
-        setMessageTopCenter, setMessageTopCenterOpen 
-    } = props
+    const {gameId, actualMinister, setCards, setshowCards} = props
 
     const useGuessing = async() => {
-        await axios.put(
-            SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Guessing', {
+        const useSpell_url_part1 = "http://127.0.0.1:8000/game/"
+        const useSpell_url_part2 = "/execute_spell?spell=Guessing"
+        await axios.put(useSpell_url_part1 + gameId + 
+                        useSpell_url_part2, {
             minister_id: actualMinister,
             player_id: 0
         }).then(res => {
             setshowCards(true)
             setCards(res.data.cards)
-        }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }
-        })
+        }).catch(error => alert(error))
     }
 
     const classes = useStyles();
@@ -56,7 +48,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    setMessageTopCenter, setMessageTopCenterOpen
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Guessing);    

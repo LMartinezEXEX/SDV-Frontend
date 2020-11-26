@@ -1,79 +1,41 @@
 import { createStore } from "redux";
 import { USER, userInitialState } from "./reducers/user";
 import { GAME, gameInitialState } from "./reducers/game";
-import { NOTIFICATIONS, notificationsInitialState } from "./reducers/notifications";
 import rootReducer from "./reducers";
 
 /* Save states values */
-const saveState = (state, storeType) => {
-    try {
-        const serializedState = JSON.stringify(state)
-        switch (storeType) {
-            case USER: {
-                sessionStorage.setItem(USER, serializedState)
-                break
-            }
-            case GAME: {
-                sessionStorage.setItem(GAME, serializedState)
-                break
-            }
-            case NOTIFICATIONS: {
-                sessionStorage.setItem(NOTIFICATIONS, serializedState)
-                break
-            }
-        }
-    } catch (error) {
-        // Ignore
-    }
+const saveUser = (userState) => {
+    sessionStorage.setItem(USER, (JSON.stringify(userState)?JSON.stringify(userState):{}))
+}
+
+const saveGame = (gameState) => {
+    sessionStorage.setItem(GAME, (JSON.stringify(gameState)?JSON.stringify(gameState):{}))
 }
 
 /* Load states values */
-const loadState = (storeType) => {
-    try {
-        var serializedState = null
-        switch (storeType) {
-            case USER: {
-                serializedState = sessionStorage.getItem(USER)
-                return JSON.parse(serializedState)
-            }
-            case GAME: {
-                serializedState = sessionStorage.getItem(GAME)
-                return JSON.parse(serializedState)
-            }
-            case NOTIFICATIONS: {
-                serializedState = sessionStorage.getItem(NOTIFICATIONS)
-                return JSON.parse(serializedState)
-            }
-            default:
-                return undefined
-        }
-    } catch (error) {
-        return undefined
-    }
+const loadUser = () => {
+    return (sessionStorage.getItem(USER) ? JSON.parse(sessionStorage.getItem(USER)) : {})
+}
+
+const loadGame = () => {
+    return (sessionStorage.getItem(GAME) ? JSON.parse(sessionStorage.getItem(GAME)) : {})
 }
 
 /* Default store */
 const initialData = () => {
-    var user = loadState(USER)
-    var game = loadState(GAME) 
-    var notifications = loadState(NOTIFICATIONS)
-    if (user === null || user === undefined) {
-        saveState(userInitialState, USER)
-        user = loadState(USER)
+    var user = loadUser()
+    var game = loadGame()
+    if (Object.keys(user).length === 0 && user.constructor === Object) {
+        saveUser(userInitialState)
+        user = loadUser()
     }
-    if (game === null || game === undefined) {
-        saveState(gameInitialState, GAME)
-        game = loadState(GAME)
+    if (Object.keys(game).length === 0 && game.constructor === Object) {
+        saveGame(gameInitialState)
+        game = loadGame()
     }
-    if (notifications === null || notifications === undefined) {
-        saveState(notificationsInitialState, NOTIFICATIONS)
-        notifications = loadState(NOTIFICATIONS)
-    }
-    
     return {
         user: user,
-        game: game,
-        notifications: notifications
+        game: game
     }
 }
 
@@ -82,9 +44,8 @@ const store = createStore(rootReducer, initialData());
 /* Listeners */
 store.subscribe(
     function () {
-        saveState(store.getState().user, USER)
-        saveState(store.getState().game, GAME)
-        saveState(store.getState().notifications, NOTIFICATIONS)
+        saveUser(store.getState().user)
+        saveGame(store.getState().game)
     }
 )
 

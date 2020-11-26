@@ -1,5 +1,4 @@
-import { REGISTER, LOGIN, LOGOUT, GET_ICON, UPDATE_USERNAME } from '../actionsTypes';
-import { SERVER_URL, USER_ICON } from '../../components/constantsEndpoints';
+import { REGISTER, LOGIN, LOGOUT, UPDATE_USERNAME } from "../actionsTypes";
 
 export const USER = "user"
 
@@ -8,8 +7,7 @@ export const userInitialState = {
     type: "guest",
     authorization: "",
     email: "",
-    username: "",
-    icon: ""
+    username: ""
 }
 
 export default function(state = userInitialState, action) {
@@ -26,8 +24,7 @@ export default function(state = userInitialState, action) {
             type: action.payload.type,
             authorization: action.payload.authorization,
             email: action.payload.email,
-            username: action.payload.username,
-            icon: SERVER_URL + USER_ICON + action.payload.email
+            username: action.payload.username
           };
         }
         case LOGOUT: {
@@ -38,20 +35,13 @@ export default function(state = userInitialState, action) {
             type: "guest",
             authorization: "",
             email: "",
-            username: "",
-            icon: ""
+            username: ""
           }
         }
         case UPDATE_USERNAME: {
           return {
             ...state,
             username: action.payload.username
-          };
-        }
-        case GET_ICON: {
-          return {
-            ...state,
-            icon: SERVER_URL + USER_ICON + state.email + action.payload.timeBreaker
           };
         }
         default:

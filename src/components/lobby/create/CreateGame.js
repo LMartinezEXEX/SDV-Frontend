@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
-import Modal from '../../Modal';
-import CreateGameForm from './CreateGameForm';
-import '../../../assets/css/pregame.css';
+import Modal from '../../Modal'
+import CreateGameForm from './CreateGameForm'
+import '../../../assets/css/pregame.css'
 import { createGame } from '../../../redux/actions';
 
 const CreateGame= (props) => {
