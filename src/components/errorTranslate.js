@@ -40,6 +40,7 @@ const errorDict = {
     "Player not found": "El jugador no existe",
     "The player is not in the game": "El jugador no está en la partida",
     "The user is already in game": "El usuario ya está en la partida",
+    "Game's name must have at least one word": "El nombre de la partida debe contener al menos una palabra",
     "The game must have at least 5 players": "La partida debe tener al menos 5 jugadores",
     "The game must have less than 10 players": "La partida puede tener como mucho 10 jugadores",
     "The game has not reach the minimum amount of players": "La partida no ha alcanzado la cantidad mínima de jugadores",
