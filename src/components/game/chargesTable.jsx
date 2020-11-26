@@ -1,44 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import '../../assets/css/game.css';
-import { SERVER_URL, GAME_PATH, VOTE_RESULTS } from '../constantsEndpoints';
 
 const ChargesTable = (props) => {
-    const {playersInfo, gameId} = props  
-    const [lumosVotes, setlumosVotes] = useState([])
-
-    const voteResult = () => {
-        axios.put(
-            SERVER_URL + GAME_PATH + gameId + VOTE_RESULTS
-        ).then(res =>{
-            setlumosVotes(res.data.voted_lumos)
-        })
-    }
-    
-    if(lumosVotes.length === 0) {
-        voteResult()
-    }
-    
+    const { playersInfo, lumosVotes } = props  
+        
     const vote = (player) => {
-        if(lumosVotes.length !== 0) {
-            if(lumosVotes.includes(player.player_id)) {
+        if (player["is alive"]) {
+            if (lumosVotes.length > 0 && lumosVotes.includes(player.player_id)) {
                 return "Lumos"
-            } else {
-                return "Nox"
             }
-        } else return ""
+            return "Nox"
+        }
+        return ""
     }
-    
-    const votationList = playersInfo.map(player => Object.assign({}, {username: player.username,
-                                             vote: vote(player)}))
 
-    
+    const maxUsernameLength = Math.max(...playersInfo.map(player => player.username.length))
+    const votationList = playersInfo.map(player => 
+        Object.assign({}, { username: player.username, vote: vote(player), "is alive": player["is alive"] })
+    )
+
     return (
         <div className="chargeTable">
             <ul>
-                {votationList.map(player => <li key={player.username}>
-                    {player.username + " " + player.vote}</li>)}
+                {votationList.map(player => {
+                    return (
+                    <li key={player.username}>
+                        {(player["is alive"])
+                        ?(
+                            <pre>
+                                {player.username + " ".repeat(maxUsernameLength - player.username.length + 1) + player.vote}
+                            </pre>
+                        ):(
+                            <pre className="deathPlayer">
+                                {player.username}
+                            </pre>
+                        )
+                        }
+                    </li>)
+                })}
             </ul>
         </div>
     )
@@ -46,10 +46,8 @@ const ChargesTable = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        candidateMinister: state.game.candidateMinister,
-        candidateDirector: state.game.candidateDirector,
         playersInfo: state.game.playersInfo,
-        gameId: state.game.gameId
+        lumosVotes: state.game.lumosVotes
     };
 }
 
