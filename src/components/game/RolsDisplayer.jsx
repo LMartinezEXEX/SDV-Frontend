@@ -9,9 +9,9 @@ const RolsDisplayer = (props) => {
         amountPlayers} = props
 
     const charge = (player) => {
-        if (player.player_id == actualMinister) {
+        if (player.player_id === actualMinister) {
             return <MinisterLogo className="ChargeLogo"/>
-        } else if (player.player_id == actualDirector) {
+        } else if (player.player_id === actualDirector) {
             return <DirectorLogo className="ChargeLogo"/>
         } else {
             return ""
@@ -50,14 +50,14 @@ const RolsDisplayer = (props) => {
             const list = playersInfo.map(player=> {  
                 if(player.loyalty === "Death Eater"){
                     return(
-                        <li>
+                        <li key={player.username}>
                             {isAlive(player, false)}
                             <div className="EmptyRol"></div>
                             {charge(player)}
                         </li>)
                 }else if(player.loyalty === "Voldemort"){
                     return(
-                        <li>
+                        <li key={player.username}>
                             {isAlive(player, false)}
                             <div className="RolsContainer">
                                 {charge(player)}
@@ -66,7 +66,7 @@ const RolsDisplayer = (props) => {
                         </li>)
                 }else{
                     return(
-                        <li>
+                        <li key={player.username}>
                             {isAlive(player, true)}
                             <div className="RolsContainer">
                                 <div className="EmptyRol"></div>
@@ -81,7 +81,7 @@ const RolsDisplayer = (props) => {
 
             const list = playersInfo.map(player=> {
                 return(
-                    <li>
+                    <li key={player.username}>
                         {isAlive(player, true)}
                         <div className="EmptyRol"></div>
                         {charge(player)}
@@ -89,7 +89,7 @@ const RolsDisplayer = (props) => {
             return list
         }else{
             const list = playersInfo.map(player=> 
-                        <li>
+                        <li key={player.username}>
                             {isAlive(player, true)}
                             <div className="EmptyRol"></div>
                             {charge(player)}

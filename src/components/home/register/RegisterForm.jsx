@@ -1,42 +1,57 @@
-import React, { useState } from 'react'
-import Input from '../../Input'
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
-
+import Input from '../../Input';
+import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+import { SERVER_URL, USER_REGISTER } from '../../constantsEndpoints';
+import { errorTranslate, errorConcat } from '../../errorTranslate';
 
 const RegisterForm = (props) => {
-    const { setIsOpen } = props
+    const { setIsOpen, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password_verify, setPasswordverify ] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
-   
+    const [passwordError, setPasswordError]     = useState(false);
+    
     function handleChange(name, value) {
         if (name === 'email') {
-            setEmail(value)
+            if (value.length < 10) {
+                setEmail('')
+            } else {
+                setEmail(value)
+            }
         } else if (name === 'username') {
-            setUsername(value)
+            if (value.length < 5) {
+                setUsername('')
+            } else {
+                setUsername(value)
+            }
         } else if (name === 'password_verify') {
-            setPasswordverify(value)
+            if (value.length < 8) {
+                setPasswordverify('')
+                setPasswordError(true)
+            } else {
+                setPasswordverify(value)
+                setPasswordError(false)
+            }
         } else {
             if (value.length < 8) {
-                setPasswordError(true);
+                setPassword('')
+                setPasswordError(true)
             } else {
-                setPasswordError(false);
                 setPassword(value)
+                setPasswordError(false)
             }
         }
     }
 
     
     const handleSubmit = async (event) => {
-        let account = { email, username, password, password_verify }
-        if (account) {
-            console.log('account',account);
-        }
-        event.preventDefault();
+        event.preventDefault()
 
-        await axios("http://127.0.0.1:8000/user/register/", {
+        await axios(
+            SERVER_URL + USER_REGISTER, {
             method: 'POST',
             headers: {
                 'accept': 'application/json'
@@ -49,23 +64,44 @@ const RegisterForm = (props) => {
             }
         }).then(response => {
             if (response.status === 201) {
-                alert("Registro hecho con éxito")
+                setTimeout(() => {
+                    setMessageTopCenter({ 
+                        messageSeverity: "success", 
+                        messageTopCenter: "Registro exitoso" 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }, 500)
                 setIsOpen(false)
             }
         }).catch(error => {
-            if (error.response) {
-                alert("Error, verifique los datos ingresados");
-                console.log("Error (response)", error.response.status);
-                console.log("Error (response)", error.response.headers);
-                console.log("Error (response)", error.response.data);
+            if (error.response && error.response.data["detail"] !== undefined) {
+                if (Array.isArray(error.response.data["detail"])) {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorConcat(error.response.data["detail"])
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                } else {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }
+            } else if (error.response) {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             } else if (error.request) {
-                alert(error.request);
-                console.log(error.request);
-            } else {
-                console.log("Error", error.message);
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
-            // setHasError(true)
-        });
+        })
     }
 
     
@@ -129,11 +165,18 @@ const RegisterForm = (props) => {
                     </label>
                 </div>
 
-                <input type="submit" name="Register"  className="app-btn small-btn" value="¡Registrate!"  />
+                <button type="submit" className="app-btn small-btn"> ¡Registrate! </button>
            
             </form>
         </div>
     )
 }
 
-export default RegisterForm;
+const mapDispatchToProps = {
+    setMessageTopCenterOpen, setMessageTopCenter
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(RegisterForm);

@@ -1,11 +1,11 @@
 import {
-  CREATE_GAME, UPDATE_MINISTER, INIT_GAME, END_GAME,
-  JOIN_GAME , UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
-  GET_DIRECTOR_CANDIDATES, DID_VOTE_CURRENT_TURN, 
-  VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
-  GET_CANDIDATES, GET_MINISTER_CARDS, 
-  GET_DIRECTOR_CARDS, LEAVE_GAME
-} from "../actionsTypes";
+  CREATE_GAME, INIT_GAME, LEAVE_GAME, END_GAME,
+  JOIN_GAME, UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
+  GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
+  DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
+  SET_LUMOS_VOTES, GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
+  MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
+} from '../actionsTypes';
 
 export const GAME = "game"
 
@@ -24,20 +24,24 @@ export const gameInitialState = {
     candidateDirector: 0,
     cardsListMinister: [],
     cardsListDirector: [],
+    ministerHasDiscardedCard: false,
+    directorHasChosenCard: false,
     playerRole: "",
     finished: false,
     directorCandidates: [],
+    voteStartedCurrentTurn: false,
     voteDoneCurrentTurn: false,
     voteNoxCurrentTurn: false,
     voteNoxNotified: false,
+    didSelectDirectorCandidate: false,
     didVoteCurrentTurn: false,
     fenix_promulgations: null,
     death_eater_promulgations: null,
     enabledSpell: false,   
     spell: "",
     playersInfo: [],
-    expelliarmus: false,
-    ministerConsent: 2
+    lumosVotes: [],
+    electionCount: 0
 }
 
 export default function(state = gameInitialState, action) {
@@ -69,23 +73,18 @@ export default function(state = gameInitialState, action) {
             init: false            
           };
         }
+        case LEAVE_GAME: {
+          return {
+            ...gameInitialState          
+          };
+        }
         case END_GAME: {
           return {
             ...gameInitialState
           };
         }
-        case UPDATE_MINISTER: {
-            return {
-              ...state,
-              actualMinister: action.payload.newMinister
-            }
-          };
         case UPDATE_GAME: {
-          if (action.payload.finished) {
-            return {
-              ...gameInitialState
-            };
-          } else if (action.payload.actualMinister != state.actualMinister 
+          if (action.payload.actualMinister !== state.actualMinister 
             && state.voteDoneCurrentTurn && !action.payload.voteDoneCurrentTurn) {
             /*
             Cambiamos ministro de magia, la votación finalizó, pero el back nos indica que ya estamos con una
@@ -98,16 +97,19 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
-              expelliarmus: action.payload.expelliarmus,
-              ministerConsent: action.payload.ministerConsent,
+              electionCount: action.payload.electionCount,
               candidateMinister: 0,
               candidateDirector: 0,
               cardsListMinister: [],
               cardsListDirector: [],
               directorCandidates: [],
+              ministerHasDiscardedCard: false,
+              directorHasChosenCard: false,
+              voteStartedCurrentTurn: false,
               voteDoneCurrentTurn: false,
               voteNoxCurrentTurn: false,
               voteNoxNotified: false,
+              didSelectDirectorCandidate: false,
               didVoteCurrentTurn: false,
               enabledSpell: false,   
               spell: ""
@@ -125,16 +127,16 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
-              expelliarmus: action.payload.expelliarmus,
-              ministerConsent: action.payload.ministerConsent
             };
           } else if ((state.actualMinister === 0) || (action.payload.actualMinister === state.actualMinister 
-            && !state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn)) {
+            && ((!state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) 
+            || (!state.voteStartedCurrentTurn && action.payload.voteStartedCurrentTurn)))) {
             /*
             state.actualMinister === 0 => Turno inicial
 
             No cambiamos ministro de magia, la votación no finalizó, pero el back nos indica que acaba de
-            finalizar la votación => actualizamos el turno de forma local
+            finalizar la votación, o bien la votación no comenzó pero el back nos avisa que empieza
+            => actualizamos el turno de forma local
             */
             console.log("State is changing")
             return {
@@ -144,9 +146,9 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
-              voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn,
-              expelliarmus: action.payload.expelliarmus,
-              ministerConsent: action.payload.ministerConsent
+              electionCount: action.payload.electionCount,
+              voteStartedCurrentTurn: action.payload.voteStartedCurrentTurn,
+              voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
             };
           } else {
             /*
@@ -177,6 +179,12 @@ export default function(state = gameInitialState, action) {
             directorCandidates: action.payload.directorCandidates
           }
         }
+        case DID_SELECT_DIRECTOR_CANDIDATE: {
+          return {
+            ...state,
+            didSelectDirectorCandidate: action.payload.didSelectDirectorCandidate
+          }
+        }
         case DID_VOTE_CURRENT_TURN: {
           return {
             ...state,
@@ -193,6 +201,12 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             voteNoxNotified: action.payload.voteNoxNotified
+          }
+        }
+        case SET_LUMOS_VOTES: {
+          return {
+            ...state,
+            lumosVotes: action.payload.lumosVotes
           }
         }
         case GET_CANDIDATES: {
@@ -214,14 +228,17 @@ export default function(state = gameInitialState, action) {
             cardsListDirector: action.payload.cardsListDirector
           }
         }
-        case LEAVE_GAME: {
+        case MINISTER_DISCARDED_CARD: {
           return {
             ...state,
-            isCreator: false,
-            gameId: null,
-            playerId: null,
-            init: false            
-          };
+            ministerHasDiscardedCard: action.payload.ministerHasDiscardedCard
+          }
+        }
+        case DIRECTOR_CHOSE_CARD: {
+          return {
+            ...state,
+            directorHasChosenCard: action.payload.directorHasChosenCard
+          }
         }
         default:
           return state;
