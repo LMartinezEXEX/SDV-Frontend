@@ -1,6 +1,5 @@
-import { combineReducers } from 'redux';
-import user from './user';
-import game from './game';
-import notifications from './notifications';
+import { combineReducers } from "redux";
+import user from "./user";
+import game from "./game";
 
-export default combineReducers({ user , game, notifications });
+export default combineReducers({ user , game });

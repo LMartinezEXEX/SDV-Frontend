@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../../assets/css/orderBoard.css';
-import proclamation from '../../../assets/images/boards/o-proclamation.jpg';
-import orderLogo from '../../../assets/images/boards/orderLogo.png';
+import '../../assets/css/orderBoard.css';
+import proclamation from '../../assets/images/boards/o-proclamation.jpg'
+import orderLogo from '../../assets/images/boards/orderLogo.png'
 
 const OrderBoard = ({fenix_promulgations}) =>{
 
@@ -32,4 +32,6 @@ const OrderBoard = ({fenix_promulgations}) =>{
     );
 }
 
-export default OrderBoard;
+
+
+export default OrderBoard ;

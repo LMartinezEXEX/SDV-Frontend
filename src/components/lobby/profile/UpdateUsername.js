@@ -3,32 +3,21 @@ import { connect } from 'react-redux';
 import UpdateProfileForm from './UpdateUsernameForm';
 import Modal from '../../Modal'
 import '../../../assets/css/profile.css'
-import { updateUsername, setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
+import { updateUsername} from '../../../redux/actions';
 
 const UpdateUsername = (props) => {
-    const { setIsOpenProfile, updateUsername, setMessageTopCenterOpen, setMessageTopCenter } = props
+    const { updateUsername} = props
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdateUsername = (success = false, newUsername) => {
       if (success) {
+        console.log("Update username: success")
+        alert('Username actualizado con éxito')
         updateUsername({ newUsername: newUsername })
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "success", 
-                messageTopCenter: "Username actualizado con éxito" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
       } else {
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "warning", 
-                messageTopCenter: "No se pudo al actualizar el username" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
+        console.log("Update username: failed")
+        alert('Error al actualizar el username')
       }
-      setIsOpenProfile(false)
     }
     
     return (
@@ -45,8 +34,8 @@ const UpdateUsername = (props) => {
 }
 
 const mapDispatchToProps = {
-  updateUsername, setMessageTopCenterOpen, setMessageTopCenter
-}
+  updateUsername
+};
 
 export default connect(
   null,

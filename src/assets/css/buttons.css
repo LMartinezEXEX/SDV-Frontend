@@ -105,15 +105,3 @@
 	transform: scale(0.8) rotate(45deg);
 	color: #fff;
 }
-
-/* Upload file */ 
-
-.file-upload {
-	font-family:'Syne Mono', monospace;
-	margin-bottom: 0;
-	padding: 0.2rem;
-	font-size: 18px;
-	text-shadow: 0 0 1px rgb(202, 200, 200), 0 0 1px rgb(202, 200, 200);
-	color: grey;
-	letter-spacing: 2px;
-}

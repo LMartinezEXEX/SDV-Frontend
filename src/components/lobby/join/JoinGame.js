@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
-import { connect } from "react-redux";
-import axios from 'axios';
-import JoinForm from './JoinForm';
-import Modal from '../../Modal';
-import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
-import { SERVER_URL, GAME_PATH, LIST_GAMES } from '../../constantsEndpoints';
-import { errorTranslate } from '../../errorTranslate';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import Modal from '../../Modal'
+import axios from 'axios'
+import JoinForm from './JoinForm'
 
-const JoinGame= (props) => {
-    const { setMessageTopCenter, setMessageTopCenterOpen } = props
+const JoinGame= () => {
     const [isOpen, setIsOpen] = useState(false)
     const [games, setGames] = useState([])
 
     const getAvailableGames = async () => {
     
-        await axios(
-        SERVER_URL + GAME_PATH + LIST_GAMES, { 
+        await axios.get('http://127.0.0.1:8000/game/list_games', { 
         method:'GET',
         headers: {
             'accept': 'application/json',
@@ -24,26 +19,13 @@ const JoinGame= (props) => {
             // Descartamos las partidas que alcanzaron el máximo de jugadores
             data = data.filter(game => game.players < game.max_players)
             setGames(data)
-            setIsOpen(true)
-        }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ 
-                    messageSeverity: "warning", 
-                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
-                })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }
-        })
+        })        
     }
 
     return (
         <div >
-            <button 
-            className= "app-btn" 
-            onClick={() => getAvailableGames()}
-            > 
-            Unirse a Partida 
-            </button>
+            <button className= "app-btn " onClick={() =>
+            {getAvailableGames(); setIsOpen(true)}}> Unirse a Partida </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <JoinForm gameList={games} />
             </Modal>
@@ -51,11 +33,5 @@ const JoinGame= (props) => {
     )
 }
 
-const mapDispatchToProps = { 
-    setMessageTopCenter, setMessageTopCenterOpen 
-}
+export default JoinGame
 
-export default connect(
-    null, 
-    mapDispatchToProps
-)(JoinGame);
