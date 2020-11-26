@@ -1,6 +1,6 @@
-import React from 'react'
-import proclamationM from '../../assets/images/boards/m-proclamation.jpg'
-import proclamationO from '../../assets/images/boards/o-proclamation.jpg'
+import React from 'react';
+import proclamationM from '../../assets/images/boards/m-proclamation.jpg';
+import proclamationO from '../../assets/images/boards/o-proclamation.jpg';
 
 const CardsDisplayer = ({cards}) => {
 
@@ -21,4 +21,4 @@ const CardsDisplayer = ({cards}) => {
     )
 }
 
-export default CardsDisplayer
+export default CardsDisplayer;

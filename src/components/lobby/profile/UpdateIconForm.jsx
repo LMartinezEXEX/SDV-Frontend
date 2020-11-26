@@ -5,50 +5,54 @@ import "../../../assets/css/form.css";
 import "../../../assets/css/buttons.css";
 import Input from '../../Input';
 import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
-import { SERVER_URL, USER_UPDATE_USERNAME } from '../../constantsEndpoints';
+import { SERVER_URL, USER_UPDATE_ICON } from '../../constantsEndpoints';
 import { errorTranslate, errorConcat } from '../../errorTranslate';
 
-const UpdateProfileForm = (props) => {
+const UpdateIconForm = (props) => {
     const { 
-        callbackUsername, email, authorization, setIsOpen,
+        callbackIcon, email, authorization, setIsOpen, 
         setMessageTopCenterOpen, setMessageTopCenter 
     } = props
 
-    const [newUsername, setNewUsername] = useState("");
     const [password, setPassword ] = useState("");
-    
+    const [newIcon, setNewIcon] = useState(null);
+  
     function handlePasswordChange(name, value) {
         if (name === "password") {
             setPassword(value)
         }
     }
 
-    function handleNewUsernameChange(name, value) {
-        if (name === "new-username") {
-            setNewUsername(value)
-        }
+    function handleIconChange(event) {
+        setNewIcon(event.target.files[0])
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-    
-        if (newUsername) {
+        
+        if (newIcon) {
+            const formData = new FormData()
+            formData.append("email", email)
+            formData.append("password", password)
+            formData.append(
+              "new_icon",
+              newIcon,
+              newIcon.name
+            )
             await axios(
-                SERVER_URL + USER_UPDATE_USERNAME, {
+                SERVER_URL + USER_UPDATE_ICON, {
+
                 method: "PUT",
-                data: {
-                    email: email,
-                    password: password,
-                    new_username: newUsername
-                },
+                data: formData,
                 headers: {
                     crossDomain: true,
                     "Authorization": authorization
                 }
             }).then(response => {
                 if (response.status === 200) {
-                    callbackUsername(true, newUsername)
+                    callbackIcon(true, email)
                 }
+                
             }).catch(error => {
                 if (error.response && error.response.data["detail"] !== undefined) {
                     if (Array.isArray(error.response.data["detail"])) {
@@ -64,13 +68,13 @@ const UpdateProfileForm = (props) => {
                         })
                         setMessageTopCenterOpen({ messageTopCenterOpen: true })
                     }
-                } else if (error.response) {
+                } else if (error.request) {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
                         messageTopCenter: errorTranslate(error.message) 
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                } else if (error.request) {
+                } else {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
                         messageTopCenter: errorTranslate(error.message) 
@@ -81,34 +85,29 @@ const UpdateProfileForm = (props) => {
         }
         setIsOpen(false)
     }
-    
+
+
+
     return (
         <form className='profile-container' onSubmit={handleSubmit}>
-            <div>
-                <label >
-                    <Input attribute={{
-                        id: 'new-username',
-                        name: 'new-username',
-                        type: 'text',
-                        placeholder: "Nuevo Username"
-                    }}
-                        handleChange={handleNewUsernameChange}
-                    />
-                </label>
-            </div>
+            <button className="app-btn small-btn">
+                <label for="new-icon" className="file-upload"> {(newIcon)?(newIcon.name):("Elegir avatar")} </label>
+                <input  id="new-icon" type='file' style={{ display: 'none' }} onChange={handleIconChange}/>
+            </button>
             <div>
                 <label >
                     <Input attribute={{
                         id: 'password',
                         name: 'password',
                         type: 'password',
+                        required: 'required',
                         placeholder: "Contraseña"
                     }}
                         handleChange={handlePasswordChange}
                     />
                 </label>
             </div>
-            <button type="submit" className="app-btn small-btn"> Modificar </button>
+            <button type="submit" className="app-btn small-btn"> Subir </button>
         </form>
     )
 }
@@ -127,4 +126,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps, 
     mapDispatchToProps
-)(UpdateProfileForm);
+)(UpdateIconForm);
