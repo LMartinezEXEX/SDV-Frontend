@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import useInterval from '../../useInterval';
@@ -17,14 +17,14 @@ import {
 } from '@material-ui/core';
 import {
     endGame, 
-    updateGameState, getPlayersInfo, 
+    updateGameState, getPlayersInfo, setLumosVotes,  
     getDirectorCandidates, getCandidates,
     rejectCandidates, rejectCandidatesNotified, enableSpell, 
     getMinisterCards, getDirectorCards, 
     reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
     setMessageBottomLeftOpen, setMessageBottomLeft
 } from '../../redux/actions';
-import { getUsernameFromList, isPlayerAliveFromList } from './gameAuxiliars';
+import { getUsernameFromList, isPlayerAliveFromList, equalLists } from './gameAuxiliars';
 import {
     SERVER_URL, GAME_PATH, CHECK_GAME, 
     PLAYERS_INFO, DIRECTOR_CANDIDATES,
@@ -45,11 +45,11 @@ const Game = (props) => {
         ministerHasDiscardedCard, directorHasChosenCard, 
         fenix_promulgations, death_eater_promulgations, 
         playerId, enabledSpell, spell, amountPlayers, playerRole,
-        playersInfo, 
+        lumosVotes, playersInfo, 
         messageTopCenterOpen, messageSeverity, messageTopCenter,
         messageBottomLeftOpen, messageBottomLeft, 
         endGame, 
-        updateGameState, getPlayersInfo, 
+        updateGameState, getPlayersInfo, setLumosVotes, 
         getDirectorCandidates, getCandidates,
         rejectCandidates, rejectCandidatesNotified, enableSpell, 
         getMinisterCards, getDirectorCards,
@@ -86,7 +86,9 @@ const Game = (props) => {
         await axios.get(
             SERVER_URL + GAME_PATH + gameId + PLAYERS_INFO
         ).then(response => {
-            getPlayersInfo({ playersInfo: response.data["Players info"] })
+            if (!equalLists(playersInfo, response.data["Players info"])) {
+                getPlayersInfo({ playersInfo: response.data["Players info"] })
+            }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined 
             && error.response.data["detail"] !== "The game has finished") {
@@ -219,15 +221,18 @@ const Game = (props) => {
             SERVER_URL + GAME_PATH + gameId + VOTE_RESULTS
         ).then(response => {
             if (response.status === 200) {
+                if (!equalLists(lumosVotes, response.data["voted_lumos"])) {
+                    setLumosVotes({ lumosVotes: response.data["voted_lumos"] })
+                }
                 if (!response.data.result && !voteNoxCurrentTurn) {
                     // Se rechazaron los candidatos
                     rejectCandidates({ 
                         voteNoxCurrentTurn: true 
                     })
-                } 
+                }
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
+            if (error.response && error.response.data["detail"] !== undefined && !voteNoxCurrentTurn) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
                     messageTopCenter: errorTranslate(error.response.data["detail"]) 
@@ -238,7 +243,7 @@ const Game = (props) => {
     }
 
     const checkMinisterCards = async () => {
-        await axios(
+        await axios.get(
             SERVER_URL + GAME_PATH + gameId + GET_MINISTER_CARDS + PLAYER_ID_QUERY_STRING + playerId
         ).then(response => {
             if (response.status === 200) {
@@ -253,7 +258,7 @@ const Game = (props) => {
     }
 
     const checkDirectorCards = async () => {
-        await axios(
+        await axios.get(
             SERVER_URL + GAME_PATH + gameId + GET_DIRECTOR_CARDS + PLAYER_ID_QUERY_STRING + playerId
         ).then(response => {
             if (response.status === 200) {
@@ -294,9 +299,9 @@ const Game = (props) => {
                 console.log("Game should end soon...")
                 playerKnowsEndGame()
             } else {
-                if (data_check_game["vote done"] && !voteDoneCurrentTurn) {
+                if (data_check_game["vote done"] && !voteDoneCurrentTurn && !voteNoxCurrentTurn) {
                     // Obtener resultados
-                    getVoteResults(gameId, voteNoxCurrentTurn)
+                    getVoteResults()
                 } else if (data_check_game["vote started"] && !data_check_game["vote done"]) {
                     setMessageBottomLeft({
                         messageBottomLeft: "Votación en proceso..."
@@ -312,8 +317,8 @@ const Game = (props) => {
                         messageBottomLeftOpen: true 
                     })
                 }
-                if (data_check_game["vote done"] && playerId === data_check_game["current minister id"] && !enabledSpell) {
-                    spellsAvaliable(gameId)
+                if (data_check_game["vote done"] && !voteNoxCurrentTurn && playerId === data_check_game["current minister id"] && !enabledSpell) {
+                    spellsAvaliable()
                 }
                 updateGameState({
                     actualMinister: data_check_game["current minister id"],
@@ -339,73 +344,75 @@ const Game = (props) => {
     }
 
     // Desplegar notificaciones de acuerdo al estado
-    if (!finished) {
-        if (voteDoneCurrentTurn && !voteNoxCurrentTurn && !voteNoxNotified) {
-            if (playerId === actualMinister && cardsListMinister.length === 0 && !ministerHasDiscardedCard) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Puedes tomar nuevas cartas..."
+    useEffect(() => {
+        if (!finished) {
+            if (voteDoneCurrentTurn && !voteNoxCurrentTurn && !voteNoxNotified) {
+                if (playerId === actualMinister && cardsListMinister.length === 0 && !ministerHasDiscardedCard) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Puedes tomar nuevas cartas..."
+                    })
+                } else if (playerId === actualMinister && cardsListMinister.length > 0 && !ministerHasDiscardedCard) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Debes descartar alguna de las cartas..."
+                    })
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "El director puede promulgar..."
+                    })
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && enabledSpell) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Hechizo disponible..."
+                    })
+                } else if (playerId === actualDirector && cardsListDirector.length === 0 && !directorHasChosenCard) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Esperando las cartas del ministro..."
+                    })
+                } else if (playerId === actualDirector && cardsListDirector.length > 0 && !directorHasChosenCard) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Selecciona alguna carta para promulgar..."
+                    })
+                } else if (playerId === actualDirector && directorHasChosenCard && !enabledSpell) {
+                    setMessageBottomLeft({
+                            messageBottomLeft: "Nueva promulgación..."
+                    })
+                } else if (playerId === actualDirector && directorHasChosenCard && enabledSpell) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Hechizo disponible..."
+                    })
+                } else if (playerId !== actualMinister && playerId !== actualDirector) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Candidatos elegidos: verificar los resultados y esperar al ejecutivo"
+                    })
+                }
+                setMessageBottomLeftOpen({ 
+                    messageBottomLeftOpen: true 
                 })
-            } else if (playerId === actualMinister && cardsListMinister.length > 0 && !ministerHasDiscardedCard) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Debes descartar alguna de las cartas..."
+            } else if (voteDoneCurrentTurn && voteNoxCurrentTurn && !voteNoxNotified) {
+                setMessageBottomLeft({ 
+                    messageBottomLeft: "Candidatos rechazados: verificar los resultados" 
                 })
-            } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "El director puede promulgar..."
+                setMessageBottomLeftOpen({ 
+                    messageBottomLeftOpen: true 
                 })
-            } else if (playerId === actualMinister && ministerHasDiscardedCard && enabledSpell) {
+            } else if (voteDoneCurrentTurn && voteNoxCurrentTurn && voteNoxNotified) {
                 setMessageBottomLeft({
-                    messageBottomLeft: "Hechizo disponible..."
+                    messageBottomLeft: "Candidatos rechazados: esperando chequeo de resultados por parte de los otros jugadores"
                 })
-            } else if (playerId === actualDirector && cardsListDirector.length === 0 && !directorHasChosenCard) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Esperando las cartas del ministro..."
-                })
-            } else if (playerId === actualDirector && cardsListDirector.length > 0 && !directorHasChosenCard) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Selecciona alguna carta para promulgar..."
-                })
-            } else if (playerId === actualDirector && directorHasChosenCard && !enabledSpell) {
-                setMessageBottomLeft({
-                        messageBottomLeft: "Nueva promulgación..."
-                })
-            } else if (playerId === actualDirector && directorHasChosenCard && enabledSpell) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Hechizo disponible..."
-                })
-            } else if (playerId !== actualMinister && playerId !== actualDirector) {
-                setMessageBottomLeft({
-                    messageBottomLeft: "Candidatos elegidos: verificar los resultados y esperar al ejecutivo"
+                setMessageBottomLeftOpen({ 
+                    messageBottomLeftOpen: true 
                 })
             }
-            setMessageBottomLeftOpen({ 
-                messageBottomLeftOpen: true 
-            })
-        } else if (voteDoneCurrentTurn && voteNoxCurrentTurn && !voteNoxNotified) {
-            setMessageBottomLeft({ 
-                messageBottomLeft: "Candidatos rechazados: verificar los resultados" 
-            })
-            setMessageBottomLeftOpen({ 
-                messageBottomLeftOpen: true 
-            })
-        } else if (voteDoneCurrentTurn && voteNoxCurrentTurn && voteNoxNotified) {
-            setMessageBottomLeft({
-                messageBottomLeft: "Candidatos rechazados: esperando chequeo de resultados por parte de los otros jugadores"
-            })
-            setMessageBottomLeftOpen({ 
-                messageBottomLeftOpen: true 
-            })
         }
-    }
+    })
     
     // Actualizar lista de jugadores si no la tiene aún
     if (playersInfo.length === 0){
         updatePlayers()
     }
 
-    useInterval(async () => {
-        await updatePlayers()
-        await getGameState()
+    useInterval(() => {
+        updatePlayers()
+        getGameState()
     }, 2000)
 
     return(
@@ -444,9 +451,9 @@ const Game = (props) => {
                             ?(
                                 <div>
                                     <PopUp 
-                                    type="Resultados"  
+                                    type="Resultados de la votación"  
                                     enableButton={voteDoneCurrentTurn}
-                                    handleBeforeClose={(voteNoxCurrentTurn)?(playerKnowsRejection()):(undefined)}
+                                    handleBeforeClose={(voteNoxCurrentTurn)?(() => playerKnowsRejection()):(undefined)}
                                     />
                                 </div>
                             ):(<></>)
@@ -575,6 +582,7 @@ const mapStateToProps = (state) => {
         enabledSpell: state.game.enabledSpell,
         spell: state.game.spell,
         amountPlayers: state.game.amountPlayers,
+        lumosVotes: state.game.lumosVotes,
         playersInfo: state.game.playersInfo,
         electionCount: state.game.electionCount,
         ministerHasDiscardedCard: state.game.ministerHasDiscardedCard,
@@ -589,7 +597,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     endGame, 
-    updateGameState, getPlayersInfo, 
+    updateGameState, getPlayersInfo, setLumosVotes, 
     getDirectorCandidates, getCandidates,
     rejectCandidates, rejectCandidatesNotified, enableSpell, 
     getMinisterCards, getDirectorCards, 
