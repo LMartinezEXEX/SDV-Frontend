@@ -19,6 +19,7 @@ export const DID_SELECT_DIRECTOR_CANDIDATE = "DidSelectDirectorCandidate";
 export const DID_VOTE_CURRENT_TURN = "DidVoteCurrentTurn";
 export const VOTE_NOX_CURRENT_TURN = "voteNoxCurrentTurn";
 export const VOTE_NOX_NOTIFIED     = "voteNoxNotified";
+export const SET_LUMOS_VOTES    = "SetLumosVotes";
 export const GET_CANDIDATES     = "GetCandidates";
 export const GET_MINISTER_CARDS = "GetMinisterCards";
 export const GET_DIRECTOR_CARDS = "GetDirectorCards";

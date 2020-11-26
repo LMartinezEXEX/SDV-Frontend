@@ -3,7 +3,7 @@ import {
   JOIN_GAME, UPDATE_GAME, ENABLE_SPELL, GET_PLAYERS_INFO, 
   GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
   DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
-  GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
+  SET_LUMOS_VOTES, GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
   MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from '../actionsTypes';
 
@@ -40,6 +40,7 @@ export const gameInitialState = {
     enabledSpell: false,   
     spell: "",
     playersInfo: [],
+    lumosVotes: [],
     electionCount: 0
 }
 
@@ -200,6 +201,12 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             voteNoxNotified: action.payload.voteNoxNotified
+          }
+        }
+        case SET_LUMOS_VOTES: {
+          return {
+            ...state,
+            lumosVotes: action.payload.lumosVotes
           }
         }
         case GET_CANDIDATES: {
