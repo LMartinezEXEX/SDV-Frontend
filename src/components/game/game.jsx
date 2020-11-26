@@ -195,32 +195,34 @@ const Game = (props) => {
                             death_eater_promulgations= {death_eater_promulgations}/>
                     </div>
                     <div className="gameSection">
-                        <div className="buttonSection">
-                            <div>
-                                <PopUp 
-                                type="Resultados" 
-                                enableButton={voteDoneCurrentTurn} 
-                                handleBeforeClose={
-                                    (voteNoxCurrentTurn)
-                                    ?(
-                                        () => {
-                                            console.log("Notify on close...")
-                                            rejectCandidatesNotified({ voteNoxNotified: true })
-                                            console.log("Player knows rejection...")
-                                            playerKnowsRejection()
-                                        }
-                                    ):(undefined)
-                                }
-                                />
-                            </div>
-                            <div>
-                                <PopUp 
-                                type="Votar" 
-                                enableButton={!didVoteCurrentTurn} 
-                                handleState={() => handleCheckCandidates()} 
-                                />
-                            </div>
-                            {(playerId === actualMinister || playerId === actualDirector)
+                        {(isPlayerAliveFromList(playersInfo, playerId))?
+                        (<div className="buttonSection">
+                            {(voteDoneCurrentTurn)
+                            ?(
+                                <div>
+                                    <PopUp 
+                                    type="Resultado electoral"  
+                                    enableButton={voteDoneCurrentTurn}
+                                    handleBeforeClose={(voteNoxCurrentTurn)?(() => playerKnowsRejection()):(undefined)}
+                                    />
+                                </div>
+                            ):(<></>)
+                            }
+                            {(voteStartedCurrentTurn && !voteDoneCurrentTurn && !didVoteCurrentTurn)
+                            ?(
+                                <div>
+                                    <PopUp 
+                                    type="Votar" 
+                                    enableButton={!didVoteCurrentTurn} 
+                                    isOpenExtraCondition={!didVoteCurrentTurn}
+                                    handleBeforeOpen={() => handleCheckCandidates()} 
+                                    />
+                                </div>
+                            ):(<></>)
+                            }
+                            {(voteDoneCurrentTurn && !voteNoxCurrentTurn 
+                            && !ministerHasDiscardedCard && !directorHasChosenCard 
+                            && (playerId === actualMinister || playerId === actualDirector))
                             ?(
                                 <div>
                                     <PopUp 

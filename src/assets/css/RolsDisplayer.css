@@ -1,7 +1,6 @@
 .rolsDisplayer {
     background-color: rgba(63, 91, 119, 0.788);
-    margin-top: 30px;
-    width: 300px;
+    margin-top: 35px;
     border: 2px solid black;
     border-radius: 10px;
 }
@@ -14,6 +13,7 @@
 }
 
 .ChargeLogo {
+    font-family: 'Syne Mono', monospace;
     border: 2px solid black;
     border-radius: 40px;
     text-align: center;
@@ -37,20 +37,20 @@
 
 .usernameDeath {
     font-family: 'Syne Mono', monospace;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 900;
     text-shadow: 0 0 5px white, 0 0 5px white;
     text-decoration: none;	
-    color: blue;
+    color: #5c24b0;
     overflow: hidden;
-    width: 200px;
+    width: 150px;
 }
 
 .usernameFenix {
-    width: 200px;
+    width: 150px;
     overflow: auto;
     font-family: 'Syne Mono', monospace;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 900;
     text-shadow: 0 0 5px white, 0 0 5px white;
     text-decoration: none;	

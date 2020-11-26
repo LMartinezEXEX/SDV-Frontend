@@ -46,7 +46,22 @@ const ChargesTable = (props) => {
     return (
         <div className="chargeTable">
             <ul>
-                {votationList.map(player => <li key={player.username}>{player.username + " " + player.vote + " " + player.charge}</li>)}
+                {votationList.map(player => {
+                    return (
+                    <li key={player.username}>
+                        {(player["is alive"])
+                        ?(
+                            <pre>
+                                {player.username + " ".repeat(maxUsernameLength - player.username.length + 1) + "    " + player.vote}
+                            </pre>
+                        ):(
+                            <pre className="deathPlayer">
+                                {player.username}
+                            </pre>
+                        )
+                        }
+                    </li>)
+                })}
             </ul>
         </div>
     )

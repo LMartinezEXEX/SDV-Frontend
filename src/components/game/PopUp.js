@@ -11,14 +11,14 @@ const PopUp= (props) => {
             ?(
                 (handleState)
                 ?(
-                    <button className="app-btn" id="gameButton"
-                     onClick={() => { handleState(); setIsOpen(true) }}> {type} </button>
+                    <button className="app-btn game-button" id="gameButton"
+                     onClick={() => { handleBeforeOpen(); setIsOpen(true) }}> {type} </button>
                 ):(
-                    <button className="app-btn" id="gameButton"
+                    <button className="app-btn game-button" id="gameButton"
                      onClick={() => { setIsOpen(true) }}> {type} </button>
                 )
             ):(
-                <button className="app-btn" id="gameButton"
+                <button className="app-btn game-button" id="gameButton"
                 onClick={undefined} > {type} </button>                
             )}
             {(handleBeforeClose)

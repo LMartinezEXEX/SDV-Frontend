@@ -1,5 +1,6 @@
 .mortifagoBoard {
-    background-color: #51329F;
+    background-color: #4c2882;
+    opacity: 0.95;
     width: 1000px;
     text-align: center;
     border-radius: 10px;
@@ -31,7 +32,7 @@ img.spell {
 }
 
 .m-card-slot {
-    background-color: #673fca;
+    background-color: #5f32a2;
     border: 1px solid black;
     margin: 10px;
     height: 200px;
