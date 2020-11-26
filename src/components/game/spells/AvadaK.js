@@ -5,8 +5,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import dropdown from '../../lobby/create/Dropdown';
 import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
-import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { SERVER_URL, GAME_PATH, SELECT_MM, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
+import { errorTranslate } from '../../errorTranslate';
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -31,6 +31,24 @@ const AvadaKadavra = (props) => {
         }
     })
 
+    const changeMinister = async () => {
+        await axios.put(
+            SERVER_URL + GAME_PATH + gameId + SELECT_MM
+        ).then(response => {
+            if (response.status === 200) {
+                console.log(response.data)
+            }
+        }).catch(error => {
+            if (error.response && error.response.data["detail"] !== undefined) {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }
+        })
+    }
+
     const [VictimUsername, PlayerDropdown] = dropdown("Asesinar a", "",players_list);
     
     const useAvada = async() => {
@@ -45,6 +63,7 @@ const AvadaKadavra = (props) => {
                 enableSpell({ enabledSpell: false })
                 setMessageTopCenter({ messageSeverity: "success", messageTopCenter: victim[0].username + " asesinado" })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                changeMinister()
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {

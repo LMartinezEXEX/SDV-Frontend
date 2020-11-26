@@ -5,7 +5,7 @@ import JoinForm from './JoinForm';
 import Modal from '../../Modal';
 import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
 import { SERVER_URL, GAME_PATH, LIST_GAMES } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate } from '../../errorTranslate';
 
 const JoinGame= (props) => {
     const { setMessageTopCenter, setMessageTopCenterOpen } = props

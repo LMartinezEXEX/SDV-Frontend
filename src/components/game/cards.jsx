@@ -4,57 +4,25 @@ import axios from 'axios';
 import proclamationM from '../../assets/images/boards/m-proclamation.jpg';
 import proclamationO from '../../assets/images/boards/o-proclamation.jpg';
 import '../../assets/css/cards.css';
-import { 
-    getMinisterCards, getDirectorCards, 
+import {  
     ministerDiscardedCard, directorChoseCard, 
     setMessageTopCenterOpen, setMessageTopCenter
 } from '../../redux/actions';
 import { 
     SERVER_URL, GAME_PATH,
-    GET_MINISTER_CARDS, GET_DIRECTOR_CARDS, PROMULGATE_CARD, DISCARD_CARD, 
-    SELECT_MM, SPELL, PLAYER_ID_QUERY_STRING
+    PROMULGATE_CARD, DISCARD_CARD, 
+    SELECT_MM, SPELL
 } from '../constantsEndpoints';
-import errorTranslate from '../errorTranslate';
+import { errorTranslate } from '../errorTranslate';
 
 const Cards = (props) => {
     const { 
         gameId, playerId, actualMinister, actualDirector, 
         cardsListMinister, cardsListDirector,   
-        setIsOpen, 
-        getMinisterCards, getDirectorCards, 
+        setIsOpen,  
         ministerDiscardedCard, directorChoseCard, 
         setMessageTopCenterOpen, setMessageTopCenter
     } = props
-
-    const checkMinisterCards = async () => {
-        await axios(
-            SERVER_URL + GAME_PATH + gameId + GET_MINISTER_CARDS + PLAYER_ID_QUERY_STRING + playerId
-        ).then(response => {
-            if (response.status === 200) {
-                getMinisterCards({ cardsListMinister: response.data["cards"] })
-            }
-        }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }
-        })
-    }
-
-    const checkDirectorCards = async () => {
-        await axios(
-            SERVER_URL + GAME_PATH + gameId + GET_DIRECTOR_CARDS + PLAYER_ID_QUERY_STRING + playerId
-        ).then(response => {
-            if (response.status === 200) {
-                getDirectorCards({ cardsListDirector: response.data["cards"] })
-            }
-        }).catch(error => {
-            if (error.response && error.response.data !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
-            }
-        })
-    }
 
     const changeMinister = async () => {
         await axios.put(
@@ -170,11 +138,6 @@ const Cards = (props) => {
     }
 
     if (playerId === actualMinister) {
-
-        if (cardsListMinister.length === 0) {
-            checkMinisterCards(gameId, playerId)
-        }
-
         if (cardsListMinister.length === 0) {
             return (
                 <div>
@@ -195,11 +158,6 @@ const Cards = (props) => {
             </div>
         )
     } else if (playerId === actualDirector) {
-        
-        if (cardsListDirector.length === 0) {
-            checkDirectorCards(gameId, playerId)
-        }
-
         if (cardsListDirector.length === 0) {
             return (
                 <div>
@@ -237,7 +195,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = { 
-    getMinisterCards, getDirectorCards, 
     ministerDiscardedCard, directorChoseCard, 
     setMessageTopCenterOpen, setMessageTopCenter
 }

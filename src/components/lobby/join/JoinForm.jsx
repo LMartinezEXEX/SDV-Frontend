@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import { joinGame, setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
 import { SERVER_URL, GAME_PATH, JOIN } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate } from '../../errorTranslate';
 
 const JoinForm = (props) => {
     const { 
@@ -24,6 +24,18 @@ const JoinForm = (props) => {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
                     messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else if (error.request) {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            } else {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
                 })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }

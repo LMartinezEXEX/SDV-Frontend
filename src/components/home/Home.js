@@ -32,7 +32,7 @@ const Home = (props) => {
                 <Snackbar 
                 anchorOrigin={{ vertical: "top", horizontal: "center" }} 
                 open={messageTopCenterOpen} 
-                autoHideDuration={(messageTopCenter.length > 50)?10000:5000}
+                autoHideDuration={6000}
                 onClose={() => handleSnackbarTopCenter()}
                 onExit={() => handleSnackbarTopCenter()}
                 >

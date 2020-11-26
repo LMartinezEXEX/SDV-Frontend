@@ -5,7 +5,7 @@ import Input from '../../Input';
 import '../../../assets/css/form.css';
 import { setMessageTopCenterOpen, setMessageTopCenter } from '../../../redux/actions';
 import { SERVER_URL, USER_LOGIN, USER_PROFILE } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate, errorConcat } from '../../errorTranslate';
 
 const LoginForm = (props) => {
     const { callbackSubmit, setMessageTopCenterOpen, setMessageTopCenter } = props
@@ -92,42 +92,34 @@ const LoginForm = (props) => {
         }).then(response => {
             const authorization = response.headers["authorization"]
             if (response.status === 200 && authorization) {
-                setTimeout(() => {
-                    setMessageTopCenter({ 
-                        messageSeverity: "success", 
-                        messageTopCenter: "Logueado exitosamente" 
-                    })
-                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                }, 500)
                 getProfile(email, authorization)
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                const error_detail = error.response.data["detail"]
-                if (Array.isArray(error_detail)) {
-                    var error_string = ""
-                    var field = ""
-                    for (var i = 0; i < error_detail.length; i++) {
-                        field = error_detail[i]["loc"][(error_detail[i]["loc"].length > 1) + 0]
-                        error_string += field + ": " + errorTranslate(error_detail[i]["msg"]) + ((error_detail.length > 1)?"; ":"")
-                    }
+                if (Array.isArray(error.response.data["detail"])) {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
-                        messageTopCenter: error_string 
+                        messageTopCenter: errorConcat(error.response.data["detail"])
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 } else {
                     setMessageTopCenter({ 
                         messageSeverity: "warning", 
-                        messageTopCenter: errorTranslate(error_detail) 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
                     })
                     setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 }
             } else if (error.response) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.message) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             } else if (error.request) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.message) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.message) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })

@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
 import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
-import errorTranslate from '../../errorTranslate';
+import { errorTranslate } from '../../errorTranslate';
 
 const useStyles = makeStyles((theme) => ({
     large: {
