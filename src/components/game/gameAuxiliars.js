@@ -15,3 +15,7 @@ export const isPlayerAliveFromList = (playersInfo, playerId) => {
         }
     } 
 }
+
+export const equalLists = (lhList, rhList) => {
+    return JSON.stringify(lhList) === JSON.stringify(rhList)
+}
