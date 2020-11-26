@@ -29,7 +29,7 @@ const ChargesTable = (props) => {
                         {(player["is alive"])
                         ?(
                             <pre>
-                                {player.username + " ".repeat(maxUsernameLength - player.username.length + 1) + player.vote}
+                                {player.username + " ".repeat(maxUsernameLength - player.username.length + 1) + "    " + player.vote}
                             </pre>
                         ):(
                             <pre className="deathPlayer">

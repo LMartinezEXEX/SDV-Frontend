@@ -15,9 +15,11 @@
 }
 
 ul li{
+    display: flex;
+    align-items: center;
     font-size: 1.2rem;
     list-style: none;
-    line-height: 1.5em;
+    line-height: 1.4em;
     text-shadow: 0 0 5px white, 0 0 15px white;
 }
 

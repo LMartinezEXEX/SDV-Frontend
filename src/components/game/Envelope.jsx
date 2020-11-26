@@ -35,7 +35,7 @@ const Envelope = ({playerRole}) => {
     return (
         <div >
             <div className='envelope' onClick={() => setIsOpen(true)}>
-                <Lottie options={defaultOptions} height={90} width={90} />  
+                <Lottie options={defaultOptions} height={80} width={80} />  
             </div>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 {selectRole(playerRole)}

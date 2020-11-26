@@ -451,7 +451,7 @@ const Game = (props) => {
                             ?(
                                 <div>
                                     <PopUp 
-                                    type="Resultados de la votación"  
+                                    type="Resultado electoral"  
                                     enableButton={voteDoneCurrentTurn}
                                     handleBeforeClose={(voteNoxCurrentTurn)?(() => playerKnowsRejection()):(undefined)}
                                     />

@@ -13,7 +13,7 @@ const Modal = ({ open, setIsOpen, children, onClose, candidates}) => { //childre
 
     const windowData = (children) => { 
         switch(children){
-            case "Resultados de la votación": return(<ChargeTable />)
+            case "Resultado electoral": return(<ChargeTable />)
             case "Votar": return(<Votation onSelect={onClose} />)
             case "Cartas": return(<Cards setIsOpen={setIsOpen}/>)
             case "Elegir candidato a director": return(<Director candidates={candidates} onSelect={onClose} />)

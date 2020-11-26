@@ -1,17 +1,16 @@
 .gameView {
     position: absolute;
-    background-color: rgba(63, 91, 119, 0.788);
     display: flex;
     justify-content: center;
-    border: 2px black solid;
     border-radius: 10px;
-    margin: 0px 400px;
+    margin: 0px 280px;
     transform: scale(0.85);
 }
 
 .gameSection{
     margin: 5px;
 }
+
 .gameBox {
     display: flex;
     flex-direction: column;
@@ -28,7 +27,7 @@
 }
 
 .chargeTable * {
-    margin: 10px;
+    margin: 8px;
 }
 
 .buttonSection {
@@ -37,10 +36,10 @@
 }
 
 .buttonSection button {
-    padding: 0.5em;
+    padding: 0.6em;
     font-size: 1.4em;
     margin: 10px;
-    letter-spacing: 3px;
+    letter-spacing: 3.5px;
 }
 
 .Drawer {
@@ -49,12 +48,12 @@
 
 
 .left-view {
-    margin-top: 3rem;
+    margin-top: 4.5rem;
     position: absolute;
     display:flex;
     flex-direction: column;
     align-items: center;
-    margin-left: 5rem;
+    margin-left: 4rem;
 }
 
 .envelope {
@@ -69,14 +68,13 @@
 .img-role{
 	display: block;
     opacity: 1;
-    width: 80%;
+    width: 60%;
     margin: auto;
 	
 }
 
 .player-username{
     font-family: 'Syne Mono', monospace;
-    font-size: 18px;
     font-weight: 900;
     text-shadow: 0 0 5px white, 0 0 5px white;
     text-decoration: none;	
