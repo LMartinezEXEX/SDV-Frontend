@@ -72,7 +72,7 @@ const AvadaKadavra = (props) => {
 
     return (
         <>
-            <button className="SpellButton" onClick={useAvada}>
+            <button className="SpellButton" disabled={VictimUsername.length<1}  onClick={useAvada}>
                 <Avatar className={classes.large}>AK</Avatar>
                 <h4>Avada Kedabvra</h4>          
             </button>

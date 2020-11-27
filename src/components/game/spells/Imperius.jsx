@@ -73,7 +73,7 @@ const Imperius = (props) => {
 
     return (
         <>
-            <button className="SpellButton" onClick={useImperius}>
+            <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useImperius}>
                 <Avatar className={classes.large}>I</Avatar>
                 <h4>Imperio</h4>          
             </button>

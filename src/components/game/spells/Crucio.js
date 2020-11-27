@@ -50,7 +50,7 @@ const Crucio = (props) => {
     }
 
     return (<>
-        <button className="SpellButton" onClick={useCrucio}>
+        <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useCrucio}>
             <Avatar className={classes.large}>C</Avatar>
             <h4>Crucio</h4>
         </button>
