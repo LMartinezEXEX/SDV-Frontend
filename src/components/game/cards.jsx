@@ -6,12 +6,14 @@ import proclamationO from '../../assets/images/boards/o-proclamation.jpg';
 import '../../assets/css/cards.css';
 import {  
     ministerDiscardedCard, directorChoseCard, 
-    setMessageTopCenterOpen, setMessageTopCenter
+    setMessageTopCenterOpen, setMessageTopCenter,
+    getMinisterCards, getDirectorCards
 } from '../../redux/actions';
 import { 
     SERVER_URL, GAME_PATH,
     PROMULGATE_CARD, DISCARD_CARD, 
-    SELECT_MM, SPELL
+    SELECT_MM, SPELL, DIRECTOR_EXPELLIARMUS,
+    DIRECTOR_ID_QUERY
 } from '../constantsEndpoints';
 import { errorTranslate } from '../errorTranslate';
 
@@ -21,7 +23,8 @@ const Cards = (props) => {
         cardsListMinister, cardsListDirector,   
         setIsOpen,  
         ministerDiscardedCard, directorChoseCard, 
-        setMessageTopCenterOpen, setMessageTopCenter
+        setMessageTopCenterOpen, setMessageTopCenter,
+        death_eater_promulgations, expelliarmus
     } = props
 
     const changeMinister = async () => {
@@ -104,6 +107,23 @@ const Cards = (props) => {
         })
     }
 
+    const useExpelliarmus = async() => {
+        await axios.put(
+            SERVER_URL + GAME_PATH + gameId + DIRECTOR_EXPELLIARMUS +
+                DIRECTOR_ID_QUERY + actualDirector 
+            ).then(res=>{
+                setIsOpen(false)
+            })
+    }
+
+    const displayExpelliarmus = () =>{
+        if(death_eater_promulgations>=5 && !expelliarmus){
+            return <button className="app-btn SpellLikeCard" onClick={useExpelliarmus}>
+                        Expelliarmus
+                    </button>
+        }
+    }
+
     const handleOnClick = (card) => {
         if (playerId === actualMinister) {
             // Descartar carta, si el jugador es el ministro
@@ -136,7 +156,7 @@ const Cards = (props) => {
             }
         }
     }
-
+    
     if (playerId === actualMinister) {
         if (cardsListMinister.length === 0) {
             return (
@@ -172,8 +192,9 @@ const Cards = (props) => {
                 <div style={{ textAlign: "center" }}>Elegir proclamación</div>
                 <div className="cardsDisplayer">
                     <div>{showCard(cardsListDirector[0])}</div>
-                    <div>{showCard(cardsListDirector[1])}</div>)        
+                    <div>{showCard(cardsListDirector[1])}</div>
                 </div>
+                    {displayExpelliarmus()}        
             </div>
         )
     } else {
@@ -190,7 +211,9 @@ const mapStateToProps = (state) => {
         actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector,
         cardsListMinister: state.game.cardsListMinister,
-        cardsListDirector: state.game.cardsListDirector
+        cardsListDirector: state.game.cardsListDirector,
+        death_eater_promulgations: state.game.death_eater_promulgations,
+        expelliarmus: state.game.expelliarmus
     };
 }
 

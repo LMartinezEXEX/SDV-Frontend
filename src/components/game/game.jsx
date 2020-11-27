@@ -55,7 +55,7 @@ const Game = (props) => {
         getMinisterCards, getDirectorCards,
         reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
         setMessageBottomLeftOpen, setMessageBottomLeft,
-        electionCount
+        electionCount, ministerConsent, expelliarmus
     } = props
 
     // Al final del juego
@@ -297,7 +297,9 @@ const Game = (props) => {
                     death_eater_promulgations: data_check_game["death eater promulgations"],
                     electionCount: data_check_game["election counter"],
                     voteStartedCurrentTurn: data_check_game["vote started"],
-                    voteDoneCurrentTurn: data_check_game["vote done"]
+                    voteDoneCurrentTurn: data_check_game["vote done"],
+                    expelliarmus: data_check_game["expelliarmus"],
+                    ministerConsent: data_check_game["minister consent"]
                 })
                 console.log("Game should end soon...")
                 playerKnowsEndGame()
@@ -331,8 +333,11 @@ const Game = (props) => {
                     death_eater_promulgations: data_check_game["death eater promulgations"],
                     electionCount: data_check_game["election counter"],
                     voteStartedCurrentTurn: data_check_game["vote started"],
-                    voteDoneCurrentTurn: data_check_game["vote done"]
+                    voteDoneCurrentTurn: data_check_game["vote done"],
+                    expelliarmus: data_check_game["expelliarmus"],
+                    ministerConsent: data_check_game["minister consent"]
                 })
+
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined 
@@ -358,9 +363,13 @@ const Game = (props) => {
                     setMessageBottomLeft({
                         messageBottomLeft: "Debes descartar alguna de las cartas..."
                     })
-                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell) {
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && !expelliarmus) {
                     setMessageBottomLeft({
                         messageBottomLeft: "El director puede promulgar..."
+                    })
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && expelliarmus) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "El director uso Expelliarmus..."
                     })
                 } else if (playerId === actualMinister && ministerHasDiscardedCard && enabledSpell) {
                     setMessageBottomLeft({
@@ -370,7 +379,7 @@ const Game = (props) => {
                     setMessageBottomLeft({
                         messageBottomLeft: "Esperando las cartas del ministro..."
                     })
-                } else if (playerId === actualDirector && cardsListDirector.length > 0 && !directorHasChosenCard) {
+                } else if (playerId === actualDirector && cardsListDirector.length > 0 && !directorHasChosenCard && !expelliarmus) {
                     setMessageBottomLeft({
                         messageBottomLeft: "Selecciona alguna carta para promulgar..."
                     })
@@ -381,6 +390,18 @@ const Game = (props) => {
                 } else if (playerId === actualDirector && directorHasChosenCard && enabledSpell) {
                     setMessageBottomLeft({
                         messageBottomLeft: "Hechizo disponible..."
+                    })
+                } else if (playerId === actualDirector && directorHasChosenCard && expelliarmus && ministerConsent===2) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Ministro decidiendo sobre Expelliarmus..."
+                    })
+                } else if (playerId === actualDirector && directorHasChosenCard && expelliarmus && ministerConsent===1) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Ministro acepto Expelliarmus..."
+                    })
+                } else if (playerId === actualDirector && directorHasChosenCard && expelliarmus && ministerConsent===0) {
+                    setMessageBottomLeft({
+                        messageBottomLeft: "Ministro rechazo Expelliarmus, elige una carta..."
                     })
                 } else if (playerId !== actualMinister && playerId !== actualDirector) {
                     setMessageBottomLeft({
@@ -556,10 +577,11 @@ const Game = (props) => {
                 />
             ):(<></>)
             }
-            <Drawer className="Drawer" anchor='bottom' open={enabledSpell} 
-                onClose={() => onCloseSpellDrawer()}>
-                    <SpellsList spell={spell}/>
-            </Drawer>    
+            <Drawer className="Drawer" anchor='bottom' 
+                open={(enabledSpell || (expelliarmus && ministerConsent===2)) && actualMinister===playerId} 
+                    onClose={()=>{enableSpell({enabledSpell:false}); changeMinister()}}>
+                        <SpellsList spell={spell} enableExpelliarmus={expelliarmus}/>
+                </Drawer>   
         </div>);
 }
 
@@ -594,7 +616,9 @@ const mapStateToProps = (state) => {
         messageSeverity: state.notifications.messageSeverity,
         messageTopCenter: state.notifications.messageTopCenter,
         messageBottomLeftOpen: state.notifications.messageBottomLeftOpen,
-        messageBottomLeft: state.notifications.messageBottomLeft
+        messageBottomLeft: state.notifications.messageBottomLeft,
+        expelliarmus: state.game.expelliarmus,
+        ministerConsent: state.game.ministerConsent
     };
 }
 

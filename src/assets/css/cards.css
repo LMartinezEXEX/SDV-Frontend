@@ -24,3 +24,15 @@
     border-radius: 10px;
     border: 2px white solid;
 }
+
+.TitleCards {
+    display: flex;
+}
+
+.SpellLikeCard {
+    text-align: center;
+    margin-top: 10px;
+    width: 453px;
+    height: 70px;
+    justify-content: center;
+} 

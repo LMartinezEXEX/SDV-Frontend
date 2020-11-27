@@ -6,7 +6,7 @@ import {
     GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
     MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD, 
     REINIT_MESSAGES, MESSAGE_TOP_CENTER_OPEN, SET_MESSAGE_TOP_CENTER, 
-    MESSAGE_BOTTOM_LEFT_OPEN, SET_MESSAGE_BOTTOM_LEFT
+    MESSAGE_BOTTOM_LEFT_OPEN, SET_MESSAGE_BOTTOM_LEFT, EXPELLIARMUS_USED
 } from './actionsTypes';
 
 /* USER */
@@ -104,7 +104,9 @@ export const updateGameState = (content) => ({
         death_eater_promulgations: content.death_eater_promulgations,
         electionCount: content.electionCount,
         voteStartedCurrentTurn: content.voteStartedCurrentTurn,
-        voteDoneCurrentTurn: content.voteDoneCurrentTurn
+        voteDoneCurrentTurn: content.voteDoneCurrentTurn,
+        expelliarmus: content.expelliarmus,
+        ministerConsent: content.ministerConsent
     }
 })
 
@@ -201,6 +203,10 @@ export const directorChoseCard = (content) => ({
     }
 })
 
+export const expelliarmusUsed = () => ({
+    type:EXPELLIARMUS_USED
+})
+
 /* NOTIFICATIONS */
 export const reinitMessages = (content) => ({
     type: REINIT_MESSAGES,
@@ -237,3 +243,5 @@ export const setMessageBottomLeft = (content) => ({
         messageBottomLeft: content.messageBottomLeft
     }
 })
+
+

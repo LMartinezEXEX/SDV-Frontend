@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 const AvadaKadavra = (props) => {
     const {
         gameId, actualMinister, playersInfo,
-        enableSpell, setMessageTopCenter, setMessageTopCenterOpen 
+        enableSpell, setMessageTopCenter, setMessageTopCenterOpen,
+        playerId
     } = props
     
     const classes = useStyles();
@@ -83,6 +84,7 @@ const AvadaKadavra = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
+        playerId: state.game.playerId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };

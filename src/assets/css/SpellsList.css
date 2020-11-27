@@ -43,6 +43,10 @@
     line-height: 65px; 
 }
 
+.Spells {
+    background-color: rgb(46, 43, 43);
+}
+
 .cardsList li::before {
     content: none;
 }
@@ -71,3 +75,18 @@
     margin-top: -40px;
     border-radius: 10px;
 }
+
+.ExpelliarmusOptions{
+    display: flex;
+    flex-direction: row;
+    height: 250px;
+    background-color: rgb(46, 43, 43);
+}
+
+.ExpelliarmusOptions li {
+    margin:20px auto;
+}
+
+.ExpelliarmusOptions li::before {
+    content: none;
+} 
