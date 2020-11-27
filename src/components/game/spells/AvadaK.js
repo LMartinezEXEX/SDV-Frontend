@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import dropdown from '../../lobby/create/Dropdown';
 import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
+import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, SELECT_MM, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
 
@@ -24,12 +25,7 @@ const AvadaKadavra = (props) => {
     
     const classes = useStyles();
     
-    let players_list = []
-    playersInfo.map(player => {
-        if (player["is alive"] && player.player_id !== player) {
-                players_list.push(player.username)
-        }
-    })
+    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
 
     const changeMinister = async () => {
         await axios.put(

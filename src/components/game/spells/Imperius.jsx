@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import dropdown from '../../lobby/create/Dropdown';
 import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from '../../../redux/actions';
+import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, SELECT_MM, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
 
@@ -18,19 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Imperius = (props) => {
     const { 
-        gameId, playerId, actualMinister, playersInfo, 
+        gameId, actualMinister, playersInfo, 
         setMessageTopCenter, setMessageTopCenterOpen
     } = props
     
     const classes = useStyles();
     
-    let players_list = []
-    playersInfo.map(player => {
-        if (player.player_id !== actualMinister &&
-            player["is alive"] && player.player_id !== playerId) {
-                players_list.push(player.username)
-        }
-    })
+    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
 
     const changeMinister = async () => {
         await axios.put(
@@ -91,7 +86,6 @@ const mapStateToProps = (state) => {
     return {
         enabledSpell: state.game.enabledSpell,
         gameId: state.game.gameId,
-        playerId: state.game.playerId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };

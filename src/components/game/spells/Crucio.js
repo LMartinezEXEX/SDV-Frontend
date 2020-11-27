@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import dropdown from '../../lobby/create/Dropdown';
 import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
+import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
 
@@ -18,19 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Crucio = (props) => {
     const { 
-        gameId, actualMinister, setShowCards, setCrucioLoyalty,
-        playersInfo, playerId, 
+        gameId, actualMinister, setShowCards, setCrucioLoyalty, playersInfo, 
         setMessageTopCenter, setMessageTopCenterOpen 
     } = props
     
     const classes = useStyles();
     
-    let players_list = []
-    playersInfo.map(player => {
-        if (player["is alive"] && player.player_id !== playerId) {
-            players_list.push(player.username)
-        }
-    })
+    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
     
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
     
@@ -65,7 +60,6 @@ const Crucio = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        playerId: state.game.playerId,
         gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
