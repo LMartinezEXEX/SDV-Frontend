@@ -25,18 +25,7 @@ const Crucio = (props) => {
     
     const classes = useStyles();
     
-<<<<<<< HEAD
-    let players_list = []
-    if (players_list.length === 0){
-        playersInfo.map(player => {
-            if (player["is alive"] && player.player_id !== playerId) {
-                players_list.push(player.username)
-            }
-        })
-    }
-=======
     const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
->>>>>>> 9a373bead2aa43d85e9fab9e4e6d840626bfa6dd
     
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
     
