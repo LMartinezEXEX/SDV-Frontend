@@ -41,7 +41,9 @@ export const gameInitialState = {
     spell: "",
     playersInfo: [],
     lumosVotes: [],
-    electionCount: 0
+    electionCount: 0,
+    expelliarmus: false,
+    ministerConsent: 2
 }
 
 export default function(state = gameInitialState, action) {
@@ -112,7 +114,9 @@ export default function(state = gameInitialState, action) {
               didSelectDirectorCandidate: false,
               didVoteCurrentTurn: false,
               enabledSpell: false,   
-              spell: ""
+              spell: "",
+              expelliarmus: action.payload.expelliarmus,
+              ministerConsent: action.payload.ministerConsent
             };
           } else if (action.payload.actualMinister === state.actualMinister 
             && state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn 
@@ -127,6 +131,8 @@ export default function(state = gameInitialState, action) {
               finished: action.payload.finished,
               fenix_promulgations: action.payload.fenix_promulgations,
               death_eater_promulgations: action.payload.death_eater_promulgations,
+              expelliarmus: action.payload.expelliarmus,
+              ministerConsent: action.payload.ministerConsent
             };
           } else if ((state.actualMinister === 0) || (action.payload.actualMinister === state.actualMinister 
             && ((!state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) 
@@ -148,7 +154,9 @@ export default function(state = gameInitialState, action) {
               death_eater_promulgations: action.payload.death_eater_promulgations,
               electionCount: action.payload.electionCount,
               voteStartedCurrentTurn: action.payload.voteStartedCurrentTurn,
-              voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn
+              voteDoneCurrentTurn: action.payload.voteDoneCurrentTurn,
+              expelliarmus: action.payload.expelliarmus,
+              ministerConsent: action.payload.ministerConsent
             };
           } else {
             /*

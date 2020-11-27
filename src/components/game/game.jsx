@@ -55,7 +55,7 @@ const Game = (props) => {
         getMinisterCards, getDirectorCards,
         reinitMessages, setMessageTopCenterOpen, setMessageTopCenter, 
         setMessageBottomLeftOpen, setMessageBottomLeft,
-        electionCount
+        electionCount, ministerConsent, expelliarmus
     } = props
 
     // Al final del juego
@@ -328,7 +328,9 @@ const Game = (props) => {
                     death_eater_promulgations: data_check_game["death eater promulgations"],
                     electionCount: data_check_game["election counter"],
                     voteStartedCurrentTurn: data_check_game["vote started"],
-                    voteDoneCurrentTurn: data_check_game["vote done"]
+                    voteDoneCurrentTurn: data_check_game["vote done"],
+                    expelliarmus: data["expelliarmus"],
+                    ministerConsent: data["minister consent"]
                 })
             }
         }).catch(error => {
@@ -553,10 +555,11 @@ const Game = (props) => {
                 />
             ):(<></>)
             }
-            <Drawer className="Drawer" anchor='bottom' open={enabledSpell} 
-                onClose={() => onCloseSpellDrawer()}>
-                    <SpellsList spell={spell}/>
-            </Drawer>    
+            <Drawer className="Drawer" anchor='bottom' 
+                open={(enabledSpell || expelliarmus) && actualMinister===playerId} 
+                    onClose={()=>{enableSpell({enabledSpell:false}); changeMinister()}}>
+                        <SpellsList spell={spell} enableExpelliarmus={expelliarmus}/>
+                </Drawer>   
         </div>);
 }
 
@@ -591,7 +594,9 @@ const mapStateToProps = (state) => {
         messageSeverity: state.notifications.messageSeverity,
         messageTopCenter: state.notifications.messageTopCenter,
         messageBottomLeftOpen: state.notifications.messageBottomLeftOpen,
-        messageBottomLeft: state.notifications.messageBottomLeft
+        messageBottomLeft: state.notifications.messageBottomLeft,
+        expelliarmus: state.game.expelliarmus,
+        ministerConsent: state.game.ministerConsent
     };
 }
 
