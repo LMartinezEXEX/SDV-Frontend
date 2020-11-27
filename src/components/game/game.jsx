@@ -87,6 +87,7 @@ const Game = (props) => {
             SERVER_URL + GAME_PATH + gameId + PLAYERS_INFO
         ).then(response => {
             if (!equalLists(playersInfo, response.data["Players info"])) {
+                console.log("Actualiza playersInfo")
                 getPlayersInfo({ playersInfo: response.data["Players info"] })
             }
         }).catch(error => {
@@ -174,8 +175,10 @@ const Game = (props) => {
     }
 
     const onCloseSpellDrawer = () => {
-        enableSpell({ enabledSpell: false })
-        changeMinister()
+        if (spell !== "Avada Kedavra" || spell !== "Imperius") {
+            enableSpell({ enabledSpell: false })
+            changeMinister()
+        }
     }
 
     const playerKnowsRejection = async () => {

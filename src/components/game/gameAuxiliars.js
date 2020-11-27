@@ -1,3 +1,13 @@
+export const playersUsernamesListExcluding = (playersInfo, playerId) => {
+    let players_list = []
+    playersInfo.map(player => {
+        if (player["is alive"] && player.player_id !== playerId) {
+            players_list.push(player.username)
+        }
+    })
+    return players_list
+}
+
 export const getUsernameFromList = (playersInfo, playerId) => {
     let username = "" 
     playersInfo.forEach(player => {
