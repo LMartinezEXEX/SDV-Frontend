@@ -20,17 +20,17 @@ const SpellsList = (props) => {
             case "Avada Kedavra": return(<li><AvadaKedavra/></li>)
             case "Crucio": return(<li><Crucio setShowCards={setShowCards} setCrucioLoyalty={setCrucioLoyalty}/></li>)
             case "Imperius": return(<li><Imperius/></li>)
-            case "Acept Expelliarmus": return(<li><Expelliarmus/></li>)
-            case "Decline Expelliarmus": return(<li><Expelliarmus/></li>)
+            case "Acept Expelliarmus": return(<li><Expelliarmus option = "Acept"/></li>)
+            case "Decline Expelliarmus": return(<li><Expelliarmus option = "Decline"/></li>)
         }
     }
 
     return (
-        <div>
+        <div className="Spells">
             {enableExpelliarmus &&
                 <>
+                <h4 >Expelliarmus</h4>
                 <ul className="ExpelliarmusOptions">
-                    <h4>Expelliarmus</h4>
                     {selectSpell("Acept Expelliarmus")}
                     {selectSpell("Decline Expelliarmus")}
                 </ul>

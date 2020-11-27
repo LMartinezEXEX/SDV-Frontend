@@ -43,6 +43,10 @@
     line-height: 65px; 
 }
 
+.Spells {
+    background-color: rgb(46, 43, 43);
+}
+
 .cardsList li::before {
     content: none;
 }

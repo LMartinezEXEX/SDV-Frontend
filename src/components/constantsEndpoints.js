@@ -32,6 +32,7 @@ export const SPELL      = '/spell'
 export const REJECT_NOTIFIED   = '/reject_notified'
 export const END_GAME_NOTIFIED = '/end_game_notified'
 export const DIRECTOR_EXPELLIARMUS = '/director_expelliarmus'
+export const MINISTER_EXPELLIARMUS = '/minister_expelliarmus'
 
 export const DIRECTOR_ID_QUERY = '?director_id='
 export const PLAYER_ID_QUERY_STRING = '?player_id='

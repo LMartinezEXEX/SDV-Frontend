@@ -25,12 +25,14 @@ const Imperius = (props) => {
     const classes = useStyles();
     
     let players_list = []
-    playersInfo.map(player => {
-        if (player.player_id !== actualMinister &&
-            player["is alive"] && player.player_id !== playerId) {
-                players_list.push(player.username)
-        }
-    })
+    if (players_list.length === 0){
+        playersInfo.map(player => {
+            if (player.player_id !== actualMinister &&
+                player["is alive"] && player.player_id !== playerId) {
+                    players_list.push(player.username)
+            }
+        })
+    }
 
     const changeMinister = async () => {
         await axios.put(

@@ -24,7 +24,7 @@ const Cards = (props) => {
         setIsOpen,  
         ministerDiscardedCard, directorChoseCard, 
         setMessageTopCenterOpen, setMessageTopCenter,
-        death_eater_promulgations
+        death_eater_promulgations, expelliarmus
     } = props
 
     const changeMinister = async () => {
@@ -108,8 +108,6 @@ const Cards = (props) => {
     }
 
     const useExpelliarmus = async() => {
-        const exp_url1 ="http://127.0.0.1:8000/game/"
-        const exp_url2 = "/director_expelliarmus?director_id=" 
         await axios.put(
             SERVER_URL + GAME_PATH + gameId + DIRECTOR_EXPELLIARMUS +
                 DIRECTOR_ID_QUERY + actualDirector 
@@ -119,7 +117,7 @@ const Cards = (props) => {
     }
 
     const displayExpelliarmus = () =>{
-        if(death_eater_promulgations>=5){
+        if(death_eater_promulgations>=5 && !expelliarmus){
             return <button className="app-btn SpellLikeCard" onClick={useExpelliarmus}>
                         Expelliarmus
                     </button>
@@ -194,8 +192,9 @@ const Cards = (props) => {
                 <div style={{ textAlign: "center" }}>Elegir proclamación</div>
                 <div className="cardsDisplayer">
                     <div>{showCard(cardsListDirector[0])}</div>
-                    <div>{showCard(cardsListDirector[1])}</div>)        
+                    <div>{showCard(cardsListDirector[1])}</div>
                 </div>
+                    {displayExpelliarmus()}        
             </div>
         )
     } else {
@@ -213,7 +212,8 @@ const mapStateToProps = (state) => {
         actualDirector: state.game.actualDirector,
         cardsListMinister: state.game.cardsListMinister,
         cardsListDirector: state.game.cardsListDirector,
-        death_eater_promulgations: state.game.death_eater_promulgations
+        death_eater_promulgations: state.game.death_eater_promulgations,
+        expelliarmus: state.game.expelliarmus
     };
 }
 

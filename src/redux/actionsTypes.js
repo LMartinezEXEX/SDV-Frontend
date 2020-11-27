@@ -26,6 +26,7 @@ export const GET_DIRECTOR_CARDS = "GetDirectorCards";
 export const MINISTER_DISCARDED_CARD = "MinisterDiscardedCard";
 export const DIRECTOR_CHOSE_CARD = "DirectorChoseCard";
 export const ENABLE_SPELL = "EnableSpell";
+export const EXPELLIARMUS_USED = "ExpelliarmusUsed"
 
 /* Game messages */
 export const REINIT_MESSAGES = "ReinitMesssages"

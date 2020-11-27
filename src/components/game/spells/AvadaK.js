@@ -19,17 +19,20 @@ const useStyles = makeStyles((theme) => ({
 const AvadaKadavra = (props) => {
     const {
         gameId, actualMinister, playersInfo,
-        enableSpell, setMessageTopCenter, setMessageTopCenterOpen 
+        enableSpell, setMessageTopCenter, setMessageTopCenterOpen,
+        playerId
     } = props
     
     const classes = useStyles();
     
     let players_list = []
-    playersInfo.map(player => {
-        if (player["is alive"] && player.player_id !== player) {
-                players_list.push(player.username)
-        }
-    })
+    if (players_list.length === 0){
+        playersInfo.map(player => {
+            if (player["is alive"] && player.player_id !== playerId) {
+                    players_list.push(player.username)
+            }
+        })
+    }
 
     const changeMinister = async () => {
         await axios.put(
@@ -87,6 +90,7 @@ const AvadaKadavra = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
+        playerId: state.game.playerId,
         actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };
