@@ -4,7 +4,7 @@ import {
   GET_DIRECTOR_CANDIDATES, DID_SELECT_DIRECTOR_CANDIDATE, 
   DID_VOTE_CURRENT_TURN, VOTE_NOX_CURRENT_TURN, VOTE_NOX_NOTIFIED, 
   SET_LUMOS_VOTES, GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
-  MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD, EXPELLIARMUS_USED
+  MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD
 } from '../actionsTypes';
 
 export const GAME = "game"
@@ -246,12 +246,6 @@ export default function(state = gameInitialState, action) {
           return {
             ...state,
             directorHasChosenCard: action.payload.directorHasChosenCard
-          }
-        }
-        case EXPELLIARMUS_USED: {
-          return{
-            ...state,
-            expelliarmus: false
           }
         }
         default:

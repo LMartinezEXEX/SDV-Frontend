@@ -6,7 +6,7 @@ import {
     GET_CANDIDATES, GET_MINISTER_CARDS, GET_DIRECTOR_CARDS,
     MINISTER_DISCARDED_CARD, DIRECTOR_CHOSE_CARD, 
     REINIT_MESSAGES, MESSAGE_TOP_CENTER_OPEN, SET_MESSAGE_TOP_CENTER, 
-    MESSAGE_BOTTOM_LEFT_OPEN, SET_MESSAGE_BOTTOM_LEFT, EXPELLIARMUS_USED
+    MESSAGE_BOTTOM_LEFT_OPEN, SET_MESSAGE_BOTTOM_LEFT
 } from './actionsTypes';
 
 /* USER */
@@ -200,13 +200,6 @@ export const directorChoseCard = (content) => ({
     type: DIRECTOR_CHOSE_CARD,
     payload: {
         directorHasChosenCard: content.directorHasChosenCard
-    }
-})
-
-export const expelliarmusUsed = (content) => ({
-    type: EXPELLIARMUS_USED,
-    payload: {
-        content
     }
 })
 

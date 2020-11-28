@@ -26,11 +26,10 @@ export const GET_DIRECTOR_CARDS = "GetDirectorCards";
 export const MINISTER_DISCARDED_CARD = "MinisterDiscardedCard";
 export const DIRECTOR_CHOSE_CARD = "DirectorChoseCard";
 export const ENABLE_SPELL = "EnableSpell";
-export const EXPELLIARMUS_USED = "ExpelliarmusUsed"
 
 /* Game messages */
-export const REINIT_MESSAGES = "ReinitMesssages"
-export const MESSAGE_BOTTOM_LEFT_OPEN = "MessageBottomLeftOpen"
-export const SET_MESSAGE_BOTTOM_LEFT = "SetMessageBottomLeft"
-export const MESSAGE_TOP_CENTER_OPEN = "MessageTopCenterOpen"
-export const SET_MESSAGE_TOP_CENTER  = "SetMessageTopCenter"
+export const REINIT_MESSAGES = "ReinitMesssages";
+export const MESSAGE_BOTTOM_LEFT_OPEN = "MessageBottomLeftOpen";
+export const SET_MESSAGE_BOTTOM_LEFT = "SetMessageBottomLeft";
+export const MESSAGE_TOP_CENTER_OPEN = "MessageTopCenterOpen";
+export const SET_MESSAGE_TOP_CENTER  = "SetMessageTopCenter";
