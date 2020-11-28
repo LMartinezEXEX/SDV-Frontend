@@ -1,7 +1,6 @@
 import React from "react";
-import Lottie from "react-lottie";
-import '../../assets/css/App.css'
-import magicMinistry from '../../assets/images/magicMinistry.png'
+import '../../assets/css/App.css';
+import magicMinistry from '../../assets/images/magicMinistry.png';
 
 
 const ElectionCounter = ({electionCount}) => {

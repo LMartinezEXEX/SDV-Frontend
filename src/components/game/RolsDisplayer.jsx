@@ -1,12 +1,13 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {MinisterLogo, DirectorLogo, VoldemortLogo} from './ChargesLogos'
-import '../../assets/css/RolsDisplayer.css'
+import React from 'react';
+import {connect} from 'react-redux';
+import {MinisterLogo, DirectorLogo, VoldemortLogo} from './ChargesLogos';
+import '../../assets/css/RolsDisplayer.css';
 
 const RolsDisplayer = (props) => {
-    const {playersInfo, playerId, gameId,
-        actualMinister, actualDirector, playerRole,
-        amountPlayers} = props
+    const {
+        playersInfo, actualMinister, actualDirector, playerRole,
+        amountPlayers
+    } = props
 
     const charge = (player) => {
         if (player.player_id === actualMinister) {
@@ -112,8 +113,6 @@ const mapStateToProps = (state) => {
         amountPlayers: state.game.amountPlayers,
         playerRole: state.game.playerRole,
         playersInfo: state.game.playersInfo,
-        playerId: state.game.playerId,
-        gameId: state.game.gameId,
         actualMinister: state.game.actualMinister,
         actualDirector: state.game.actualDirector
     };
