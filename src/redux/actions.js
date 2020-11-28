@@ -203,8 +203,11 @@ export const directorChoseCard = (content) => ({
     }
 })
 
-export const expelliarmusUsed = () => ({
-    type:EXPELLIARMUS_USED
+export const expelliarmusUsed = (content) => ({
+    type: EXPELLIARMUS_USED,
+    payload: {
+        content
+    }
 })
 
 /* NOTIFICATIONS */
