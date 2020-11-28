@@ -17,14 +17,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Guessing = (props) => {
     const { 
-        gameId, actualMinister, setCards, setshowCards, 
+        gameId, playerId, setCards, setshowCards, 
         setMessageTopCenter, setMessageTopCenterOpen 
     } = props
 
     const useGuessing = async() => {
         await axios.put(
             SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Guessing', {
-            minister_id: actualMinister,
+            minister_id: playerId,
             player_id: 0
         }).then(res => {
             setshowCards(true)
@@ -51,7 +51,7 @@ const Guessing = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
+        playerId: state.game.playerId,
     };
 }
 

@@ -19,14 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 const AvadaKadavra = (props) => {
     const {
-        gameId, actualMinister, playersInfo,
-        enableSpell, setMessageTopCenter, setMessageTopCenterOpen,
-        playerId
+        gameId, playerId, playersInfo,
+        enableSpell, setMessageTopCenter, setMessageTopCenterOpen
     } = props
     
     const classes = useStyles();
     
-    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
+    const players_list = playersUsernamesListExcluding(playersInfo, playerId)
 
     const changeMinister = async () => {
         await axios.put(
@@ -53,13 +52,13 @@ const AvadaKadavra = (props) => {
             player.username === VictimUsername)
         await axios.put(
             SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Avada Kedavra',{
-            minister_id: actualMinister,
+            minister_id: playerId,
             player_id: victim[0].player_id
         }).then(response => {
             if (response.status === 200) {
-                enableSpell({ enabledSpell: false })
                 setMessageTopCenter({ messageSeverity: "success", messageTopCenter: victim[0].username + " asesinado" })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                enableSpell({ enabledSpell: false })
                 changeMinister()
             }
         }).catch(error => {
@@ -85,7 +84,6 @@ const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
         playerId: state.game.playerId,
-        actualMinister: state.game.actualMinister,
         playersInfo: state.game.playersInfo
     };
 }

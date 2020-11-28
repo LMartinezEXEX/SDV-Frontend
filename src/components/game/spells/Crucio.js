@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Crucio = (props) => {
     const { 
-        gameId, actualMinister, setShowCards, setCrucioLoyalty, playersInfo, 
+        gameId, playerId, setShowCards, setCrucioLoyalty, playersInfo, 
         setMessageTopCenter, setMessageTopCenterOpen 
     } = props
     
     const classes = useStyles();
     
-    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
+    const players_list = playersUsernamesListExcluding(playersInfo, playerId)
     
     const [VictimUsername, PlayerDropdown] = dropdown("Investigar a", "",players_list);
     
@@ -36,7 +36,7 @@ const Crucio = (props) => {
         
         await axios.put(
             SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Crucio',{
-            minister_id: actualMinister,
+            minister_id: playerId,
             player_id: victim[0].player_id
         }).then(res=>{
             setShowCards(true)
@@ -61,7 +61,7 @@ const Crucio = (props) => {
 const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
+        playerId: state.game.playerId,
         playersInfo: state.game.playersInfo
     };
 }

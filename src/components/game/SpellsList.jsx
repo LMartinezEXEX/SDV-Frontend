@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
+import '../../assets/css/SpellsList.css';
 import Guessing from './spells/Guessing';
 import Crucio from './spells/Crucio';
 import AvadaKedavra from './spells/AvadaK';
 import Imperius from './spells/Imperius';
-import '../../assets/css/SpellsList.css';
+import Expelliarmus from './spells/Expelliarmus';
 import CardsDisplayer from './CardsDisplayer';
 import LoyaltyDisplayer from './LoyaltyDisplayer';
-import Expelliarmus from './spells/Expelliarmus';
 
 const SpellsList = (props) => {
     const {spell, enableExpelliarmus} = props
@@ -20,8 +20,9 @@ const SpellsList = (props) => {
             case "Avada Kedavra": return(<li><AvadaKedavra/></li>)
             case "Crucio": return(<li><Crucio setShowCards={setShowCards} setCrucioLoyalty={setCrucioLoyalty}/></li>)
             case "Imperius": return(<li><Imperius/></li>)
-            case "Acept Expelliarmus": return(<li><Expelliarmus option = "Acept"/></li>)
+            case "Acept Expelliarmus": return(<li><Expelliarmus option = "Accept"/></li>)
             case "Decline Expelliarmus": return(<li><Expelliarmus option = "Decline"/></li>)
+            default: return(<></>)
         }
     }
 
@@ -44,13 +45,18 @@ const SpellsList = (props) => {
                 </>
             }
             {!enableExpelliarmus && showCards && spell==="Guessing" &&
+                <>
                 <ul className="cardsList">
                     <CardsDisplayer cards={Cards}/>
-                </ul>}
-                {!enableExpelliarmus && showCards && spell==="Crucio" &&
+                </ul>
+                </>
+            }
+            {!enableExpelliarmus && showCards && spell==="Crucio" &&
+                <>
                 <ul className="loyalty">
                     <LoyaltyDisplayer crucioLoyalty={crucioLoyalty}/>
                 </ul>
+                </>
             }
         </div>
     )

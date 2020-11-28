@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Imperius = (props) => {
     const { 
-        gameId, actualMinister, playersInfo, 
+        gameId, playerId, playersInfo, 
         setMessageTopCenter, setMessageTopCenterOpen
     } = props
     
     const classes = useStyles();
     
-    const players_list = playersUsernamesListExcluding(playersInfo, actualMinister)
+    const players_list = playersUsernamesListExcluding(playersInfo, playerId)
 
     const changeMinister = async () => {
         await axios.put(
@@ -54,13 +54,13 @@ const Imperius = (props) => {
         
         await axios.put(
             SERVER_URL + GAME_PATH + gameId + EXECUTE_SPELL + SPELL_QUERY_STRING + 'Imperius', {
-            minister_id: actualMinister,
+            minister_id: playerId,
             player_id: victim[0].player_id
         }).then(response => {
             if (response.status === 200) {
-                enableSpell({ enabledSpell: false })
                 setMessageTopCenter({ messageSeverity: "success", messageTopCenter: victim[0].username + " será el próximo ministro" })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                enableSpell({ enabledSpell: false })
                 changeMinister()
             }
         }).catch(error => {
@@ -86,7 +86,7 @@ const mapStateToProps = (state) => {
     return {
         enabledSpell: state.game.enabledSpell,
         gameId: state.game.gameId,
-        actualMinister: state.game.actualMinister,
+        playerId: state.game.playerId,
         playersInfo: state.game.playersInfo
     };
 }
