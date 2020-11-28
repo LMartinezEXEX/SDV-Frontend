@@ -8,12 +8,12 @@ import {
 import { connect } from 'react-redux';
 import Home from './components/home/Home';
 import Lobby from './components/lobby/Lobby';
-import PreGame from './components/pregame/Pregame';
-import Game from './components/game/game';
+import PreGameContainer from './components/pregame/PregameContainer';
+import GameContainer from './components/game/GameContainer';
 import PageNotFound from './components/PageNotFound';
 
 const Routes = (props) => {
-    const { isAuth, type, email, username, icon, gameId, init} = props;
+    const { isAuth, type, email, username, icon, gameId, playerId, init} = props;
     const history = useHistory()
 
     if (type === "guest" && !isAuth) {
@@ -28,13 +28,17 @@ const Routes = (props) => {
             return (
                 <Router history={history}>
                     <Redirect from="/lobby" to="/pregame" />
-                    <Route path="/pregame" component={PreGame} />
+                    <Route path="/pregame" >
+                    <PreGameContainer email={email} gameId={gameId} />
+                    </Route>
                 </Router>)
         } else if (gameId && init) {
             return (
                 <Router history={history}>
-                <Redirect from="/pregame" to={"/game/" + gameId} />
-                <Route path={"/game/" + gameId} component={Game} />
+                    <Redirect from="/pregame" to={"/game/" + gameId} />
+                    <Route path={"/game/" + gameId} >
+                    <GameContainer gameId={gameId} playerId={playerId} />
+                    </Route>
                 </Router>
             )
         } else {
@@ -63,6 +67,7 @@ const mapStateToProps = (state) => {
         username: state.user.username,
         icon: state.user.icon,
         gameId: state.game.gameId,
+        playerId: state.game.playerId,
         init: state.game.init
     };
 }
