@@ -86,12 +86,11 @@ export default function(state = gameInitialState, action) {
           };
         }
         case UPDATE_GAME: {
-          if (action.payload.actualMinister !== state.actualMinister 
-            && state.voteDoneCurrentTurn && !action.payload.voteDoneCurrentTurn) {
+          if (action.payload.actualMinister !== state.actualMinister) {
             /*
-            Cambiamos ministro de magia, la votación finalizó, pero el back nos indica que ya estamos con una
-            nueva votación, además el rechazo no fue notificado al jugador => nuevo turno de forma local
+            Cambiamos ministro de magia => nuevo turno de forma local
             */
+            console.log("New round")
             return {
               ...state,
               actualMinister: action.payload.actualMinister,
@@ -126,6 +125,7 @@ export default function(state = gameInitialState, action) {
             la misma votación finalizada, no se rechazó a los candidatos (o se rechazó), pero no se notificó el rechazo
             => actualizamos sólo el tablero forma local
             */
+           console.log("Vote is done, checking board...")
             return {
               ...state, 
               finished: action.payload.finished,
@@ -144,7 +144,7 @@ export default function(state = gameInitialState, action) {
             finalizar la votación, o bien la votación no comenzó pero el back nos avisa que empieza
             => actualizamos el turno de forma local
             */
-            console.log("State is changing")
+            console.log("State is changing...")
             return {
               ...state, 
               actualMinister: action.payload.actualMinister,
@@ -162,7 +162,7 @@ export default function(state = gameInitialState, action) {
             /*
             Por defecto conservamos el turno de forma local
             */
-            console.log("State is not changing")
+            console.log("State is not changing...")
             return {
               ...state
             };

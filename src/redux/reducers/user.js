@@ -31,15 +31,8 @@ export default function(state = userInitialState, action) {
           };
         }
         case LOGOUT: {
-          localStorage.removeItem(USER)
           return {
-            ...state,
-            isAuth: false,
-            type: "guest",
-            authorization: "",
-            email: "",
-            username: "",
-            icon: ""
+            ...userInitialState
           }
         }
         case UPDATE_USERNAME: {
