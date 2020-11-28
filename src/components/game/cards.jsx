@@ -7,7 +7,6 @@ import '../../assets/css/cards.css';
 import {  
     ministerDiscardedCard, directorChoseCard, 
     setMessageTopCenterOpen, setMessageTopCenter,
-    getMinisterCards, getDirectorCards
 } from '../../redux/actions';
 import { 
     SERVER_URL, GAME_PATH,
@@ -51,8 +50,11 @@ const Cards = (props) => {
                 setIsOpen(false)        
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+            if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations < 5) {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -107,21 +109,15 @@ const Cards = (props) => {
         })
     }
 
-    const useExpelliarmus = async() => {
+    const executeExpelliarmus = async () => {
         await axios.put(
-            SERVER_URL + GAME_PATH + gameId + DIRECTOR_EXPELLIARMUS +
-                DIRECTOR_ID_QUERY + actualDirector 
-            ).then(res=>{
+            SERVER_URL + GAME_PATH + gameId + DIRECTOR_EXPELLIARMUS 
+            + DIRECTOR_ID_QUERY + actualDirector 
+        ).then(response => {
+            if (response.status === 200) {
                 setIsOpen(false)
-            })
-    }
-
-    const displayExpelliarmus = () =>{
-        if(death_eater_promulgations>=5 && !expelliarmus){
-            return <button className="app-btn SpellLikeCard" onClick={useExpelliarmus}>
-                        Expelliarmus
-                    </button>
-        }
+            }
+        })
     }
 
     const handleOnClick = (card) => {
@@ -194,7 +190,15 @@ const Cards = (props) => {
                     <div>{showCard(cardsListDirector[0])}</div>
                     <div>{showCard(cardsListDirector[1])}</div>
                 </div>
-                    {displayExpelliarmus()}        
+                    {(death_eater_promulgations >= 5 && !expelliarmus)
+                    ?(
+                        <button className="app-btn SpellLikeCard" onClick={() => executeExpelliarmus()}>
+                            Expelliarmus
+                        </button>
+                    ):(
+                        <></>
+                    )
+                    }
             </div>
         )
     } else {
