@@ -55,6 +55,7 @@ const errorDict = {
     "There are no games available": "No hay partidas disponibles",
     "Player is not in this game": "El jugador no está en esta partida",
     "Player is dead": "El jugador está muerto",
+    "The player is still alive": "El jugador sigue vivo",
     "Player already voted": "El jugador ya ha votado",
     "Vote's missing": "Aún faltan votos!",
     "Already taken the cards in this turn": "Las cartas ya han sido tomadas en el turno",
@@ -73,7 +74,8 @@ const errorDict = {
     "Expelliarmus was already set in current turn": "Expelliarmus ya fue activado durante este turno",
     "Expelliarmus requires 5 death eater promulgations": "Expelliarmus requiere 5 promulgaciones de mortífagos",
     "Director didnt propose a Expelliarmus": "El director no ha propuesto un Expelliarmus",
-    "Consent already given": "Ya se ha dado permiso"
+    "Consent already given": "Ya se ha dado permiso",
+    "Expelliarmu's set, must wait for minister consent before promulgate": "Expelliarmus pedido, esperar la decisión del ministro antes de promulgar"
 }
 
 export const errorTranslate = (errorString) => {
