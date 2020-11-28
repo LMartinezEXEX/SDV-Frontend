@@ -24,13 +24,16 @@ const Pregame = (props) => {
 
     // Abandono de partida
     const leaveGameNotInit = async () => {
-        await axios.put(
+        await axios.post(
             SERVER_URL + GAME_PATH + gameId + LEAVE_NOT_INIT_GAME,
             {
                 email: email
             }
         ).then(response => {
-            leaveGame()
+            if (response.status === 200) {
+                console.log("Leaving uninitalized game...")
+                leaveGame()
+            }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
@@ -88,7 +91,13 @@ const Pregame = (props) => {
                     }
                 )
             }).catch(error => {
-                console.log(error)
+                if (error.response && error.response.data["detail"] !== undefined) {
+                    setMessageTopCenter({ 
+                        messageSeverity: "warning", 
+                        messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }
             });
         }
         return (
