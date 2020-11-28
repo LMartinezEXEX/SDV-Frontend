@@ -21,6 +21,8 @@ const saveState = (state, storeType) => {
                 sessionStorage.setItem(NOTIFICATIONS, serializedState)
                 break
             }
+            default:
+                break
         }
     } catch (error) {
         // Ignore
@@ -34,14 +36,23 @@ const loadState = (storeType) => {
         switch (storeType) {
             case USER: {
                 serializedState = sessionStorage.getItem(USER)
+                if (!serializedState) {
+                    return undefined
+                }
                 return JSON.parse(serializedState)
             }
             case GAME: {
                 serializedState = sessionStorage.getItem(GAME)
+                if (!serializedState) {
+                    return undefined
+                }
                 return JSON.parse(serializedState)
             }
             case NOTIFICATIONS: {
                 serializedState = sessionStorage.getItem(NOTIFICATIONS)
+                if (!serializedState) {
+                    return undefined
+                }
                 return JSON.parse(serializedState)
             }
             default:
