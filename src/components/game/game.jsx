@@ -174,7 +174,7 @@ const Game = (props) => {
     }
 
     const onCloseSpellDrawer = () => {
-        if (spell !== "Avada Kedavra" || spell !== "Imperius") {
+        if (spell !== "Avada Kedavra" || spell !== "Imperius" || (expelliarmus && spell === "")) {
             enableSpell({ enabledSpell: false })
             changeMinister()
         }
@@ -361,11 +361,11 @@ const Game = (props) => {
                     setMessageBottomLeft({
                         messageBottomLeft: "Debes descartar alguna de las cartas..."
                     })
-                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && !expelliarmus) {
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && !expelliarmus && ministerConsent === 2) {
                     setMessageBottomLeft({
                         messageBottomLeft: "El director puede promulgar..."
                     })
-                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && expelliarmus) {
+                } else if (playerId === actualMinister && ministerHasDiscardedCard && !enabledSpell && expelliarmus && ministerConsent === 2) {
                     setMessageBottomLeft({
                         messageBottomLeft: "El director uso Expelliarmus..."
                     })
@@ -442,7 +442,9 @@ const Game = (props) => {
             <div className="left-view">
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
-                    <div>{getUsernameFromList(playersInfo, playerId)}</div>
+                    <div>
+                        {getUsernameFromList(playersInfo, playerId) + (!isPlayerAliveFromList(playersInfo, playerId)?" (DEAD)":"")}
+                    </div>
                 </div>
                 <ElectionCounter electionCount={electionCount}/>
                 <div className="election-counter">
@@ -552,7 +554,7 @@ const Game = (props) => {
                 </Dialog>
             ):(<></>)
             }
-            {(messageTopCenter.length)
+            {(messageTopCenter.length && !dialogEndGameOpen)
             ?(
                 <Snackbar 
                 anchorOrigin={{ vertical: "top", horizontal: "center" }} 
@@ -565,7 +567,7 @@ const Game = (props) => {
                 </Snackbar>
             ):(<></>)
             }
-            {(messageBottomLeft.length)
+            {(messageBottomLeft.length && !dialogEndGameOpen)
             ?(
                 <Snackbar 
                 anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
@@ -576,17 +578,13 @@ const Game = (props) => {
                 />
             ):(<></>)
             }
-            {(playerId === actualMinister)
-            ?(
-                <Drawer 
-                className="Drawer" anchor='bottom' 
-                open={(enabledSpell || (expelliarmus && ministerConsent===2)) && actualMinister===playerId} 
-                onClose={() => onCloseSpellDrawer()}
-                >
-                    <SpellsList spell={spell} enableExpelliarmus={expelliarmus}/>
-                </Drawer>
-            ):(<></>)
-            }
+            <Drawer 
+            className="Drawer" anchor='bottom' 
+            open={(enabledSpell || (expelliarmus && ministerConsent===2)) && actualMinister===playerId} 
+            onClose={() => onCloseSpellDrawer()}
+            >
+                <SpellsList spell={spell} enableExpelliarmus={expelliarmus}/>
+            </Drawer>
         </div>);
 }
 

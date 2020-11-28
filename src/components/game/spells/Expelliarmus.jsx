@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import { setMessageTopCenter, setMessageTopCenterOpen, expelliarmusUsed } from "../../../redux/actions";
+import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/actions";
 import { SERVER_URL, GAME_PATH, MINISTER_EXPELLIARMUS} from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
 
@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const Expelliarmus = (props) => {
     const {
         option, gameId, playerId,
-        setMessageTopCenter, setMessageTopCenterOpen,
-        expelliarmusUsed
+        setMessageTopCenter, setMessageTopCenterOpen
     } = props
     
     const classes = useStyles();
@@ -35,7 +34,6 @@ const Expelliarmus = (props) => {
             if (response.status === 200) {
                 setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Expelliarmus " + message })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
-                expelliarmusUsed()
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
@@ -66,13 +64,11 @@ const mapStateToProps = (state) => {
     return {
         gameId: state.game.gameId,
         playerId: state.game.playerId,
-        actualMinister: state.game.actualMinister,
     };
 }
 
 const mapDispatchToProps = {
-    setMessageTopCenter, setMessageTopCenterOpen,
-    expelliarmusUsed
+    setMessageTopCenter, setMessageTopCenterOpen
 };
 
 export default connect(

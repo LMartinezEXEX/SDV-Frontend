@@ -102,7 +102,7 @@ const Cards = (props) => {
                 spellsAvailableDirectorCheck(gameId)
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
+            if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations < 5) {
                 setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
