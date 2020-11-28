@@ -454,6 +454,14 @@ const Game = (props) => {
                 <div>
                     <RolsDisplayer/>
                 </div>
+            <div className="right-view">
+                <div className="gameView gameBox buttonSection">
+                    <PopUp 
+                    type="Salir"
+                    enableButton={isPlayerAliveFromList(playersInfo, playerId)}
+                    />
+                </div>
+            </div>
             </div>
             <div className="gameView">
                 <div className="gameBox">
