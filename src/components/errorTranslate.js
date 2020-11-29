@@ -5,6 +5,7 @@ const errorDict = {
     "password_verify": "contraseña (verificación)",
     "old_password_verify": "contraseña (verificación)",
     "new_password": "contraseña nueva",
+    "new_password_verify": "contraseña (verificación)",
     "name": "nombre de partida",
     "min_players": "mínimo de jugadores",
     "max_players": "máximo de jugadores",
@@ -30,7 +31,8 @@ const errorDict = {
     "Passwords provided didn't match": "Las contraseñas no coinciden",
     "Failed to update icon. Formats allowed: jpeg, png, bmp, webp": "No se puede modificar el avatar. Formatos permitidos: jpeg, png, bmp, webp",
     "Failed to update icon. Largest size allowed is 2 MB": "No se puede modificar el avatar. Tamaño máximo permitido es 2 MB",
-    "Incorrect email or password": "Contraseña o email incorrectos",
+    "Incorrect email": "Email incorrecto",
+    "Incorrect password": "Contraseña incorrecta",
     "Not authenticated": "Usuario no autenticado",
     "Expired signature, you need to login again": "Token expirado. Inicia sesión nuevamente para continuar",
     "Invalid JWT token": "Token JWT es inválido",
@@ -93,7 +95,7 @@ export const errorConcat = (fieldErrorList) => {
     for (var i = 0; i < fieldErrorList.length; i++) {
         field = fieldErrorList[i]["loc"][(fieldErrorList[i]["loc"].length > 1) + 0]
         message = fieldErrorList[i]["msg"]
-        if (field === "username" || field === "email" || field === "password" 
+        if (field === "username" || field === "new_username" || field === "email" || field === "password" 
             || message === "passwords don't match") {
             field = ""
         } else {
