@@ -458,7 +458,7 @@ const Game = (props) => {
                 <div className="gameView gameBox buttonSection">
                     <PopUp 
                     type="Salir"
-                    enableButton={isPlayerAliveFromList(playersInfo, playerId)}
+                    enableButton={true}
                     />
                 </div>
             </div>
