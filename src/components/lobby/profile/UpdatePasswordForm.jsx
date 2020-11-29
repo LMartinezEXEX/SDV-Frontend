@@ -48,6 +48,7 @@ const UpdatePasswordForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackPassword(true)
+                    setIsOpen(false)
                 }
             }).catch(error => {
                 if (error.response && error.response.data["detail"] !== undefined) {
@@ -79,7 +80,6 @@ const UpdatePasswordForm = (props) => {
                 }
             })
         }
-        setIsOpen(false)
     }
     
     return (

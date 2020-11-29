@@ -11,23 +11,12 @@ const LoginForm = (props) => {
     const { callbackSubmit, setMessageTopCenterOpen, setMessageTopCenter } = props
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
     
     function handleChange(name, value) {
         if (name === 'email') {
-            if (value.length >= 10) {
-                setEmail(value)
-            } else {
-                setEmail('')
-            }
-        } else {
-            if (value.length < 8) {
-                setPassword('')
-                setPasswordError(true);
-            } else {
-                setPasswordError(false);
-                setPassword(value)
-            }
+            setEmail(value)
+        } else if (name === 'password') {
+            setPassword(value)
         }
     }
 
@@ -139,7 +128,6 @@ const LoginForm = (props) => {
                         placeholder: 'Email'
                     }}
                         handleChange={handleChange}
-                        param={passwordError}
                     />
                 </label>
             </div>

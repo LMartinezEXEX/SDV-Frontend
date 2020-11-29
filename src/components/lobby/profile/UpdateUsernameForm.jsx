@@ -48,6 +48,7 @@ const UpdateProfileForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackUsername(true, newUsername)
+                    setIsOpen(false)
                 }
             }).catch(error => {
                 if (error.response && error.response.data["detail"] !== undefined) {
@@ -79,7 +80,6 @@ const UpdateProfileForm = (props) => {
                 }
             })
         }
-        setIsOpen(false)
     }
     
     return (

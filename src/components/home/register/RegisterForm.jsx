@@ -12,37 +12,16 @@ const RegisterForm = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password_verify, setPasswordverify ] = useState('');
-    const [passwordError, setPasswordError]     = useState(false);
     
     function handleChange(name, value) {
         if (name === 'email') {
-            if (value.length < 10) {
-                setEmail('')
-            } else {
-                setEmail(value)
-            }
+            setEmail(value)
         } else if (name === 'username') {
-            if (value.length < 5) {
-                setUsername('')
-            } else {
-                setUsername(value)
-            }
+            setUsername(value)
+        } else if (name === 'password') {
+            setPassword(value)
         } else if (name === 'password_verify') {
-            if (value.length < 8) {
-                setPasswordverify('')
-                setPasswordError(true)
-            } else {
-                setPasswordverify(value)
-                setPasswordError(false)
-            }
-        } else {
-            if (value.length < 8) {
-                setPassword('')
-                setPasswordError(true)
-            } else {
-                setPassword(value)
-                setPasswordError(false)
-            }
+            setPasswordverify(value)
         }
     }
 
@@ -118,7 +97,6 @@ const RegisterForm = (props) => {
                             placeholder: 'Email'
                         }}
                             handleChange={handleChange}
-                            param={passwordError}
                         />
                     </label>
                 </div>

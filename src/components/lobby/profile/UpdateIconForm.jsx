@@ -51,6 +51,7 @@ const UpdateIconForm = (props) => {
             }).then(response => {
                 if (response.status === 200) {
                     callbackIcon(true, email)
+                    setIsOpen(false)
                 }
                 
             }).catch(error => {
@@ -83,7 +84,6 @@ const UpdateIconForm = (props) => {
                 }
             })
         }
-        setIsOpen(false)
     }
 
 
