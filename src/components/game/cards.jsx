@@ -34,7 +34,7 @@ const Cards = (props) => {
                 console.log(response.data)
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined) {
+            if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations <= 5) {
                 setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
@@ -50,7 +50,7 @@ const Cards = (props) => {
                 setIsOpen(false)        
             }
         }).catch(error => {
-            if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations < 5) {
+            if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations <= 5) {
                 setMessageTopCenter({ 
                     messageSeverity: "warning", 
                     messageTopCenter: errorTranslate(error.response.data["detail"]) 
