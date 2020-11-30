@@ -9,7 +9,10 @@ import {
 } from '../constantsEndpoints';
 
 const LeaveGame = (props) => {
-    const {gameId, playerId, onSelect, leaveGame, reinitMessages} = props
+    const {
+        gameId, playerId, onSelect, leaveGame, 
+        reinitMessages, setMessageTopCenterOpen, setMessageTopCenter 
+    } = props
 
     const leaveGameInit  = async () => {
         await axios.post(
