@@ -28,9 +28,11 @@
 }
 
 .SpellButton:hover{
-    opacity: 0.5;
+    outline: none; 
     cursor: pointer;
+    border: 0px;
 }
+
 
 .cardsList {
     display: flex;
@@ -51,7 +53,8 @@
 }
 
 .Spells {
-    background-color: #3e2761;
+    background-color:  #4c2882;
+    opacity: 0.85;
 }
 
 .cardsList li::before {

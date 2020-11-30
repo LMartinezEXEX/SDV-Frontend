@@ -76,9 +76,10 @@ const AvadaKadavra = (props) => {
 
     return (
         <>
-            <button className="SpellButton" disabled={VictimUsername.length<1}  onClick={useAvada}>
-                <Avatar src={avada} className={classes.root}/>
-                <h4>Avada Kedavra</h4>          
+            <button className="SpellButton"  style={{backgroundColor: 'transparent'}} 
+                disabled={VictimUsername.length<1}  onClick={useAvada}>
+                    <Avatar src={avada} className={classes.root}/>
+                    <h4>Avada Kedavra</h4>          
             </button>
                 <PlayerDropdown/>
         </>

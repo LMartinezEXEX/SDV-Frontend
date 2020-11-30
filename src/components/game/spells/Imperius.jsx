@@ -78,11 +78,12 @@ const Imperius = (props) => {
 
     return (
         <>
-            <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useImperius}>
-                <Avatar src={imperiusImg} className={classes.root}/>
-                <h4>Imperio</h4>          
+            <button className="SpellButton"  style={{backgroundColor: 'transparent'}} 
+                disabled={VictimUsername.length<1} onClick={useImperius}>
+                    <Avatar src={imperiusImg} className={classes.root}/>
+                    <h4>Imperio</h4>          
             </button>
-                <PlayerDropdown/>
+            <PlayerDropdown/>
         </>
     )
 }

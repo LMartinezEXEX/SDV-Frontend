@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
         width: theme.spacing(12),
         height: theme.spacing(12),
         margin: 20,
-        padding: '3x',
-    },
+        padding: 3,
+    }
 }));
 
 const Crucio = (props) => {
@@ -56,9 +56,10 @@ const Crucio = (props) => {
     }
 
     return (<>
-        <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useCrucio}>
-            <Avatar src={crucio} className={classes.root}/>
-            <h4>Crucio</h4>
+        <button className="SpellButton" style={{backgroundColor: 'transparent'}} 
+            disabled={VictimUsername.length<1} onClick={useCrucio}>
+                <Avatar src={crucio} className={classes.root}/>
+                <h4>Crucio</h4>
         </button>
             <PlayerDropdown/>
     </>)

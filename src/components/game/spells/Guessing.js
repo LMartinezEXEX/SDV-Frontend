@@ -46,7 +46,7 @@ const Guessing = (props) => {
     const classes = useStyles();
 
     return (
-        <button className="SpellButton" onClick={useGuessing}>
+        <button className="SpellButton" onClick={useGuessing} style={{backgroundColor: 'transparent'}} >
             <Avatar alt="Adivinacion" src={adivination} className={classes.root}/>
             <h4>Adivinacion</h4>          
         </button>
