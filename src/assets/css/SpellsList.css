@@ -74,7 +74,8 @@
     display: flex;
     flex-direction: column;
     height: 435px;
-    background-color: rgb(46, 43, 43);
+    background-color: #4c2882;
+    opacity: 0.85
 }
 
 .loyalty img{

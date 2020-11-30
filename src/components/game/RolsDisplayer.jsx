@@ -100,11 +100,20 @@ const RolsDisplayer = (props) => {
     }
 
     return (
-        <div className= "rolsDisplayer">
-            <ul>
-                {displayer()}
-            </ul>
+        <div>
+            <div className= "rolsDisplayer">
+                <ul>
+                    {displayer()}
+                </ul>
+            </div>
+            <div className="references">
+                <MinisterLogo className="ChargeLogo"/> <span> Ministro </span> 
+                <DirectorLogo className="ChargeLogo"/> <span> Director </span> 
+            </div>
         </div>
+       
+           
+  
     )
 }
 

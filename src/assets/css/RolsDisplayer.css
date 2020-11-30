@@ -59,3 +59,17 @@
 .deathPlayer {
     text-decoration: line-through;
 }
+
+.references {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-evenly;
+    place-items: center;
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 900;
+    line-height: 1.5rem;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;
+    text-align: center;
+}
