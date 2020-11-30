@@ -9,6 +9,7 @@ import RolsDisplayer from './RolsDisplayer';
 import Envelope from './Envelope';
 import ElectionCounter from './electionCounter'
 import SpellsList from './SpellsList';
+import ChatBox from './ChatBox';
 import PopUp from './PopUp';
 import Alert from '@material-ui/lab/Alert';
 import { 
@@ -454,14 +455,6 @@ const Game = (props) => {
                 <div>
                     <RolsDisplayer/>
                 </div>
-            <div className="right-view">
-                <div className="gameView gameBox buttonSection">
-                    <PopUp 
-                    type="Salir"
-                    enableButton={true}
-                    />
-                </div>
-            </div>
             </div>
             <div className="gameView">
                 <div className="gameBox">
@@ -536,6 +529,26 @@ const Game = (props) => {
                         ):(<></>)
                         }
                     </div>
+                </div>
+            </div>
+            <div className="right-view">
+                <div className="gameView gameBox buttonSection">
+                    <PopUp 
+                    type="Salir"
+                    enableButton={true}
+                    />
+                </div>
+                <div>
+                    <ChatBox 
+                    className="chat-box" 
+                    mode={"from-back"}
+                    gameId={gameId} 
+                    username={getUsernameFromList(playersInfo, playerId)} 
+                    isalive={isPlayerAliveFromList(playersInfo, playerId)} 
+                    playerId={playerId} 
+                    actualMinister={actualMinister} 
+                    actualDirector={actualDirector} 
+                    />
                 </div>
             </div>
             {(dialogEndGameMessage.length)
