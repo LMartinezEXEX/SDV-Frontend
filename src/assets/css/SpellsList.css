@@ -1,7 +1,8 @@
 .SpellsList {
     display: flex;
     height: 250px;
-    background-color: rgb(46, 43, 43);
+    background-color: #4c2882;
+    opacity: 0.85;
 }
 
 .SpellsList li {
@@ -23,13 +24,19 @@
     background-color: transparent;
     border: none;
     inline-size: min-content;
+    text-align: -webkit-center;
+}
+
+.SpellButton:hover{
+    opacity: 0.5;
+    cursor: pointer;
 }
 
 .cardsList {
     display: flex;
     flex-direction: row;
     height: 435px;
-    background-color: rgb(46, 43, 43);
+    background-color: #4c2882;
 }
 
 .cardsList li {
@@ -44,7 +51,7 @@
 }
 
 .Spells {
-    background-color: rgb(46, 43, 43);
+    background-color: #3e2761;
 }
 
 .cardsList li::before {
@@ -80,7 +87,7 @@
     display: flex;
     flex-direction: row;
     height: 250px;
-    background-color: rgb(46, 43, 43);
+    background-color: #3e2761;
 }
 
 .ExpelliarmusOptions li {

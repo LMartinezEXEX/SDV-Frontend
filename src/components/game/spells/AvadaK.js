@@ -8,12 +8,17 @@ import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from "../..
 import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, SELECT_MM, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
+import avada from "../../../assets/images/boards/avadakedavra.png";
 
 const useStyles = makeStyles((theme) => ({
-    large: {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      marginBottom: 15
+    root: {
+        border: 0.5,
+        boxShadow: '0 0 15px 5px rgba(255, 255, 255, 1)',
+        color: 'white',
+        width: theme.spacing(12),
+        height: theme.spacing(12),
+        margin: 20,
+        padding: 8,
     },
 }));
 
@@ -45,7 +50,7 @@ const AvadaKadavra = (props) => {
         })
     }
 
-    const [VictimUsername, PlayerDropdown] = dropdown("Asesinar a", "",players_list);
+    const [VictimUsername, PlayerDropdown] = dropdown("Asesinar a ", "", players_list);
     
     const useAvada = async() => {
         const victim = playersInfo.filter(player => 
@@ -72,8 +77,8 @@ const AvadaKadavra = (props) => {
     return (
         <>
             <button className="SpellButton" disabled={VictimUsername.length<1}  onClick={useAvada}>
-                <Avatar className={classes.large}>AK</Avatar>
-                <h4>Avada Kedabvra</h4>          
+                <Avatar src={avada} className={classes.root}/>
+                <h4>Avada Kedavra</h4>          
             </button>
                 <PlayerDropdown/>
         </>

@@ -1,6 +1,6 @@
 .rolsDisplayer {
     background-color: rgba(63, 91, 119, 0.788);
-    margin-top: 35px;
+    margin-top: 30px;
     border: 2px solid black;
     border-radius: 10px;
 }
@@ -9,7 +9,7 @@
 }
 .rolsDisplayer li {
     display: flex;
-    margin: 10px;
+    margin: 4px 6px;
 }
 
 .ChargeLogo {
@@ -43,11 +43,11 @@
     text-decoration: none;	
     color: #5c24b0;
     overflow: hidden;
-    width: 150px;
+    width: 140px;
 }
 
 .usernameFenix {
-    width: 150px;
+    width: 140px;
     overflow: auto;
     font-family: 'Syne Mono', monospace;
     font-size: 15px;

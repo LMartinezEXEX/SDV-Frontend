@@ -8,6 +8,7 @@
 .window-style{
     background-color: rgba(63, 91, 119, 0.788);
     border: 2px white solid;
+    border-radius: 0.2em;
     margin-top: 100px;
     margin-bottom: 50px;
     padding: 60px 180px;

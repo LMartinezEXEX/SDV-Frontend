@@ -30,7 +30,7 @@ const SpellsList = (props) => {
         <div className="Spells">
             {enableExpelliarmus &&
                 <>
-                <h4 >Expelliarmus</h4>
+                <h6 >Expelliarmus</h6>
                 <ul className="ExpelliarmusOptions">
                     {selectSpell("Acept Expelliarmus")}
                     {selectSpell("Decline Expelliarmus")}

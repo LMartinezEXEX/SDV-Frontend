@@ -8,12 +8,17 @@ import { enableSpell, setMessageTopCenter, setMessageTopCenterOpen } from '../..
 import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, SELECT_MM, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
+import imperiusImg from "../../../assets/images/boards/imperio.png";
 
 const useStyles = makeStyles((theme) => ({
-    large: {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      marginBottom: 15
+    root: {
+        border: 0.5,
+        boxShadow: '0 0 15px 5px rgba(255, 255, 255, 1)',
+        color: 'white',
+        width: theme.spacing(12),
+        height: theme.spacing(12),
+        margin: 20,
+        padding: 10,
     },
 }));
 
@@ -74,7 +79,7 @@ const Imperius = (props) => {
     return (
         <>
             <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useImperius}>
-                <Avatar className={classes.large}>I</Avatar>
+                <Avatar src={imperiusImg} className={classes.root}/>
                 <h4>Imperio</h4>          
             </button>
                 <PlayerDropdown/>

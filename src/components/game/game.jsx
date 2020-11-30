@@ -443,25 +443,17 @@ const Game = (props) => {
                 <Envelope playerRole={playerRole}/>
                 <div className="player-username">
                     <div>
-                        {getUsernameFromList(playersInfo, playerId) + (!isPlayerAliveFromList(playersInfo, playerId)?" (DEAD)":"")}
+                        {getUsernameFromList(playersInfo, playerId) + (!isPlayerAliveFromList(playersInfo, playerId)?" (MUERTO)":"")}
                     </div>
                 </div>
                 <ElectionCounter electionCount={electionCount}/>
                 <div className="election-counter">
-                    <div> Contador de </div>
-                    <div> Elecciones: {electionCount}/3 </div>
+                    <div> Marcador de Elecciones </div>
                 </div>
                 <div>
                     <RolsDisplayer/>
                 </div>
-            <div className="right-view">
-                <div className="gameView gameBox buttonSection">
-                    <PopUp 
-                    type="Salir"
-                    enableButton={true}
-                    />
-                </div>
-            </div>
+            
             </div>
             <div className="gameView">
                 <div className="gameBox">
@@ -536,6 +528,14 @@ const Game = (props) => {
                         ):(<></>)
                         }
                     </div>
+                </div>
+            </div>
+            <div className="right-view">
+                <div className="gameView gameBox buttonSection">
+                    <PopUp 
+                    type="Salir"
+                    enableButton={true}
+                    />
                 </div>
             </div>
             {(dialogEndGameMessage.length)

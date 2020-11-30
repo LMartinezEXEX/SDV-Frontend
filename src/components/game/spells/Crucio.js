@@ -8,12 +8,18 @@ import { setMessageTopCenter, setMessageTopCenterOpen } from "../../../redux/act
 import { playersUsernamesListExcluding } from '../gameAuxiliars';
 import { SERVER_URL, GAME_PATH, EXECUTE_SPELL, SPELL_QUERY_STRING } from '../../constantsEndpoints';
 import { errorTranslate } from '../../errorTranslate';
+import crucio from "../../../assets/images/boards/crucio.png";
+
 
 const useStyles = makeStyles((theme) => ({
-    large: {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      marginBottom: 15
+    root: {
+        border: 0.5,
+        boxShadow: '0 0 15px 5px rgba(255, 255, 255, 1)',
+        color: 'white',
+        width: theme.spacing(12),
+        height: theme.spacing(12),
+        margin: 20,
+        padding: '3x',
     },
 }));
 
@@ -51,7 +57,7 @@ const Crucio = (props) => {
 
     return (<>
         <button className="SpellButton" disabled={VictimUsername.length<1} onClick={useCrucio}>
-            <Avatar className={classes.large}>C</Avatar>
+            <Avatar src={crucio} className={classes.root}/>
             <h4>Crucio</h4>
         </button>
             <PlayerDropdown/>
