@@ -1,8 +1,8 @@
 .SpellsList {
     display: flex;
     height: 250px;
-    background-color: #3e2863;
-    opacity: 0.95;
+    background-color: #4c2882;
+    opacity: 0.85;
 }
 
 .SpellsList li {
@@ -38,8 +38,7 @@
     display: flex;
     flex-direction: row;
     height: 435px;
-    background-color: #3e2863;
-    opacity: 0.95;
+    background-color: #4c2882;
 }
 
 .cardsList li {
@@ -54,8 +53,8 @@
 }
 
 .Spells {
-    background-color: #8d8d8d; 
-    opacity: 0.95;
+    background-color:  #4c2882;
+    opacity: 0.85;
 }
 
 .cardsList li::before {
@@ -78,7 +77,7 @@
     display: flex;
     flex-direction: column;
     height: 435px;
-    background-color: #3e2863;
+    background-color: #4c2882;
     opacity: 0.85
 }
 
