@@ -1,0 +1,20 @@
+.overlay {
+	position: fixed;
+	top: 0;
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 1000;
+}
+
+.modal {
+	font-family: 'Syne Mono', monospace;
+	position: fixed;
+	background-color: black;
+	padding: 50px;
+	top: 50%;
+	left: 50%;
+	border-radius: 0.2em;
+	z-index: 1000;
+	transform: translate(-50%, -50%);
+	opacity: 0.95;
+	color: #FFFFFF;
+}

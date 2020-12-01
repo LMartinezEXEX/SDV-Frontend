@@ -1,14 +1,20 @@
+## Frontend repository for Secret Voldemort
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Requirements:
 
-##### install npm with:
- `npm install npm@latest -g`
-##### install redux wih:
- `npm install --save react-redux`
+### Installation
+This project uses **node** and **npm**. Go check them out if you don't have them locally installed.
 
 
-After make git clone, in the project directory, you can run:
+
+
+After make git clone, in the project directory, you can:
+
+##### install project packages and dependencies with:
+ `npm install`
+ 
 #### `npm start`
 
 

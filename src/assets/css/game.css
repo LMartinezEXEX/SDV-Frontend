@@ -1,0 +1,114 @@
+.gameView {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    margin: 0px 235px;
+    transform: scale(0.84);
+}
+
+.gameSection{
+    margin: 5px;
+}
+
+.gameBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px;
+}
+
+.chargeTable {
+    border: 2px black solid;
+    border-radius: 10px;
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.2em;
+}
+
+.chargeTable * {
+    margin: 8px;
+}
+
+.buttonSection {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonSection button {
+    padding: 0.6em;
+    font-size: 1.4em;
+    margin: 10px;
+    letter-spacing: 3.5px;
+}
+
+.Drawer {
+    background-color: transparent;
+}
+
+
+.left-view {
+    margin-top: 3.5rem;
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 3rem;
+}
+
+.right-view {
+    margin-top: 1.5rem;
+    position: absolute;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 79rem;
+}
+
+.envelope {
+    cursor: pointer;
+    margin-bottom: 0.4rem;
+}
+
+.envelope:hover{
+	opacity: 0.5;
+}
+
+.img-role{
+	display: block;
+    opacity: 1;
+    width: 60%;
+    margin: auto;
+	
+}
+
+.player-username{
+    font-family: 'Syne Mono', monospace;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+}
+
+.ministry-token-transparent {
+    margin-right: 0.5em;
+    opacity: 0.2;
+    margin-bottom: -0.1rem;
+    margin-top: 2rem;
+}
+
+.ministry-token-solid {
+    margin-right: 0.5em;
+    margin-bottom: -0.1rem;
+    margin-top: 1.5rem;
+}
+
+.election-counter{
+    margin-right: 0.5em;
+    font-family: 'Syne Mono', monospace;
+    font-size: 15px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+    text-align: center;
+}
+

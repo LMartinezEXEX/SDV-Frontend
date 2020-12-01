@@ -1,0 +1,28 @@
+.orderBoard {
+    background-color: #861d1d;
+    opacity: 0.95;
+    width: 1000px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px black solid;
+    box-shadow: 2px 2px ;
+}
+
+.order-cards-slot {
+    display: flex;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+.o-card-slot {
+    background-color: #932020;
+    opacity: 0.9;
+    border: 1px solid black;
+    margin: 10px;
+    height: 200px;
+    width: 20%;
+    border-radius: 10px;
+}
+
+.o-card-slot img {
+    height: inherit;
+}

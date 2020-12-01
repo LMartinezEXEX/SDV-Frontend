@@ -1,0 +1,104 @@
+.SpellsList {
+    display: flex;
+    height: 250px;
+    background-color: #3e2863;
+    opacity: 0.95;
+}
+
+.SpellsList li {
+    display: block;
+    margin: 10px;
+    width:175px;
+    height:65px;
+    margin:20px auto;
+    border-radius:10px;
+    text-align: center;
+    line-height: 65px;
+}
+
+.SpellsList li::before {
+    content: none;
+}
+
+.SpellButton {
+    background-color: transparent;
+    border: none;
+    inline-size: min-content;
+    text-align: -webkit-center;
+}
+
+.SpellButton:hover{
+    outline: none; 
+    cursor: pointer;
+    border: 0px;
+}
+
+
+.cardsList {
+    display: flex;
+    flex-direction: row;
+    height: 435px;
+    background-color: #3e2863;
+    opacity: 0.95;
+}
+
+.cardsList li {
+    display: block;
+    margin: 10px;
+    width:175px;
+    height:65px;
+    margin:20px auto;
+    border-radius:10px;
+    text-align: center;
+    line-height: 65px; 
+}
+
+.Spells {
+    background-color: #8d8d8d; 
+    opacity: 0.95;
+}
+
+.cardsList li::before {
+    content: none;
+}
+
+
+.loyalty li {
+    display: block;
+    margin:100px auto;
+    border-radius:10px;
+    text-align: center;
+}
+
+.loyalty li::before {
+    content: none;
+}
+
+.loyalty {
+    display: flex;
+    flex-direction: column;
+    height: 435px;
+    background-color: #3e2863;
+    opacity: 0.85
+}
+
+.loyalty img{
+    height: 300px;
+    margin-top: -40px;
+    border-radius: 10px;
+}
+
+.ExpelliarmusOptions{
+    display: flex;
+    flex-direction: row;
+    height: 250px;
+    background-color: #3e2761;
+}
+
+.ExpelliarmusOptions li {
+    margin:20px auto;
+}
+
+.ExpelliarmusOptions li::before {
+    content: none;
+} 

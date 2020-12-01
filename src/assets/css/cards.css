@@ -1,0 +1,38 @@
+.cardsDisplayer {
+    display: flex;
+}
+
+.buttonTaker {
+    background: none;
+    justify-content: center;
+    color: white;
+	font-family: 'Syne Mono', monospace;
+	text-shadow: 0 0 5px white, 0 0 15px white;
+    padding: 0.5em 0.8em;
+	border: 0.1em solid #FFFFFF;
+	border-radius: 0.12em;
+	text-decoration: none;
+	transition: all 0.2s;
+	letter-spacing: 2px;
+	font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+	cursor: pointer;
+}
+
+#gameButton {
+    border-radius: 10px;
+    border: 2px white solid;
+}
+
+.TitleCards {
+    display: flex;
+}
+
+.SpellLikeCard {
+    text-align: center;
+    margin-top: 10px;
+    width: 453px;
+    height: 70px;
+    justify-content: center;
+} 

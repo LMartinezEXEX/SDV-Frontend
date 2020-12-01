@@ -1,0 +1,75 @@
+.rolsDisplayer {
+    background-color: rgba(63, 91, 119, 0.788);
+    margin-top: 30px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.rolsDisplayer li::before {
+    content: none;
+}
+.rolsDisplayer li {
+    display: flex;
+    margin: 4px 6px;
+}
+
+.ChargeLogo {
+    font-family: 'Syne Mono', monospace;
+    border: 2px solid black;
+    border-radius: 40px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.EmptyRol {
+    width: 30px;
+    height: 30px;
+    margin-left: 6px;
+}
+
+.RolsContainer {
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+    align-content: flex-end;
+}
+
+.usernameDeath {
+    font-family: 'Syne Mono', monospace;
+    font-size: 15px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+    color: #5c24b0;
+    overflow: hidden;
+    width: 140px;
+}
+
+.usernameFenix {
+    width: 140px;
+    overflow: auto;
+    font-family: 'Syne Mono', monospace;
+    font-size: 15px;
+    font-weight: 900;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;	
+}
+
+.deathPlayer {
+    text-decoration: line-through;
+}
+
+.references {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-evenly;
+    place-items: center;
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 900;
+    line-height: 1.5rem;
+    text-shadow: 0 0 5px white, 0 0 5px white;
+    text-decoration: none;
+    text-align: center;
+}

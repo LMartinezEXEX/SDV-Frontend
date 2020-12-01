@@ -1,0 +1,59 @@
+.mortifagoBoard {
+    background-color: #4c2882;
+    opacity: 0.95;
+    width: 1000px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px black solid;
+    box-shadow: 2px 2px ;
+}
+
+.mortifago-cards-slot {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+img.spell {
+    width: 130px;
+    height: 160px;
+    margin-top: 40px;
+}
+
+.proclamation {
+    height: inherit;
+    width: 130px;
+    border-radius: 10px;
+    box-shadow: 3px 2px #353434;
+}
+
+.m-card-slot img {
+    height: inherit;
+}
+
+.m-card-slot {
+    background-color: #5f32a2;
+    border: 1px solid black;
+    margin: 10px;
+    height: 200px;
+    width: 16%;
+    border-radius: 10px;
+}    
+.title div {
+    width: 33.3%;
+    
+}    
+
+.mortifagoBoard div {
+    align-items: center;
+}    
+
+.title div img {
+    width: 250px;
+}    
+
+.title {
+    display: flex;
+    flex-direction: row;
+}    
+

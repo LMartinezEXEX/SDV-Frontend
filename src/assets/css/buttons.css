@@ -1,0 +1,125 @@
+.btn-group {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.app-btn {
+	background: none;
+	font-family: 'Harp';
+	text-shadow: 0 0 5px white, 0 0 5px white;
+	padding: 0.35em 1.2em;
+	border: 0.1em solid #FFFFFF;
+	border-radius: 0.12em;
+	text-decoration: none;
+	transition: all 0.2s;
+	letter-spacing: 6px;
+	font-size: 1.6rem;
+	margin-bottom: 40px;
+	cursor: pointer;
+}
+
+.app-btn:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+	opacity: 0.85;
+}
+
+
+.small-btn {
+	background: none;
+	font-family: 'Harp';
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	text-shadow: 0 0 5px white, 0 0 5px white;
+	color: white;
+	transition: all 0.2s;
+	padding: 0.1em 0.8em;
+	border-radius: 0.12em;
+	font-size: 1em;
+	margin-bottom: 0px;
+	cursor: pointer;
+}
+
+.small-btn:hover {
+	color: #000000;
+	background-color: #FFFFFF;
+	opacity: 0.85;
+}
+
+.small-btn-group {
+	font-size: 1.4rem;
+	margin-top: 30px;
+    margin-bottom: 20px;
+	letter-spacing: 4px;
+}
+
+.game-button {
+	text-shadow: 0 0 1px white, 0 0 0.5px white;
+	color: white;
+	
+}
+
+/* Modal Close button */
+
+.close-btn {
+	position: relative;
+	width: 35px;
+	height: 30px;
+	border-radius: 5px;
+	z-index: 1;
+	cursor: pointer;
+	left: 88%;
+	margin-bottom: 10px;
+}
+
+.close-btn:before {
+	content: '+';
+	color: black;
+	position: absolute;
+	z-index: 2;
+	transform: rotate(45deg);
+	font-size: 35px;
+	line-height: 1;
+	top: -5px;
+	left: 6px;
+	transition: all 0.3s cubic-bezier(0.770, 0.000, 0.20, 0.85);
+}
+
+.close-btn:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 20%;
+	background:black;
+	z-index: 1;
+	transition: all 0.3s cubic-bezier(0.770, 0.000, 0.20, 0.85);
+	transform: scale(0.02);
+}
+
+.close-btn:hover:after {
+	transform: scale(1);
+}
+
+.close-btn:hover:before {
+	transform: scale(0.8) rotate(45deg);
+	color: #fff;
+}
+
+/* Upload file */ 
+
+.file-upload {
+	font-family:'Syne Mono', monospace;
+	margin-bottom: 0;
+	padding: 0.2rem;
+	font-size: 18px;
+	text-shadow: 0 0 1px rgb(202, 200, 200), 0 0 1px rgb(202, 200, 200);
+	color: grey;
+	letter-spacing: 2px;
+	line-height: 1.6rem;
+}
