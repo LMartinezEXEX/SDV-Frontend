@@ -88,7 +88,7 @@ export default function(state = gameInitialState, action) {
         case UPDATE_GAME: {
             if (action.payload.actualMinister !== state.actualMinister) {
                 /*
-                Cambiamos ministro de magia => nuevo turno de forma local
+                    Minister is changed -> new turn
                 */
                 console.log("New round")
                 return {
@@ -120,10 +120,10 @@ export default function(state = gameInitialState, action) {
             } else if (action.payload.actualMinister === state.actualMinister 
                 && state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn 
                 && !state.voteNoxNotified) {
-                /*
-                No cambiamos ministro de magia, la votación finalizó, y el back nos indica que estamos con una
-                la misma votación finalizada, no se rechazó a los candidatos (o se rechazó), pero no se notificó el rechazo
-                => actualizamos sólo el tablero forma local
+                /*            
+                    Minister is not changed, voting has ended, and from the backend 
+                    it is indicated that voting has ended, the candidates were not rejected (or rejected), 
+                    but the rejection was not notified => we only update the board 
                 */
                 console.log("Vote is done, checking board...")
                 return {
@@ -138,11 +138,10 @@ export default function(state = gameInitialState, action) {
                 && ((!state.voteDoneCurrentTurn && action.payload.voteDoneCurrentTurn) 
                 || (!state.voteStartedCurrentTurn && action.payload.voteStartedCurrentTurn)))) {
                 /*
-                state.actualMinister === 0 => Turno inicial
-
-                No cambiamos ministro de magia, la votación no finalizó, pero el back nos indica que acaba de
-                finalizar la votación, o bien la votación no comenzó pero el back nos avisa que empieza
-                => actualizamos el turno de forma local
+                    state.actualMinister === 0 => Initial turn
+                    Minister is not changed, voting has ended, and from the backend 
+                    it is indicated that voting has ended, or it has not started but 
+                    it is about to happen => update turn
                 */
                 console.log("State is changing...")
                 return {
@@ -160,7 +159,7 @@ export default function(state = gameInitialState, action) {
                 };
             } else {
                 /*
-                Por defecto conservamos el turno de forma local
+                    keep state
                 */
                 console.log("State is not changing...")
                 return {
