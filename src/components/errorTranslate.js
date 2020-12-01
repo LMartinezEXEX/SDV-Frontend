@@ -16,7 +16,7 @@ const errorDict = {
     "email length is greater than 100": "El email puede tener como máximo 100 caracteres",
     "username must be a nonempty alphanumeric string": "El username debe ser alfanumérico",
     "ensure this value has at most 50 characters": "La contraseña debe tener máximo 50 caracteres",
-    "ensure this value has at most 35 characters": "El username debe tener máximo 35 caracteres",
+    "ensure this value has at most 20 characters": "El username debe tener máximo 20 caracteres",
     "ensure this value has at least 8 characters": "La contraseña debe tener al menos 8 caracteres",
     "ensure this value has at least 5 characters": "El username debe tener al menos 5 caracteres",
     "spaces not allowed in password": "No se permiten espacios en la contraseña",
