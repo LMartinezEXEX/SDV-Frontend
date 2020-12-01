@@ -38,11 +38,8 @@ const JoinGame= (props) => {
 
     return (
         <div >
-            <button 
-            className= "app-btn" 
-            onClick={() => getAvailableGames()}
-            > 
-            Unirse a Partida 
+            <button className= "app-btn" onClick={() => getAvailableGames()}> 
+                Unirse a Partida 
             </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <JoinForm gameList={games} />

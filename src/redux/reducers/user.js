@@ -15,39 +15,39 @@ export const userInitialState = {
 export default function(state = userInitialState, action) {
     switch (action.type) {
         case REGISTER: {
-          return {
-            ...state
-          };
+            return {
+                ...state
+            };
         }
         case LOGIN: {
-          return {
-            ...state,
-            isAuth: action.payload.isAuth,
-            type: action.payload.type,
-            authorization: action.payload.authorization,
-            email: action.payload.email,
-            username: action.payload.username,
-            icon: SERVER_URL + USER_ICON + action.payload.email
-          };
+            return {
+                ...state,
+                isAuth: action.payload.isAuth,
+                type: action.payload.type,
+                authorization: action.payload.authorization,
+                email: action.payload.email,
+                username: action.payload.username,
+                icon: SERVER_URL + USER_ICON + action.payload.email
+            };
         }
         case LOGOUT: {
-          return {
-            ...userInitialState
-          }
+            return {
+                ...userInitialState
+            }
         }
         case UPDATE_USERNAME: {
-          return {
-            ...state,
-            username: action.payload.username
-          };
+            return {
+                ...state,
+                username: action.payload.username
+            };
         }
         case GET_ICON: {
-          return {
-            ...state,
-            icon: SERVER_URL + USER_ICON + state.email + action.payload.timeBreaker
-          };
+            return {
+                ...state,
+                icon: SERVER_URL + USER_ICON + state.email + action.payload.timeBreaker
+            };
         }
         default:
-          return state;
+            return state;
     }
 };

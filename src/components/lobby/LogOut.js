@@ -12,16 +12,16 @@ const LogOut = (props) => {
     
     return (
         <div >
-          <button className= "app-btn " onClick={handleOnClick}> Salir </button>
+            <button className= "app-btn " onClick={handleOnClick}> Salir </button>
         </div>
     )
 }
 
 const mapDispatchToProps = {
-  logout
+    logout
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(LogOut);

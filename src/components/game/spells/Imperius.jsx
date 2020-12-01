@@ -63,14 +63,20 @@ const Imperius = (props) => {
             player_id: victim[0].player_id
         }).then(response => {
             if (response.status === 200) {
-                setMessageTopCenter({ messageSeverity: "success", messageTopCenter: victim[0].username + " será el próximo ministro" })
+                setMessageTopCenter({ 
+                    messageSeverity: "success", 
+                    messageTopCenter: victim[0].username + " será el próximo ministro" 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 enableSpell({ enabledSpell: false })
                 changeMinister()
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })

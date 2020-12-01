@@ -14,9 +14,9 @@ const CardsDisplayer = ({cards}) => {
 
     return (
         <>
-        <li>{displayImg(cards[0])}</li>
-        <li>{displayImg(cards[1])}</li>
-        <li>{displayImg(cards[2])}</li>
+            <li>{displayImg(cards[0])}</li>
+            <li>{displayImg(cards[1])}</li>
+            <li>{displayImg(cards[2])}</li>
         </>
     )
 }

@@ -10,45 +10,46 @@ const UpdateUsername = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdateUsername = (success = false, newUsername) => {
-      if (success) {
-        updateUsername({ newUsername: newUsername })
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "success", 
-                messageTopCenter: "Username actualizado con éxito" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
-      } else {
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "warning", 
-                messageTopCenter: "No se pudo al actualizar el username" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
-      }
-      setIsOpenProfile(false)
+        if (success) {
+            updateUsername({ newUsername: newUsername })
+            setTimeout(() => {
+                setMessageTopCenter({ 
+                    messageSeverity: "success", 
+                    messageTopCenter: "Username actualizado con éxito" 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }, 500)
+        } else {
+            setTimeout(() => {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: "No se pudo al actualizar el username" 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }, 500)
+        }
+        setIsOpenProfile(false)
     }
     
     return (
         <div >
-          <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> Modificar Username </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <UpdateProfileForm 
-              callbackUsername={callbackUpdateUsername} 
-              setIsOpen={setIsOpen}
-            />
-          </Modal>
+            <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> 
+                Modificar Username </button>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                <UpdateProfileForm 
+                callbackUsername={callbackUpdateUsername} 
+                setIsOpen={setIsOpen}
+                />
+            </Modal>
         </div>
     )
 }
 
 const mapDispatchToProps = {
-  updateUsername, setMessageTopCenterOpen, setMessageTopCenter
+    updateUsername, setMessageTopCenterOpen, setMessageTopCenter
 }
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(UpdateUsername);

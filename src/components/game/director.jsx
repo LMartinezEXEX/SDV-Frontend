@@ -34,7 +34,10 @@ const Director = (props) => {
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
                 console.log(error.response.data["detail"])
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning",
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -43,18 +46,15 @@ const Director = (props) => {
     return (
         <div className="director">
             <ul>
-                {
-                    candidates.map(option =>
-                        <li key={option}>
-                            <button
-                                className="buttonTaker"
-                                onClick={() => { setDirectorCandidate(option); onSelect() } }
-                            >
-                                    {getUsernameFromList(playersInfo, option)}
-                            </button>
-                        </li>
-                    )
-                }
+                {candidates.map(option =>
+                    <li key={option}>
+                        <button 
+                            className="buttonTaker" onClick={() => { setDirectorCandidate(option); onSelect() } }
+                        >
+                            {getUsernameFromList(playersInfo, option)}
+                        </button>
+                    </li>
+                )}
             </ul>
         </div>
     )

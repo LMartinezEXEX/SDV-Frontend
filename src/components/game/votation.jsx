@@ -26,12 +26,18 @@ const Votation = (props) => {
         ).then(response => {
             if (response.status === 200 && response.data.votes) {
                 voteCurrentTurn({ didVoteCurrentTurn: true })
-                setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Voto " + (vote?"Lumos":"Nox") + " enviado" })
+                setMessageTopCenter({ 
+                    messageSeverity: "success", 
+                    messageTopCenter: "Voto " + (vote?"Lumos":"Nox") + " enviado" 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })

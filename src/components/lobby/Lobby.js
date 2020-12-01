@@ -10,9 +10,9 @@ import { setMessageTopCenterOpen, setMessageTopCenter } from '../../redux/action
 
 const Lobby = (props) => {
     const { 
-      username, email, icon, 
-      messageTopCenterOpen, messageSeverity, messageTopCenter, 
-      setMessageTopCenterOpen, setMessageTopCenter 
+        username, email, icon, 
+        messageTopCenterOpen, messageSeverity, messageTopCenter, 
+        setMessageTopCenterOpen, setMessageTopCenter 
     } = props
     
     const useStyles = makeStyles((theme) => ({
@@ -29,53 +29,53 @@ const Lobby = (props) => {
     }));
   
     const handleSnackbarTopCenter = async () => {
-      setMessageTopCenter({ messageSeverity: "", messageTopCenter: "" })
-      setMessageTopCenterOpen({ messageTopCenterOpen: false })
+        setMessageTopCenter({ messageSeverity: "", messageTopCenter: "" })
+        setMessageTopCenterOpen({ messageTopCenterOpen: false })
     }
 
     return (
         <div>
-          <div className= "user-profile">
-          <Avatar alt="avatar" src={icon} className={useStyles().small} />
-               <h3> {username} </h3>
-               <h3> {email}  </h3>
-          </div>
-          <div className="btn-group">
-               < Profile />
-               < CreateGame />
-               < JoinGame />
-               < LogOut />
-          </div>
-          {(messageTopCenter.length)
-          ?(
-            <Snackbar 
-            anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-            open={messageTopCenterOpen} 
-            autoHideDuration={5000}
-            onClose={() => handleSnackbarTopCenter()}
-            onExit={() => handleSnackbarTopCenter()}
-            >
-              <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
-            </Snackbar>
-          ):(<></>)
-          }
+            <div className= "user-profile">
+            <Avatar alt="avatar" src={icon} className={useStyles().small} />
+                <h3> {username} </h3>
+                <h3> {email}  </h3>
+            </div>
+            <div className="btn-group">
+                < Profile />
+                < CreateGame />
+                < JoinGame />
+                < LogOut />
+            </div>
+            {(messageTopCenter.length)
+            ?(
+                <Snackbar 
+                anchorOrigin={{ vertical: "top", horizontal: "center" }} 
+                open={messageTopCenterOpen} 
+                autoHideDuration={5000}
+                onClose={() => handleSnackbarTopCenter()}
+                onExit={() => handleSnackbarTopCenter()}
+                >
+                <Alert variant="filled" severity={messageSeverity}>{messageTopCenter}</Alert>
+                </Snackbar>
+            ):(<></>)
+            }
         </div>
     );
 }
 
 const mapStateToProps = (state) => {
-  return {
-      messageTopCenterOpen: state.notifications.messageTopCenterOpen,
-      messageSeverity: state.notifications.messageSeverity,
-      messageTopCenter: state.notifications.messageTopCenter
-  }
+    return {
+        messageTopCenterOpen: state.notifications.messageTopCenterOpen,
+        messageSeverity: state.notifications.messageSeverity,
+        messageTopCenter: state.notifications.messageTopCenter
+    }
 }
 
 const mapDispatchToProps =  { 
-  setMessageTopCenterOpen, setMessageTopCenter 
+    setMessageTopCenterOpen, setMessageTopCenter 
 } 
 
 export default connect(
-  mapStateToProps, 
-  mapDispatchToProps
+    mapStateToProps, 
+    mapDispatchToProps
 )(Lobby);

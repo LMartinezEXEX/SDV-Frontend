@@ -127,10 +127,10 @@ const UpdatePasswordForm = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    email: state.user.email,
-    authorization: state.user.authorization
-  };
+    return {
+        email: state.user.email,
+        authorization: state.user.authorization
+    };
 }
 
 const mapDispatchToProps = {

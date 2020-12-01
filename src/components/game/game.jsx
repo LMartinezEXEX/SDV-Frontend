@@ -253,7 +253,10 @@ const Game = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -268,7 +271,10 @@ const Game = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -321,8 +327,9 @@ const Game = (props) => {
                         messageBottomLeftOpen: true 
                     })
                 }
-                if (data_check_game["vote done"] && !voteNoxCurrentTurn && playerId === data_check_game["current minister id"] && !enabledSpell) {
-                    spellsAvaliable()
+                if (data_check_game["vote done"] && !voteNoxCurrentTurn 
+                    && playerId === data_check_game["current minister id"] && !enabledSpell) {
+                        spellsAvaliable()
                 }
                 updateGameState({
                     actualMinister: data_check_game["current minister id"],
@@ -349,7 +356,6 @@ const Game = (props) => {
         })
     }
 
-    // Desplegar notificaciones de acuerdo al estado
     useEffect(() => {
         if (!finished) {
             if (voteDoneCurrentTurn && !voteNoxCurrentTurn && !voteNoxNotified) {
@@ -427,7 +433,6 @@ const Game = (props) => {
         }
     })
     
-    // Actualizar lista de jugadores si no la tiene aún
     if (playersInfo.length === 0){
         updatePlayers()
     }

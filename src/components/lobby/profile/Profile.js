@@ -13,9 +13,9 @@ const Profile = () => {
                 Modificar Perfil </button>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <div style={{ textAlign: "center" }}>
-                <UpdateUsername setIsOpenProfile={setIsOpen} /> 
-                <UpdatePassword setIsOpenProfile={setIsOpen} /> 
-                <UpdateIcon setIsOpenProfile={setIsOpen} />
+                    <UpdateUsername setIsOpenProfile={setIsOpen} /> 
+                    <UpdatePassword setIsOpenProfile={setIsOpen} /> 
+                    <UpdateIcon setIsOpenProfile={setIsOpen} />
                 </div>
             </Modal>
         </div>

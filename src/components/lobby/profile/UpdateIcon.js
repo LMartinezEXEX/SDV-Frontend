@@ -10,45 +10,47 @@ const UpdateIcon = (props) => {
     const [isOpen, setIsOpen] = useState(false)
     
     const callbackUpdateIcon = (success = false) => {
-      if (success) {
-        getIcon({ timeBreaker: "?" + new Date().getTime() })
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "success", 
-                messageTopCenter: "Avatar actualizado con éxito" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
-      } else {
-        setTimeout(() => {
-            setMessageTopCenter({ 
-                messageSeverity: "warning", 
-                messageTopCenter: "No se pudo al actualizar el avatar" 
-            })
-            setMessageTopCenterOpen({ messageTopCenterOpen: true })
-        }, 500)
-      }
-      setIsOpenProfile(false)
+        if (success) {
+            getIcon({ timeBreaker: "?" + new Date().getTime() })
+            setTimeout(() => {
+                setMessageTopCenter({ 
+                    messageSeverity: "success", 
+                    messageTopCenter: "Avatar actualizado con éxito" 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }, 500)
+        } else {
+            setTimeout(() => {
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: "No se pudo al actualizar el avatar" 
+                })
+                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+            }, 500)
+        }
+        setIsOpenProfile(false)
     }
 
     return (
         <div >
-          <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> Modificar avatar </button>
-          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-            <UpdateIconForm 
-              callbackIcon={callbackUpdateIcon}
-              setIsOpen={setIsOpen}
-            />
-          </Modal>
+            <button className="app-btn small-btn-group" onClick={() => setIsOpen(true)}> 
+                Modificar avatar
+            </button>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                <UpdateIconForm 
+                callbackIcon={callbackUpdateIcon}
+                setIsOpen={setIsOpen}
+                />
+            </Modal>
         </div>
     )
 }
 
 const mapDispatchToProps = {
-  getIcon, setMessageTopCenterOpen, setMessageTopCenter
+    getIcon, setMessageTopCenterOpen, setMessageTopCenter
 }
 
 export default connect(
-  null,
-  mapDispatchToProps
+    null,
+    mapDispatchToProps
 )(UpdateIcon);

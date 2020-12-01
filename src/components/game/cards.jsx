@@ -35,7 +35,10 @@ const Cards = (props) => {
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations <= 5) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -72,16 +75,19 @@ const Cards = (props) => {
                 console.log("Director will get cards...")
                 if (response.data["message"] === "Card discarded") {
                     ministerDiscardedCard({ ministerHasDiscardedCard: true })
-                    setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Carta descartada" })
-                    
-                }  else {
-                    setMessageTopCenter({ messageSeverity: "info", messageTopCenter: "Carta descartada" })
-                }
-                setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                    setMessageTopCenter({ 
+                        messageSeverity: "success", 
+                        messageTopCenter: "Carta descartada" 
+                    })
+                    setMessageTopCenterOpen({ messageTopCenterOpen: true })
+                }  
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -97,13 +103,19 @@ const Cards = (props) => {
         ).then(response => {
             if (response.status === 200) {
                 directorChoseCard({ directorHasChosenCard: true })
-                setMessageTopCenter({ messageSeverity: "success", messageTopCenter: "Carta promulgada" })
+                setMessageTopCenter({ 
+                    messageSeverity: "success", 
+                    messageTopCenter: "Carta promulgada" 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
                 spellsAvailableDirectorCheck(gameId)
             }
         }).catch(error => {
             if (error.response && error.response.data["detail"] !== undefined && death_eater_promulgations < 5) {
-                setMessageTopCenter({ messageSeverity: "warning", messageTopCenter: errorTranslate(error.response.data["detail"]) })
+                setMessageTopCenter({ 
+                    messageSeverity: "warning", 
+                    messageTopCenter: errorTranslate(error.response.data["detail"]) 
+                })
                 setMessageTopCenterOpen({ messageTopCenterOpen: true })
             }
         })
@@ -122,10 +134,8 @@ const Cards = (props) => {
 
     const handleOnClick = (card) => {
         if (playerId === actualMinister) {
-            // Descartar carta, si el jugador es el ministro
             discardCard(card)
         } else if (playerId === actualDirector) {
-            // Promulgar (y descartar la otra carta), si el jugador es el director
             chooseCardForBoard(card)
         }
         setIsOpen(false)
